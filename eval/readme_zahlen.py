@@ -142,6 +142,31 @@ def zahlen_block(e: dict) -> str:
     return "\n".join(z)
 
 
+def sweep_block(e: dict) -> str:
+    b = e["betriebspunkt"]
+    z: list[str] = []
+    z.append("| threshold | macro P | macro R | `PRODUKTFEHLER` recall | coverage | escalated | **buried bugs** |")
+    z.append("|---|---|---|---|---|---|---|")
+    for r in e["sweep"]:
+        hier = r["schwelle"] == b["schwelle"]
+        markierung = " **<- shipped**" if hier else ""
+        z.append(f"| {r['schwelle']:.2f}{markierung} | {r['macro_precision']:.2f} | "
+                 f"{r['macro_recall']:.2f} | {r['produktfehler_recall']:.2f} | "
+                 f"{r['abdeckung']:.0%} | {r['eskalationsquote']:.0%} | "
+                 f"{r['versenkte_produktfehler']} |")
+    z.append("")
+    ohne = e.get("ablation_ohne_flake_aufschlag")
+    if ohne:
+        z.append(f"**Ablation — drop the `FLAKE` surcharge** (same predictions, same "
+                 f"{b['schwelle']} threshold, `FLAKE` no longer needs the extra "
+                 f"{b['flake_aufschlag']}): coverage rises from {b['abdeckung']:.0%} to "
+                 f"{ohne['abdeckung']:.0%}, and buried product bugs go from "
+                 f"**{b['versenkte_produktfehler']}** to **{ohne['versenkte_produktfehler']}**. "
+                 f"That difference is the entire argument for the surcharge, and it is "
+                 f"why it is a separate knob rather than part of the threshold.")
+    return '\n'.join(z)
+
+
 def beispiel_block(e: dict) -> str:
     """Lift a real verdict out of the predictions file. Never a hand-written one."""
     pfad = HIER / f"predictions_{e['backend']}.jsonl"
@@ -184,6 +209,7 @@ def main() -> int:
     text = readme.read_text(encoding="utf-8")
     text = _block(text, "ZAHLEN", zahlen_block(e))
     text = _block(text, "BEISPIEL", beispiel_block(e))
+    text = _block(text, "SWEEP", sweep_block(e))
     readme.write_text(text, encoding="utf-8")
     print("README numbers refreshed from eval/ergebnis.json")
     return 0

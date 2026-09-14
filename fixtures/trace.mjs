@@ -6,6 +6,8 @@
 // dependency: node:zlib can inflate the members directly.
 
 import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { inflateRawSync } from 'node:zlib';
 
 const EOCD_SIGNATURE = 0x06054b50;
@@ -160,6 +162,7 @@ export function traceToText(zipPath) {
   return `${lines.join('\n')}\n`;
 }
 
-if (process.argv[2]) {
+// CLI: node trace.mjs <path/to/trace.zip>
+if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url) && process.argv[2]) {
   process.stdout.write(traceToText(process.argv[2]));
 }

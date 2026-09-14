@@ -61,6 +61,40 @@ confidence, `begruendung` = rationale, `beleg` = citation, `aktion` = action.
 ## Where the threshold sits, and why
 
 <!-- SCHWELLE:START -->
+**0.70**, with `FLAKE` held to a higher bar of **0.80**.
+
+That is not a tuned number. It follows from the fact that the three ways of
+being wrong do not cost the same:
+
+| what happens | what it costs |
+|---|---|
+| a product bug gets `TICKET` under the wrong class | somebody reads the ticket and reclassifies it. Minutes. |
+| anything at all gets `ESKALATION_MENSCH` | exactly today's process. A human triages it, as they already do. |
+| **a product bug gets `RERUN`** | the failure vanishes, the board goes green, the bug ships. |
+
+Only the third one is actually dangerous, and only one action produces it —
+`RERUN`, which only a `FLAKE` verdict can trigger. So `FLAKE` carries a
+surcharge and everything else is allowed to be wrong more cheaply. Escalating
+too often is not a failure mode, it is the status quo; the agent has to beat
+"a human looks at it", not "nothing happens".
+
+This is why the headline metric is not accuracy. It is **buried product bugs**:
+real product failures the agent auto-reran into silence. Everything else on
+this page is a tradeoff. That number is a floor.
+
+<!-- SWEEP:START -->
+<!-- SWEEP:ENDE -->
+
+The sweep is honest arithmetic, not ten re-runs: the model is called once per
+case, the confidences are stored, and every row re-derives its actions from the
+same stored numbers. Rows differ because the policy differs, never because the
+model drifted between them.
+
+Pick a different point for a different team. A team with a large flaky suite
+and a high tolerance for missed regressions should move left and accept the
+buried-bug count that comes with it. `python eval/run_eval.py --nur-auswerten
+--schwelle 0.85` re-scores the whole corpus under any policy without spending a
+token.
 <!-- SCHWELLE:ENDE -->
 
 ---
