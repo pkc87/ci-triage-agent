@@ -1,0 +1,35 @@
+Before Hooks  (41ms)
+    Create context  (1ms)
+    Create page  (36ms)
+Navigate to "/" [url=/]  (29ms)
+Expect "toBeVisible"  (18ms)
+  ! Error: expect(locator).toBeVisible() failed
+  ! 
+  ! Locator: getByText('Burr Grinder')
+  ! Expected: visible
+  ! Error: strict mode violation: getByText('Burr Grinder') resolved to 2 elements:
+  !     1) <h3>Burr Grinder</h3> aka getByRole('heading', { name: 'Burr Grinder' })
+  !     2) <li data-testid="rec-item">Burr Grinder</li> aka getByTestId('recommendations').getByText('Burr Grinder')
+  ! 
+  ! Call log:
+  !   - Expect "toBeVisible" with timeout 5000ms
+  !   - waiting for getByText('Burr Grinder')
+  ! 
+After Hooks  (57ms)
+    Close context  (2ms)
+Attach "error-context"  (0ms)
+Worker Cleanup  (218ms)
+
+--- test errors ---
+Error: expect(locator).toBeVisible() failed
+
+Locator: getByText('Burr Grinder')
+Expected: visible
+Error: strict mode violation: getByText('Burr Grinder') resolved to 2 elements:
+    1) <h3>Burr Grinder</h3> aka getByRole('heading', { name: 'Burr Grinder' })
+    2) <li data-testid="rec-item">Burr Grinder</li> aka getByTestId('recommendations').getByText('Burr Grinder')
+
+Call log:
+  - Expect "toBeVisible" with timeout 5000ms
+  - waiting for getByText('Burr Grinder')
+

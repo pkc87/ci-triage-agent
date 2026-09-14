@@ -1,0 +1,52 @@
+Before Hooks  (55ms)
+    Create context  (2ms)
+    Create page  (50ms)
+Navigate to "/" [url=/]  (35ms)
+Click getByTestId('load-reviews') [selector=internal:testid=[data-testid="load-reviews"s]]  (47ms)
+Click getByTestId('add-p1') [selector=internal:testid=[data-testid="add-p1"s]]  (29ms)
+Expect "toBeVisible"  (3ms)
+Fill "2" getByTestId('qty-p1') [selector=internal:testid=[data-testid="qty-p1"s] value=2]  (5ms)
+Blur getByTestId('qty-p1') [selector=internal:testid=[data-testid="qty-p1"s]]  (7ms)
+Expect "toHaveText" [expected=$79.90]  (3ms)
+Click getByTestId('add-p4') [selector=internal:testid=[data-testid="add-p4"s]]  (30ms)
+Expect "toHaveText" [expected=3 items]  (3ms)
+Fill "WELCOME10" getByTestId('discount-code') [selector=internal:testid=[data-testid="discount-code"s] value=WELCOME10]  (5ms)
+Click getByTestId('apply-discount') [selector=internal:testid=[data-testid="apply-discount"s]]  (41ms)
+Expect "toHaveText" [expected=Code WELCOME10 applied]  (2ms)
+Fill "Dana Fisher" getByTestId('name') [selector=internal:testid=[data-testid="name"s] value=Dana Fisher]  (6ms)
+Fill "dana@example.com" getByTestId('email') [selector=internal:testid=[data-testid="email"s] value=dana@example.com]  (8ms)
+Fill "94110" getByTestId('zip') [selector=internal:testid=[data-testid="zip"s] value=94110]  (5ms)
+Expect "toHaveValue" [expected=94110]  (7ms)
+Expect "toBeVisible"  (5006ms)
+  ! Error: expect(locator).toBeVisible() failed
+  ! 
+  ! Locator:  getByTestId('reviews-spinner')
+  ! Expected: visible
+  ! Received: hidden
+  ! Timeout:  5000ms
+  ! 
+  ! Call log:
+  !   - Expect "toBeVisible" with timeout 5000ms
+  !   - waiting for getByTestId('reviews-spinner')
+  !     9 × locator resolved to <p hidden="" class="spinner" data-testid="reviews-spinner">Loading reviews…</p>
+  !       - unexpected value "hidden"
+  ! 
+After Hooks  (76ms)
+    Close context  (2ms)
+Attach "error-context"  (0ms)
+Worker Cleanup  (64ms)
+
+--- test errors ---
+Error: expect(locator).toBeVisible() failed
+
+Locator:  getByTestId('reviews-spinner')
+Expected: visible
+Received: hidden
+Timeout:  5000ms
+
+Call log:
+  - Expect "toBeVisible" with timeout 5000ms
+  - waiting for getByTestId('reviews-spinner')
+    9 × locator resolved to <p hidden="" class="spinner" data-testid="reviews-spinner">Loading reviews…</p>
+      - unexpected value "hidden"
+

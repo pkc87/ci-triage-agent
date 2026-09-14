@@ -1,0 +1,21 @@
+{
+  "id": "mut-25",
+  "klasse": "FLAKE",
+  "beschreibung": "A new spec keeps an element handle on the quantity box across a restore, which re-renders the cart list; when the re-render lands first the handle points at a node that is no longer in the document.",
+  "begruendung": "test-only change: the new spec holds an element handle across an asynchronous re-render, so whether the handle is still attached when it is used depends on when the restore response comes back",
+  "ziel": "fixtures/tests/cart-row-focus.spec.ts (new spec)",
+  "max_faelle": 2,
+  "laeufe": 8,
+  "aenderungen": [
+    {
+      "datei": "tests/cart-row-focus.spec.ts",
+      "inhalt": "import { test, expect } from '@playwright/test';\n\n// After pulling the cart back from the server the shopper edits the quantity,\n// so the cursor goes into the quantity box.\ntest('the quantity box takes the cursor after a restore', async ({ page }) => {\n  await page.goto('/');\n\n  await page.getByTestId('add-p2').click();\n  await page.getByTestId('save-cart').click();\n  await expect(page.getByTestId('cart-sync-status')).toHaveText('Cart saved');\n\n  const quantity = await page.waitForSelector('[data-testid=\"qty-p2\"]');\n\n  await page.getByTestId('restore-cart').click();\n  await quantity.focus();\n\n  await expect(page.getByTestId('cart-sync-status')).toHaveText('Cart restored');\n});\n"
+    }
+  ],
+  "beobachtet": {
+    "laeufe": 8,
+    "fehlschlaege": 2,
+    "versuche_gesamt": 5,
+    "versuche_fehlgeschlagen": 3
+  }
+}

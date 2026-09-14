@@ -1,0 +1,172 @@
+{
+  "config": {
+    "configFile": "/work/ci-triage-agent/fixtures/playwright.config.ts",
+    "rootDir": "/work/ci-triage-agent/fixtures/tests",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 4
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/work/ci-triage-agent/fixtures/runs/mut-34/4/artifacts",
+        "repeatEach": 1,
+        "retries": 2,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "/work/ci-triage-agent/fixtures/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json",
+        {
+          "outputFile": "/work/ci-triage-agent/fixtures/runs/mut-34/4/report.json"
+        }
+      ],
+      [
+        "list",
+        null
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.59.0",
+    "workers": 4,
+    "webServer": {
+      "command": "node serve.mjs",
+      "url": "http://127.0.0.1:4173",
+      "reuseExistingServer": false,
+      "stdout": "ignore",
+      "stderr": "pipe"
+    }
+  },
+  "suites": [
+    {
+      "title": "reviews-spinner.spec.ts",
+      "file": "reviews-spinner.spec.ts",
+      "line": 0,
+      "column": 0,
+      "specs": [
+        {
+          "title": "the reviews spinner is up while the reviews are on their way",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "failed",
+                  "duration": 5373,
+                  "error": {
+                    "message": "Error: expect(locator).toBeVisible() failed\n\nLocator:  getByTestId('reviews-spinner')\nExpected: visible\nReceived: hidden\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toBeVisible\" with timeout 5000ms\n  - waiting for getByTestId('reviews-spinner')\n    9 × locator resolved to <p hidden=\"\" class=\"spinner\" data-testid=\"reviews-spinner\">Loading reviews…</p>\n      - unexpected value \"hidden\"\n",
+                    "stack": "Error: expect(locator).toBeVisible() failed\n\nLocator:  getByTestId('reviews-spinner')\nExpected: visible\nReceived: hidden\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toBeVisible\" with timeout 5000ms\n  - waiting for getByTestId('reviews-spinner')\n    9 × locator resolved to <p hidden=\"\" class=\"spinner\" data-testid=\"reviews-spinner\">Loading reviews…</p>\n      - unexpected value \"hidden\"\n\n    at /work/ci-triage-agent/fixtures/tests/reviews-spinner.spec.ts:25:53",
+                    "location": {
+                      "file": "/work/ci-triage-agent/fixtures/tests/reviews-spinner.spec.ts",
+                      "column": 53,
+                      "line": 25
+                    },
+                    "snippet": "  23 |   await expect(page.getByTestId('zip')).toHaveValue('94110');\n  24 |\n> 25 |   await expect(page.getByTestId('reviews-spinner')).toBeVisible();\n     |                                                     ^\n  26 | });\n  27 |"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/work/ci-triage-agent/fixtures/tests/reviews-spinner.spec.ts",
+                        "column": 53,
+                        "line": 25
+                      },
+                      "message": "Error: expect(locator).toBeVisible() failed\n\nLocator:  getByTestId('reviews-spinner')\nExpected: visible\nReceived: hidden\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toBeVisible\" with timeout 5000ms\n  - waiting for getByTestId('reviews-spinner')\n    9 × locator resolved to <p hidden=\"\" class=\"spinner\" data-testid=\"reviews-spinner\">Loading reviews…</p>\n      - unexpected value \"hidden\"\n\n\n  23 |   await expect(page.getByTestId('zip')).toHaveValue('94110');\n  24 |\n> 25 |   await expect(page.getByTestId('reviews-spinner')).toBeVisible();\n     |                                                     ^\n  26 | });\n  27 |\n    at /work/ci-triage-agent/fixtures/tests/reviews-spinner.spec.ts:25:53"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-14T23:08:35.011Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-34/4/artifacts/reviews-spinner-the-review-f0e13-he-reviews-are-on-their-way-chromium/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-34/4/artifacts/reviews-spinner-the-review-f0e13-he-reviews-are-on-their-way-chromium/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-34/4/artifacts/reviews-spinner-the-review-f0e13-he-reviews-are-on-their-way-chromium/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/work/ci-triage-agent/fixtures/tests/reviews-spinner.spec.ts",
+                    "column": 53,
+                    "line": 25
+                  }
+                },
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 333,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 1,
+                  "startTime": "2026-09-14T23:08:41.116Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "flaky"
+            }
+          ],
+          "id": "e301ff49a35fad1cc81d-0713bc3c4b36ba9f8d5b",
+          "file": "reviews-spinner.spec.ts",
+          "line": 4,
+          "column": 5
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-09-14T23:08:32.948Z",
+    "duration": 8859.663,
+    "expected": 21,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 1
+  }
+}

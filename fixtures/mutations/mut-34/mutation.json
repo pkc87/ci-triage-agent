@@ -1,0 +1,21 @@
+{
+  "id": "mut-34",
+  "klasse": "FLAKE",
+  "beschreibung": "A new spec does a round of shopping between clicking \"Load reviews\" and checking the spinner, and expects the spinner to still be up. The reviews answer after 80-340 ms, so the loading window sometimes closes before the check gets there.",
+  "begruendung": "test-only change: the new spec checks a loading state after a detour whose length lands in the same range as the 80-340 ms the reviews take, so whether the window is still open when the check arrives decides the outcome",
+  "ziel": "fixtures/tests/reviews-spinner.spec.ts (new spec)",
+  "max_faelle": 2,
+  "laeufe": 8,
+  "aenderungen": [
+    {
+      "datei": "tests/reviews-spinner.spec.ts",
+      "inhalt": "import { test, expect } from '@playwright/test';\n\n// The reviews section tells the shopper that something is on its way.\ntest('the reviews spinner is up while the reviews are on their way', async ({ page }) => {\n  await page.goto('/');\n\n  await page.getByTestId('load-reviews').click();\n\n  // Carry on shopping while the reviews are fetched.\n  await page.getByTestId('add-p1').click();\n  await expect(page.getByTestId('cart-row-p1')).toBeVisible();\n  await page.getByTestId('qty-p1').fill('2');\n  await page.getByTestId('qty-p1').blur();\n  await expect(page.getByTestId('line-total-p1')).toHaveText('$79.90');\n  await page.getByTestId('add-p4').click();\n  await expect(page.getByTestId('cart-badge')).toHaveText('3 items');\n  await page.getByTestId('discount-code').fill('WELCOME10');\n  await page.getByTestId('apply-discount').click();\n  await expect(page.getByTestId('discount-status')).toHaveText('Code WELCOME10 applied');\n  await page.getByTestId('name').fill('Dana Fisher');\n  await page.getByTestId('email').fill('dana@example.com');\n  await page.getByTestId('zip').fill('94110');\n  await expect(page.getByTestId('zip')).toHaveValue('94110');\n\n  await expect(page.getByTestId('reviews-spinner')).toBeVisible();\n});\n"
+    }
+  ],
+  "beobachtet": {
+    "laeufe": 8,
+    "fehlschlaege": 2,
+    "versuche_gesamt": 4,
+    "versuche_fehlgeschlagen": 2
+  }
+}

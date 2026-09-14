@@ -1,0 +1,21 @@
+{
+  "id": "mut-29",
+  "klasse": "FLAKE",
+  "beschreibung": "A new spec looks the grinder up by its text. The name is unique on the page only when the shuffled recommendations strip happens not to show that product, otherwise the locator resolves to two elements.",
+  "begruendung": "test-only change: the new spec uses a text locator that is unique only when the shuffled recommendations strip leaves that product out, so the same build passes and fails",
+  "ziel": "fixtures/tests/product-lookup.spec.ts (new spec)",
+  "max_faelle": 2,
+  "laeufe": 8,
+  "aenderungen": [
+    {
+      "datei": "tests/product-lookup.spec.ts",
+      "inhalt": "import { test, expect } from '@playwright/test';\n\n// A shopper who arrives looking for one specific product has to find it.\ntest('the storefront shows the grinder', async ({ page }) => {\n  await page.goto('/');\n\n  const grinder = page.getByText('Burr Grinder');\n  await expect(grinder).toBeVisible();\n});\n"
+    }
+  ],
+  "beobachtet": {
+    "laeufe": 8,
+    "fehlschlaege": 6,
+    "versuche_gesamt": 18,
+    "versuche_fehlgeschlagen": 15
+  }
+}

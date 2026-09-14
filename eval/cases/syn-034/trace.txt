@@ -1,0 +1,19 @@
+Before Hooks  (201ms)
+    Launch browser [timeout=180000]  (93ms)
+    Create context  (4ms)
+    Create page  (92ms)
+Navigate to "/" [url=/]  (45ms)
+Click getByTestId('add-p2') [selector=internal:testid=[data-testid="add-p2"s]]  (130ms)
+Click getByTestId('save-cart') [selector=internal:testid=[data-testid="save-cart"s]]  (31ms)
+Expect "toHaveText" [expected=Cart saved]  (117ms)
+Wait for selector locator('[data-testid="qty-p2"]') [selector=[data-testid="qty-p2"]]  (12ms)
+Click getByTestId('restore-cart') [selector=internal:testid=[data-testid="restore-cart"s]]  (39ms)
+Focus  (7ms)
+  ! Error: elementHandle.focus: Element is not attached to the DOM
+After Hooks  (116ms)
+    Close context  (12ms)
+Attach "error-context"  (0ms)
+Worker Cleanup  (1776ms)
+
+--- test errors ---
+Error: elementHandle.focus: Element is not attached to the DOM

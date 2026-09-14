@@ -1,0 +1,21 @@
+diff --git a/fixtures/tests/banner-stability.spec.ts b/fixtures/tests/banner-stability.spec.ts
+new file mode 100644
+--- /dev/null
++++ b/fixtures/tests/banner-stability.spec.ts
+@@ -0,0 +1,16 @@
++import { test, expect } from '@playwright/test';
++
++// A shopper who is reading the promo bar should not lose their place just
++// because another part of the page loaded.
++test('the promo banner keeps its message while the reviews load', async ({ page }) => {
++  await page.goto('/');
++
++  const banner = page.getByTestId('banner');
++  const vorher = ((await banner.textContent()) ?? '').trim();
++
++  await page.getByTestId('load-reviews').click();
++  await expect(page.getByTestId('average-rating')).toBeVisible();
++
++  const nachher = ((await banner.textContent()) ?? '').trim();
++  expect(nachher).toBe(vorher);
++});

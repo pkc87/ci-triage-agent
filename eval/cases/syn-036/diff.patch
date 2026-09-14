@@ -1,0 +1,14 @@
+diff --git a/fixtures/tests/product-lookup.spec.ts b/fixtures/tests/product-lookup.spec.ts
+new file mode 100644
+--- /dev/null
++++ b/fixtures/tests/product-lookup.spec.ts
+@@ -0,0 +1,9 @@
++import { test, expect } from '@playwright/test';
++
++// A shopper who arrives looking for one specific product has to find it.
++test('the storefront shows the grinder', async ({ page }) => {
++  await page.goto('/');
++
++  const grinder = page.getByText('Burr Grinder');
++  await expect(grinder).toBeVisible();
++});

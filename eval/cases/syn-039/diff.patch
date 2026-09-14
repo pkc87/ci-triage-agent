@@ -1,0 +1,20 @@
+diff --git a/fixtures/tests/reviews-double-load.spec.ts b/fixtures/tests/reviews-double-load.spec.ts
+new file mode 100644
+--- /dev/null
++++ b/fixtures/tests/reviews-double-load.spec.ts
+@@ -0,0 +1,15 @@
++import { test, expect } from '@playwright/test';
++
++// A shopper who does not see anything happen clicks the button a second time.
++test('clicking load twice still shows four reviews', async ({ page }) => {
++  await page.goto('/');
++
++  await page.getByTestId('load-reviews').click();
++  await page.waitForTimeout(200);
++  await page.getByTestId('load-reviews').click();
++
++  await page.waitForLoadState('networkidle');
++
++  await expect(page.getByTestId('review-item')).toHaveCount(4);
++  await expect(page.getByTestId('average-rating')).toHaveText('Average rating: 4.3 out of 5');
++});

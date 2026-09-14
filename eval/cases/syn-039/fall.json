@@ -1,0 +1,35 @@
+{
+  "id": "syn-039",
+  "quelle": "synthetisch",
+  "repo": "fixtures/shop",
+  "test_titel": "clicking load twice still shows four reviews",
+  "test_datei": "tests/reviews-double-load.spec.ts",
+  "test_zeile": 4,
+  "fehlermeldung": "Error: expect(locator).toHaveCount(expected) failed\n\nLocator:  getByTestId('review-item')\nExpected: 4\nReceived: 8\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveCount\" with timeout 5000ms\n  - waiting for getByTestId('review-item')\n    9 × locator resolved to 8 elements\n      - unexpected value \"8\"\n",
+  "stack": "Error: expect(locator).toHaveCount(expected) failed\n\nLocator:  getByTestId('review-item')\nExpected: 4\nReceived: 8\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveCount\" with timeout 5000ms\n  - waiting for getByTestId('review-item')\n    9 × locator resolved to 8 elements\n      - unexpected value \"8\"\n\n    at /work/ci-triage-agent/fixtures/tests/reviews-double-load.spec.ts:13:49\n\n  11 |   await page.waitForLoadState('networkidle');\n  12 |\n> 13 |   await expect(page.getByTestId('review-item')).toHaveCount(4);\n     |                                                 ^\n  14 |   await expect(page.getByTestId('average-rating')).toHaveText('Average rating: 4.3 out of 5');\n  15 | });\n  16 |",
+  "dauer_ms": 5973,
+  "versuche": [
+    {
+      "nr": 1,
+      "status": "failed"
+    },
+    {
+      "nr": 2,
+      "status": "failed"
+    },
+    {
+      "nr": 3,
+      "status": "failed"
+    }
+  ],
+  "artefakte": {
+    "diff": "diff.patch",
+    "trace": "trace.txt",
+    "screenshot": "screenshot.png"
+  },
+  "kontext": {
+    "branch": "mr/mut-32",
+    "commit": "a051101",
+    "ci_lauf": "lokal (fixtures/generate.mjs)"
+  }
+}

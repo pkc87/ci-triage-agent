@@ -1,0 +1,34 @@
+diff --git a/fixtures/tests/shared-page.spec.ts b/fixtures/tests/shared-page.spec.ts
+new file mode 100644
+--- /dev/null
++++ b/fixtures/tests/shared-page.spec.ts
+@@ -0,0 +1,29 @@
++import { test, expect, type Browser, type Page } from '@playwright/test';
++
++// Opening a fresh page for every test costs about a second, so keep one around
++// and hand the same one to whoever asks for it.
++let zwischengespeichert: Page | undefined;
++
++async function shopPage(browser: Browser) {
++  if (!zwischengespeichert) {
++    zwischengespeichert = await browser.newPage();
++    await zwischengespeichert.goto('/');
++  }
++  return zwischengespeichert;
++}
++
++test('a shopper can put the grinder in the cart', async ({ browser }) => {
++  const page = await shopPage(browser);
++
++  await page.getByTestId('add-p2').click();
++
++  await expect(page.getByTestId('cart-row-p2')).toBeVisible();
++  await expect(page.getByTestId('cart-badge')).toHaveText('1 item');
++});
++
++test('a shopper starts out with an empty cart', async ({ browser }) => {
++  const page = await shopPage(browser);
++
++  await expect(page.getByTestId('cart-empty')).toBeVisible();
++  await expect(page.getByTestId('cart-badge')).toHaveText('0 items');
++});

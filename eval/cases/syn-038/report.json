@@ -1,0 +1,172 @@
+{
+  "config": {
+    "configFile": "/work/ci-triage-agent/fixtures/playwright.config.ts",
+    "rootDir": "/work/ci-triage-agent/fixtures/tests",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 4
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/work/ci-triage-agent/fixtures/runs/mut-31/1/artifacts",
+        "repeatEach": 1,
+        "retries": 2,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "/work/ci-triage-agent/fixtures/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json",
+        {
+          "outputFile": "/work/ci-triage-agent/fixtures/runs/mut-31/1/report.json"
+        }
+      ],
+      [
+        "list",
+        null
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.59.0",
+    "workers": 4,
+    "webServer": {
+      "command": "node serve.mjs",
+      "url": "http://127.0.0.1:4173",
+      "reuseExistingServer": false,
+      "stdout": "ignore",
+      "stderr": "pipe"
+    }
+  },
+  "suites": [
+    {
+      "title": "banner-stability.spec.ts",
+      "file": "banner-stability.spec.ts",
+      "line": 0,
+      "column": 0,
+      "specs": [
+        {
+          "title": "the promo banner keeps its message while the reviews load",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 709,
+                  "error": {
+                    "message": "Error: expect(received).toBe(expected) // Object.is equality\n\nExpected: \"Roasted to order, shipped same day\"\nReceived: \"Use code WELCOME10 for 10% off\"",
+                    "stack": "Error: expect(received).toBe(expected) // Object.is equality\n\nExpected: \"Roasted to order, shipped same day\"\nReceived: \"Use code WELCOME10 for 10% off\"\n    at /work/ci-triage-agent/fixtures/tests/banner-stability.spec.ts:15:19",
+                    "location": {
+                      "file": "/work/ci-triage-agent/fixtures/tests/banner-stability.spec.ts",
+                      "column": 19,
+                      "line": 15
+                    },
+                    "snippet": "  13 |\n  14 |   const nachher = ((await banner.textContent()) ?? '').trim();\n> 15 |   expect(nachher).toBe(vorher);\n     |                   ^\n  16 | });\n  17 |"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/work/ci-triage-agent/fixtures/tests/banner-stability.spec.ts",
+                        "column": 19,
+                        "line": 15
+                      },
+                      "message": "Error: expect(received).toBe(expected) // Object.is equality\n\nExpected: \"Roasted to order, shipped same day\"\nReceived: \"Use code WELCOME10 for 10% off\"\n\n  13 |\n  14 |   const nachher = ((await banner.textContent()) ?? '').trim();\n> 15 |   expect(nachher).toBe(vorher);\n     |                   ^\n  16 | });\n  17 |\n    at /work/ci-triage-agent/fixtures/tests/banner-stability.spec.ts:15:19"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-14T23:03:33.470Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-31/1/artifacts/banner-stability-the-promo-0c6f5-sage-while-the-reviews-load-chromium/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-31/1/artifacts/banner-stability-the-promo-0c6f5-sage-while-the-reviews-load-chromium/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-31/1/artifacts/banner-stability-the-promo-0c6f5-sage-while-the-reviews-load-chromium/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/work/ci-triage-agent/fixtures/tests/banner-stability.spec.ts",
+                    "column": 19,
+                    "line": 15
+                  }
+                },
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 290,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 1,
+                  "startTime": "2026-09-14T23:03:37.563Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "flaky"
+            }
+          ],
+          "id": "6c131e6c7cc2e01cdbff-1fd7e99e659d73776fa3",
+          "file": "banner-stability.spec.ts",
+          "line": 5,
+          "column": 5
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-09-14T23:03:32.585Z",
+    "duration": 5627.104,
+    "expected": 21,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 1
+  }
+}

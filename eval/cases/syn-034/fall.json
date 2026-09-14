@@ -1,0 +1,31 @@
+{
+  "id": "syn-034",
+  "quelle": "synthetisch",
+  "repo": "fixtures/shop",
+  "test_titel": "the quantity box takes the cursor after a restore",
+  "test_datei": "tests/cart-row-focus.spec.ts",
+  "test_zeile": 5,
+  "fehlermeldung": "Error: elementHandle.focus: Element is not attached to the DOM",
+  "stack": "Error: elementHandle.focus: Element is not attached to the DOM\n    at /work/ci-triage-agent/fixtures/tests/cart-row-focus.spec.ts:15:18\n\n  13 |\n  14 |   await page.getByTestId('restore-cart').click();\n> 15 |   await quantity.focus();\n     |                  ^\n  16 |\n  17 |   await expect(page.getByTestId('cart-sync-status')).toHaveText('Cart restored');\n  18 | });",
+  "dauer_ms": 599,
+  "versuche": [
+    {
+      "nr": 1,
+      "status": "failed"
+    },
+    {
+      "nr": 2,
+      "status": "passed"
+    }
+  ],
+  "artefakte": {
+    "diff": "diff.patch",
+    "trace": "trace.txt",
+    "screenshot": "screenshot.png"
+  },
+  "kontext": {
+    "branch": "mr/mut-25",
+    "commit": "a051101",
+    "ci_lauf": "lokal (fixtures/generate.mjs)"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "id": "syn-038",
+  "quelle": "synthetisch",
+  "repo": "fixtures/shop",
+  "test_titel": "the promo banner keeps its message while the reviews load",
+  "test_datei": "tests/banner-stability.spec.ts",
+  "test_zeile": 5,
+  "fehlermeldung": "Error: expect(received).toBe(expected) // Object.is equality\n\nExpected: \"Roasted to order, shipped same day\"\nReceived: \"Use code WELCOME10 for 10% off\"",
+  "stack": "Error: expect(received).toBe(expected) // Object.is equality\n\nExpected: \"Roasted to order, shipped same day\"\nReceived: \"Use code WELCOME10 for 10% off\"\n    at /work/ci-triage-agent/fixtures/tests/banner-stability.spec.ts:15:19\n\n  13 |\n  14 |   const nachher = ((await banner.textContent()) ?? '').trim();\n> 15 |   expect(nachher).toBe(vorher);\n     |                   ^\n  16 | });\n  17 |",
+  "dauer_ms": 709,
+  "versuche": [
+    {
+      "nr": 1,
+      "status": "failed"
+    },
+    {
+      "nr": 2,
+      "status": "passed"
+    }
+  ],
+  "artefakte": {
+    "diff": "diff.patch",
+    "trace": "trace.txt",
+    "screenshot": "screenshot.png"
+  },
+  "kontext": {
+    "branch": "mr/mut-31",
+    "commit": "a051101",
+    "ci_lauf": "lokal (fixtures/generate.mjs)"
+  }
+}

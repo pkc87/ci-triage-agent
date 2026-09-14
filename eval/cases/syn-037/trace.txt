@@ -1,0 +1,42 @@
+Before Hooks  (56ms)
+    Create context  (5ms)
+    Create page  (47ms)
+Navigate to "/" [url=/]  (34ms)
+Click getByTestId('add-p1') [selector=internal:testid=[data-testid="add-p1"s]]  (54ms)
+Fill "Dana Fisher" getByTestId('name') [selector=internal:testid=[data-testid="name"s] value=Dana Fisher]  (6ms)
+Fill "dana@example.com" getByTestId('email') [selector=internal:testid=[data-testid="email"s] value=dana@example.com]  (8ms)
+Fill "94110" getByTestId('zip') [selector=internal:testid=[data-testid="zip"s] value=94110]  (7ms)
+Click getByTestId('place-order') [selector=internal:testid=[data-testid="place-order"s]]  (49ms)
+Expect "toHaveText" [expected=Object]  (5003ms)
+  ! Error: expect(locator).toHaveText(expected) failed
+  ! 
+  ! Locator: getByTestId('order-confirmation')
+  ! Expected pattern: /^Order #[A-Z]{6} placed on /
+  ! Received string:  "Order #ZNMQJ9 placed on September 15, 2026"
+  ! Timeout: 5000ms
+  ! 
+  ! Call log:
+  !   - Expect "toHaveText" with timeout 5000ms
+  !   - waiting for getByTestId('order-confirmation')
+  !     9 × locator resolved to <p class="confirmation" data-testid="order-confirmation">Order #ZNMQJ9 placed on September 15, 2026</p>
+  !       - unexpected value "Order #ZNMQJ9 placed on September 15, 2026"
+  ! 
+After Hooks  (69ms)
+    Close context  (2ms)
+Attach "error-context"  (0ms)
+Worker Cleanup  (40ms)
+
+--- test errors ---
+Error: expect(locator).toHaveText(expected) failed
+
+Locator: getByTestId('order-confirmation')
+Expected pattern: /^Order #[A-Z]{6} placed on /
+Received string:  "Order #ZNMQJ9 placed on September 15, 2026"
+Timeout: 5000ms
+
+Call log:
+  - Expect "toHaveText" with timeout 5000ms
+  - waiting for getByTestId('order-confirmation')
+    9 × locator resolved to <p class="confirmation" data-testid="order-confirmation">Order #ZNMQJ9 placed on September 15, 2026</p>
+      - unexpected value "Order #ZNMQJ9 placed on September 15, 2026"
+

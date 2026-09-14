@@ -1,0 +1,35 @@
+{
+  "id": "syn-040",
+  "quelle": "synthetisch",
+  "repo": "fixtures/shop",
+  "test_titel": "restoring without a parked cart leaves the cart empty",
+  "test_datei": "tests/saved-cart-fresh.spec.ts",
+  "test_zeile": 4,
+  "fehlermeldung": "Error: expect(locator).toBeVisible() failed\n\nLocator:  getByTestId('cart-empty')\nExpected: visible\nReceived: hidden\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toBeVisible\" with timeout 5000ms\n  - waiting for getByTestId('cart-empty')\n    9 × locator resolved to <p hidden=\"\" class=\"empty-note\" data-testid=\"cart-empty\">Your cart is empty.</p>\n      - unexpected value \"hidden\"\n",
+  "stack": "Error: expect(locator).toBeVisible() failed\n\nLocator:  getByTestId('cart-empty')\nExpected: visible\nReceived: hidden\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toBeVisible\" with timeout 5000ms\n  - waiting for getByTestId('cart-empty')\n    9 × locator resolved to <p hidden=\"\" class=\"empty-note\" data-testid=\"cart-empty\">Your cart is empty.</p>\n      - unexpected value \"hidden\"\n\n    at /work/ci-triage-agent/fixtures/tests/saved-cart-fresh.spec.ts:14:48\n\n  12 |   await expect(page.getByTestId('cart-sync-status')).toHaveText('Cart restored');\n  13 |\n> 14 |   await expect(page.getByTestId('cart-empty')).toBeVisible();\n     |                                                ^\n  15 |   await expect(page.getByTestId('cart-badge')).toHaveText('0 items');\n  16 | });\n  17 |",
+  "dauer_ms": 5773,
+  "versuche": [
+    {
+      "nr": 1,
+      "status": "failed"
+    },
+    {
+      "nr": 2,
+      "status": "failed"
+    },
+    {
+      "nr": 3,
+      "status": "failed"
+    }
+  ],
+  "artefakte": {
+    "diff": "diff.patch",
+    "trace": "trace.txt",
+    "screenshot": "screenshot.png"
+  },
+  "kontext": {
+    "branch": "mr/mut-33",
+    "commit": "a051101",
+    "ci_lauf": "lokal (fixtures/generate.mjs)"
+  }
+}

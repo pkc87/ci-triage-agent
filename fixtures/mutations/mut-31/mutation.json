@@ -1,0 +1,21 @@
+{
+  "id": "mut-31",
+  "klasse": "FLAKE",
+  "beschreibung": "A new spec reads the banner text, loads the reviews and then expects the banner to still say the same thing. The reviews take 80-340 ms while the banner rotates every 400 ms, so the rotation sometimes fires inside that window.",
+  "begruendung": "test-only change: the new spec compares two reads of a banner that rotates every 400 ms across a step whose length is decided by the 80-340 ms review latency, so whether the rotation fires inside that window decides the outcome",
+  "ziel": "fixtures/tests/banner-stability.spec.ts (new spec)",
+  "max_faelle": 2,
+  "laeufe": 8,
+  "aenderungen": [
+    {
+      "datei": "tests/banner-stability.spec.ts",
+      "inhalt": "import { test, expect } from '@playwright/test';\n\n// A shopper who is reading the promo bar should not lose their place just\n// because another part of the page loaded.\ntest('the promo banner keeps its message while the reviews load', async ({ page }) => {\n  await page.goto('/');\n\n  const banner = page.getByTestId('banner');\n  const vorher = ((await banner.textContent()) ?? '').trim();\n\n  await page.getByTestId('load-reviews').click();\n  await expect(page.getByTestId('average-rating')).toBeVisible();\n\n  const nachher = ((await banner.textContent()) ?? '').trim();\n  expect(nachher).toBe(vorher);\n});\n"
+    }
+  ],
+  "beobachtet": {
+    "laeufe": 8,
+    "fehlschlaege": 8,
+    "versuche_gesamt": 20,
+    "versuche_fehlgeschlagen": 16
+  }
+}

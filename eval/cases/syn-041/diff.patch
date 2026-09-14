@@ -1,0 +1,31 @@
+diff --git a/fixtures/tests/reviews-spinner.spec.ts b/fixtures/tests/reviews-spinner.spec.ts
+new file mode 100644
+--- /dev/null
++++ b/fixtures/tests/reviews-spinner.spec.ts
+@@ -0,0 +1,26 @@
++import { test, expect } from '@playwright/test';
++
++// The reviews section tells the shopper that something is on its way.
++test('the reviews spinner is up while the reviews are on their way', async ({ page }) => {
++  await page.goto('/');
++
++  await page.getByTestId('load-reviews').click();
++
++  // Carry on shopping while the reviews are fetched.
++  await page.getByTestId('add-p1').click();
++  await expect(page.getByTestId('cart-row-p1')).toBeVisible();
++  await page.getByTestId('qty-p1').fill('2');
++  await page.getByTestId('qty-p1').blur();
++  await expect(page.getByTestId('line-total-p1')).toHaveText('$79.90');
++  await page.getByTestId('add-p4').click();
++  await expect(page.getByTestId('cart-badge')).toHaveText('3 items');
++  await page.getByTestId('discount-code').fill('WELCOME10');
++  await page.getByTestId('apply-discount').click();
++  await expect(page.getByTestId('discount-status')).toHaveText('Code WELCOME10 applied');
++  await page.getByTestId('name').fill('Dana Fisher');
++  await page.getByTestId('email').fill('dana@example.com');
++  await page.getByTestId('zip').fill('94110');
++  await expect(page.getByTestId('zip')).toHaveValue('94110');
++
++  await expect(page.getByTestId('reviews-spinner')).toBeVisible();
++});

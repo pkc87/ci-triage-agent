@@ -1,0 +1,21 @@
+{
+  "id": "mut-33",
+  "klasse": "FLAKE",
+  "beschreibung": "A new spec browses the reviews and then restores the cart, expecting it to come back empty. The saved cart lives once per server process, so whether the sibling spec next to it in the queue has already parked its own cart by then decides the outcome.",
+  "begruendung": "test-only change: the new spec expects the process-wide saved cart to still be empty, so whether the sibling spec running beside it has parked its cart first decides the outcome",
+  "ziel": "fixtures/tests/saved-cart-fresh.spec.ts (new spec)",
+  "max_faelle": 2,
+  "laeufe": 8,
+  "aenderungen": [
+    {
+      "datei": "tests/saved-cart-fresh.spec.ts",
+      "inhalt": "import { test, expect } from '@playwright/test';\n\n// Someone who has never parked a cart gets nothing back when they ask for one.\ntest('restoring without a parked cart leaves the cart empty', async ({ page }) => {\n  await page.goto('/');\n\n  // Read the reviews first, the way a shopper would before deciding.\n  await page.getByTestId('load-reviews').click();\n  await expect(page.getByTestId('average-rating')).toBeVisible();\n\n  await page.getByTestId('restore-cart').click();\n  await expect(page.getByTestId('cart-sync-status')).toHaveText('Cart restored');\n\n  await expect(page.getByTestId('cart-empty')).toBeVisible();\n  await expect(page.getByTestId('cart-badge')).toHaveText('0 items');\n});\n"
+    }
+  ],
+  "beobachtet": {
+    "laeufe": 8,
+    "fehlschlaege": 5,
+    "versuche_gesamt": 15,
+    "versuche_fehlgeschlagen": 15
+  }
+}

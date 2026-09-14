@@ -1,0 +1,41 @@
+Before Hooks  (50ms)
+    Create context  (1ms)
+    Create page  (45ms)
+Navigate to "/" [url=/]  (25ms)
+Click getByTestId('load-reviews') [selector=internal:testid=[data-testid="load-reviews"s]]  (39ms)
+Expect "toBeVisible"  (385ms)
+Click getByTestId('restore-cart') [selector=internal:testid=[data-testid="restore-cart"s]]  (48ms)
+Expect "toHaveText" [expected=Cart restored]  (107ms)
+Expect "toBeVisible"  (5006ms)
+  ! Error: expect(locator).toBeVisible() failed
+  ! 
+  ! Locator:  getByTestId('cart-empty')
+  ! Expected: visible
+  ! Received: hidden
+  ! Timeout:  5000ms
+  ! 
+  ! Call log:
+  !   - Expect "toBeVisible" with timeout 5000ms
+  !   - waiting for getByTestId('cart-empty')
+  !     9 × locator resolved to <p hidden="" class="empty-note" data-testid="cart-empty">Your cart is empty.</p>
+  !       - unexpected value "hidden"
+  ! 
+After Hooks  (117ms)
+    Close context  (2ms)
+Attach "error-context"  (0ms)
+Worker Cleanup  (43ms)
+
+--- test errors ---
+Error: expect(locator).toBeVisible() failed
+
+Locator:  getByTestId('cart-empty')
+Expected: visible
+Received: hidden
+Timeout:  5000ms
+
+Call log:
+  - Expect "toBeVisible" with timeout 5000ms
+  - waiting for getByTestId('cart-empty')
+    9 × locator resolved to <p hidden="" class="empty-note" data-testid="cart-empty">Your cart is empty.</p>
+      - unexpected value "hidden"
+

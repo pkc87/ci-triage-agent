@@ -1,0 +1,31 @@
+{
+  "id": "syn-041",
+  "quelle": "synthetisch",
+  "repo": "fixtures/shop",
+  "test_titel": "the reviews spinner is up while the reviews are on their way",
+  "test_datei": "tests/reviews-spinner.spec.ts",
+  "test_zeile": 4,
+  "fehlermeldung": "Error: expect(locator).toBeVisible() failed\n\nLocator:  getByTestId('reviews-spinner')\nExpected: visible\nReceived: hidden\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toBeVisible\" with timeout 5000ms\n  - waiting for getByTestId('reviews-spinner')\n    9 × locator resolved to <p hidden=\"\" class=\"spinner\" data-testid=\"reviews-spinner\">Loading reviews…</p>\n      - unexpected value \"hidden\"\n",
+  "stack": "Error: expect(locator).toBeVisible() failed\n\nLocator:  getByTestId('reviews-spinner')\nExpected: visible\nReceived: hidden\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toBeVisible\" with timeout 5000ms\n  - waiting for getByTestId('reviews-spinner')\n    9 × locator resolved to <p hidden=\"\" class=\"spinner\" data-testid=\"reviews-spinner\">Loading reviews…</p>\n      - unexpected value \"hidden\"\n\n    at /work/ci-triage-agent/fixtures/tests/reviews-spinner.spec.ts:25:53\n\n  23 |   await expect(page.getByTestId('zip')).toHaveValue('94110');\n  24 |\n> 25 |   await expect(page.getByTestId('reviews-spinner')).toBeVisible();\n     |                                                     ^\n  26 | });\n  27 |",
+  "dauer_ms": 5373,
+  "versuche": [
+    {
+      "nr": 1,
+      "status": "failed"
+    },
+    {
+      "nr": 2,
+      "status": "passed"
+    }
+  ],
+  "artefakte": {
+    "diff": "diff.patch",
+    "trace": "trace.txt",
+    "screenshot": "screenshot.png"
+  },
+  "kontext": {
+    "branch": "mr/mut-34",
+    "commit": "a051101",
+    "ci_lauf": "lokal (fixtures/generate.mjs)"
+  }
+}

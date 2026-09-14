@@ -1,0 +1,19 @@
+diff --git a/fixtures/tests/order-reference.spec.ts b/fixtures/tests/order-reference.spec.ts
+new file mode 100644
+--- /dev/null
++++ b/fixtures/tests/order-reference.spec.ts
+@@ -0,0 +1,14 @@
++import { test, expect } from '@playwright/test';
++
++// Every order gets a short reference the shopper can quote to support.
++test('the confirmation carries an order reference', async ({ page }) => {
++  await page.goto('/');
++  await page.getByTestId('add-p1').click();
++
++  await page.getByTestId('name').fill('Dana Fisher');
++  await page.getByTestId('email').fill('dana@example.com');
++  await page.getByTestId('zip').fill('94110');
++  await page.getByTestId('place-order').click();
++
++  await expect(page.getByTestId('order-confirmation')).toHaveText(/^Order #[A-Z]{6} placed on /);
++});

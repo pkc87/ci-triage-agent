@@ -1,0 +1,265 @@
+{
+  "config": {
+    "configFile": "/work/ci-triage-agent/fixtures/playwright.config.ts",
+    "rootDir": "/work/ci-triage-agent/fixtures/tests",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 4
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/work/ci-triage-agent/fixtures/runs/mut-32/1/artifacts",
+        "repeatEach": 1,
+        "retries": 2,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "/work/ci-triage-agent/fixtures/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json",
+        {
+          "outputFile": "/work/ci-triage-agent/fixtures/runs/mut-32/1/report.json"
+        }
+      ],
+      [
+        "list",
+        null
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.59.0",
+    "workers": 4,
+    "webServer": {
+      "command": "node serve.mjs",
+      "url": "http://127.0.0.1:4173",
+      "reuseExistingServer": false,
+      "stdout": "ignore",
+      "stderr": "pipe"
+    }
+  },
+  "suites": [
+    {
+      "title": "reviews-double-load.spec.ts",
+      "file": "reviews-double-load.spec.ts",
+      "line": 0,
+      "column": 0,
+      "specs": [
+        {
+          "title": "clicking load twice still shows four reviews",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "failed",
+                  "duration": 5973,
+                  "error": {
+                    "message": "Error: expect(locator).toHaveCount(expected) failed\n\nLocator:  getByTestId('review-item')\nExpected: 4\nReceived: 8\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveCount\" with timeout 5000ms\n  - waiting for getByTestId('review-item')\n    9 × locator resolved to 8 elements\n      - unexpected value \"8\"\n",
+                    "stack": "Error: expect(locator).toHaveCount(expected) failed\n\nLocator:  getByTestId('review-item')\nExpected: 4\nReceived: 8\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveCount\" with timeout 5000ms\n  - waiting for getByTestId('review-item')\n    9 × locator resolved to 8 elements\n      - unexpected value \"8\"\n\n    at /work/ci-triage-agent/fixtures/tests/reviews-double-load.spec.ts:13:49",
+                    "location": {
+                      "file": "/work/ci-triage-agent/fixtures/tests/reviews-double-load.spec.ts",
+                      "column": 49,
+                      "line": 13
+                    },
+                    "snippet": "  11 |   await page.waitForLoadState('networkidle');\n  12 |\n> 13 |   await expect(page.getByTestId('review-item')).toHaveCount(4);\n     |                                                 ^\n  14 |   await expect(page.getByTestId('average-rating')).toHaveText('Average rating: 4.3 out of 5');\n  15 | });\n  16 |"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/work/ci-triage-agent/fixtures/tests/reviews-double-load.spec.ts",
+                        "column": 49,
+                        "line": 13
+                      },
+                      "message": "Error: expect(locator).toHaveCount(expected) failed\n\nLocator:  getByTestId('review-item')\nExpected: 4\nReceived: 8\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveCount\" with timeout 5000ms\n  - waiting for getByTestId('review-item')\n    9 × locator resolved to 8 elements\n      - unexpected value \"8\"\n\n\n  11 |   await page.waitForLoadState('networkidle');\n  12 |\n> 13 |   await expect(page.getByTestId('review-item')).toHaveCount(4);\n     |                                                 ^\n  14 |   await expect(page.getByTestId('average-rating')).toHaveText('Average rating: 4.3 out of 5');\n  15 | });\n  16 |\n    at /work/ci-triage-agent/fixtures/tests/reviews-double-load.spec.ts:13:49"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-14T23:04:22.576Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-32/1/artifacts/reviews-double-load-clicki-75cc0-ce-still-shows-four-reviews-chromium/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-32/1/artifacts/reviews-double-load-clicki-75cc0-ce-still-shows-four-reviews-chromium/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-32/1/artifacts/reviews-double-load-clicki-75cc0-ce-still-shows-four-reviews-chromium/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/work/ci-triage-agent/fixtures/tests/reviews-double-load.spec.ts",
+                    "column": 49,
+                    "line": 13
+                  }
+                },
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 5969,
+                  "error": {
+                    "message": "Error: expect(locator).toHaveCount(expected) failed\n\nLocator:  getByTestId('review-item')\nExpected: 4\nReceived: 8\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveCount\" with timeout 5000ms\n  - waiting for getByTestId('review-item')\n    9 × locator resolved to 8 elements\n      - unexpected value \"8\"\n",
+                    "stack": "Error: expect(locator).toHaveCount(expected) failed\n\nLocator:  getByTestId('review-item')\nExpected: 4\nReceived: 8\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveCount\" with timeout 5000ms\n  - waiting for getByTestId('review-item')\n    9 × locator resolved to 8 elements\n      - unexpected value \"8\"\n\n    at /work/ci-triage-agent/fixtures/tests/reviews-double-load.spec.ts:13:49",
+                    "location": {
+                      "file": "/work/ci-triage-agent/fixtures/tests/reviews-double-load.spec.ts",
+                      "column": 49,
+                      "line": 13
+                    },
+                    "snippet": "  11 |   await page.waitForLoadState('networkidle');\n  12 |\n> 13 |   await expect(page.getByTestId('review-item')).toHaveCount(4);\n     |                                                 ^\n  14 |   await expect(page.getByTestId('average-rating')).toHaveText('Average rating: 4.3 out of 5');\n  15 | });\n  16 |"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/work/ci-triage-agent/fixtures/tests/reviews-double-load.spec.ts",
+                        "column": 49,
+                        "line": 13
+                      },
+                      "message": "Error: expect(locator).toHaveCount(expected) failed\n\nLocator:  getByTestId('review-item')\nExpected: 4\nReceived: 8\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveCount\" with timeout 5000ms\n  - waiting for getByTestId('review-item')\n    9 × locator resolved to 8 elements\n      - unexpected value \"8\"\n\n\n  11 |   await page.waitForLoadState('networkidle');\n  12 |\n> 13 |   await expect(page.getByTestId('review-item')).toHaveCount(4);\n     |                                                 ^\n  14 |   await expect(page.getByTestId('average-rating')).toHaveText('Average rating: 4.3 out of 5');\n  15 | });\n  16 |\n    at /work/ci-triage-agent/fixtures/tests/reviews-double-load.spec.ts:13:49"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 1,
+                  "startTime": "2026-09-14T23:04:29.309Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-32/1/artifacts/reviews-double-load-clicki-75cc0-ce-still-shows-four-reviews-chromium-retry1/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-32/1/artifacts/reviews-double-load-clicki-75cc0-ce-still-shows-four-reviews-chromium-retry1/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-32/1/artifacts/reviews-double-load-clicki-75cc0-ce-still-shows-four-reviews-chromium-retry1/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/work/ci-triage-agent/fixtures/tests/reviews-double-load.spec.ts",
+                    "column": 49,
+                    "line": 13
+                  }
+                },
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 5968,
+                  "error": {
+                    "message": "Error: expect(locator).toHaveCount(expected) failed\n\nLocator:  getByTestId('review-item')\nExpected: 4\nReceived: 8\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveCount\" with timeout 5000ms\n  - waiting for getByTestId('review-item')\n    9 × locator resolved to 8 elements\n      - unexpected value \"8\"\n",
+                    "stack": "Error: expect(locator).toHaveCount(expected) failed\n\nLocator:  getByTestId('review-item')\nExpected: 4\nReceived: 8\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveCount\" with timeout 5000ms\n  - waiting for getByTestId('review-item')\n    9 × locator resolved to 8 elements\n      - unexpected value \"8\"\n\n    at /work/ci-triage-agent/fixtures/tests/reviews-double-load.spec.ts:13:49",
+                    "location": {
+                      "file": "/work/ci-triage-agent/fixtures/tests/reviews-double-load.spec.ts",
+                      "column": 49,
+                      "line": 13
+                    },
+                    "snippet": "  11 |   await page.waitForLoadState('networkidle');\n  12 |\n> 13 |   await expect(page.getByTestId('review-item')).toHaveCount(4);\n     |                                                 ^\n  14 |   await expect(page.getByTestId('average-rating')).toHaveText('Average rating: 4.3 out of 5');\n  15 | });\n  16 |"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/work/ci-triage-agent/fixtures/tests/reviews-double-load.spec.ts",
+                        "column": 49,
+                        "line": 13
+                      },
+                      "message": "Error: expect(locator).toHaveCount(expected) failed\n\nLocator:  getByTestId('review-item')\nExpected: 4\nReceived: 8\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveCount\" with timeout 5000ms\n  - waiting for getByTestId('review-item')\n    9 × locator resolved to 8 elements\n      - unexpected value \"8\"\n\n\n  11 |   await page.waitForLoadState('networkidle');\n  12 |\n> 13 |   await expect(page.getByTestId('review-item')).toHaveCount(4);\n     |                                                 ^\n  14 |   await expect(page.getByTestId('average-rating')).toHaveText('Average rating: 4.3 out of 5');\n  15 | });\n  16 |\n    at /work/ci-triage-agent/fixtures/tests/reviews-double-load.spec.ts:13:49"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 2,
+                  "startTime": "2026-09-14T23:04:36.233Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-32/1/artifacts/reviews-double-load-clicki-75cc0-ce-still-shows-four-reviews-chromium-retry2/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-32/1/artifacts/reviews-double-load-clicki-75cc0-ce-still-shows-four-reviews-chromium-retry2/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-32/1/artifacts/reviews-double-load-clicki-75cc0-ce-still-shows-four-reviews-chromium-retry2/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/work/ci-triage-agent/fixtures/tests/reviews-double-load.spec.ts",
+                    "column": 49,
+                    "line": 13
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "8e4c78559355ee659670-be21b8aaa55454bf9b1d",
+          "file": "reviews-double-load.spec.ts",
+          "line": 4,
+          "column": 5
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-09-14T23:04:20.517Z",
+    "duration": 22000.93,
+    "expected": 21,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}

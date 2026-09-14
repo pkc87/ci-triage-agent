@@ -1,0 +1,24 @@
+Before Hooks  (240ms)
+    Launch browser [timeout=180000]  (125ms)
+    Create context  (4ms)
+    Create page  (96ms)
+Navigate to "/" [url=/]  (97ms)
+Get text content getByTestId('banner') [selector=internal:testid=[data-testid="banner"s]]  (17ms)
+Click getByTestId('load-reviews') [selector=internal:testid=[data-testid="load-reviews"s]]  (48ms)
+Expect "toBeVisible"  (372ms)
+Get text content getByTestId('banner') [selector=internal:testid=[data-testid="banner"s]]  (3ms)
+Expect "toBe" [expected=Roasted to order, shipped same day]  (2ms)
+  ! Error: expect(received).toBe(expected) // Object.is equality
+  ! 
+  ! Expected: "Roasted to order, shipped same day"
+  ! Received: "Use code WELCOME10 for 10% off"
+After Hooks  (66ms)
+    Close context  (3ms)
+Attach "error-context"  (0ms)
+Worker Cleanup  (2555ms)
+
+--- test errors ---
+Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: "Roasted to order, shipped same day"
+Received: "Use code WELCOME10 for 10% off"

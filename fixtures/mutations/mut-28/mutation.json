@@ -1,0 +1,21 @@
+{
+  "id": "mut-28",
+  "klasse": "FLAKE",
+  "beschreibung": "A new spec caches one page in a module-level variable and hands it to both of its tests. Under fullyParallel the two tests sometimes land in the same worker, where the second one inherits the cart the first one filled, and sometimes in two workers, where each gets its own page.",
+  "begruendung": "test-only change: the new spec caches one page per worker process and shares it between two tests, so whether the second test sees the first test's cart depends on how the workers happen to pick the tests up",
+  "ziel": "fixtures/tests/shared-page.spec.ts (new spec)",
+  "max_faelle": 2,
+  "laeufe": 8,
+  "aenderungen": [
+    {
+      "datei": "tests/shared-page.spec.ts",
+      "inhalt": "import { test, expect, type Browser, type Page } from '@playwright/test';\n\n// Opening a fresh page for every test costs about a second, so keep one around\n// and hand the same one to whoever asks for it.\nlet zwischengespeichert: Page | undefined;\n\nasync function shopPage(browser: Browser) {\n  if (!zwischengespeichert) {\n    zwischengespeichert = await browser.newPage();\n    await zwischengespeichert.goto('/');\n  }\n  return zwischengespeichert;\n}\n\ntest('a shopper can put the grinder in the cart', async ({ browser }) => {\n  const page = await shopPage(browser);\n\n  await page.getByTestId('add-p2').click();\n\n  await expect(page.getByTestId('cart-row-p2')).toBeVisible();\n  await expect(page.getByTestId('cart-badge')).toHaveText('1 item');\n});\n\ntest('a shopper starts out with an empty cart', async ({ browser }) => {\n  const page = await shopPage(browser);\n\n  await expect(page.getByTestId('cart-empty')).toBeVisible();\n  await expect(page.getByTestId('cart-badge')).toHaveText('0 items');\n});\n"
+    }
+  ],
+  "beobachtet": {
+    "laeufe": 8,
+    "fehlschlaege": 2,
+    "versuche_gesamt": 4,
+    "versuche_fehlgeschlagen": 2
+  }
+}

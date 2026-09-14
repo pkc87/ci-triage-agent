@@ -1,0 +1,21 @@
+diff --git a/fixtures/tests/saved-cart-fresh.spec.ts b/fixtures/tests/saved-cart-fresh.spec.ts
+new file mode 100644
+--- /dev/null
++++ b/fixtures/tests/saved-cart-fresh.spec.ts
+@@ -0,0 +1,16 @@
++import { test, expect } from '@playwright/test';
++
++// Someone who has never parked a cart gets nothing back when they ask for one.
++test('restoring without a parked cart leaves the cart empty', async ({ page }) => {
++  await page.goto('/');
++
++  // Read the reviews first, the way a shopper would before deciding.
++  await page.getByTestId('load-reviews').click();
++  await expect(page.getByTestId('average-rating')).toBeVisible();
++
++  await page.getByTestId('restore-cart').click();
++  await expect(page.getByTestId('cart-sync-status')).toHaveText('Cart restored');
++
++  await expect(page.getByTestId('cart-empty')).toBeVisible();
++  await expect(page.getByTestId('cart-badge')).toHaveText('0 items');
++});

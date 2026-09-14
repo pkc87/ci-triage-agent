@@ -1,0 +1,41 @@
+Before Hooks  (53ms)
+    Create context  (2ms)
+    Create page  (48ms)
+Navigate to "/" [url=/]  (30ms)
+Click getByTestId('load-reviews') [selector=internal:testid=[data-testid="load-reviews"s]]  (52ms)
+Wait for timeout  (211ms)
+Click getByTestId('load-reviews') [selector=internal:testid=[data-testid="load-reviews"s]]  (35ms)
+Wait for load state "networkidle"  (523ms)
+Expect "toHaveCount" [expected=4]  (5013ms)
+  ! Error: expect(locator).toHaveCount(expected) failed
+  ! 
+  ! Locator:  getByTestId('review-item')
+  ! Expected: 4
+  ! Received: 8
+  ! Timeout:  5000ms
+  ! 
+  ! Call log:
+  !   - Expect "toHaveCount" with timeout 5000ms
+  !   - waiting for getByTestId('review-item')
+  !     9 × locator resolved to 8 elements
+  !       - unexpected value "8"
+  ! 
+After Hooks  (60ms)
+    Close context  (3ms)
+Attach "error-context"  (0ms)
+Worker Cleanup  (87ms)
+
+--- test errors ---
+Error: expect(locator).toHaveCount(expected) failed
+
+Locator:  getByTestId('review-item')
+Expected: 4
+Received: 8
+Timeout:  5000ms
+
+Call log:
+  - Expect "toHaveCount" with timeout 5000ms
+  - waiting for getByTestId('review-item')
+    9 × locator resolved to 8 elements
+      - unexpected value "8"
+

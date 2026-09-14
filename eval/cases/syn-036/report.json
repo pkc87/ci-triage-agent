@@ -1,0 +1,265 @@
+{
+  "config": {
+    "configFile": "/work/ci-triage-agent/fixtures/playwright.config.ts",
+    "rootDir": "/work/ci-triage-agent/fixtures/tests",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 4
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/work/ci-triage-agent/fixtures/runs/mut-29/3/artifacts",
+        "repeatEach": 1,
+        "retries": 2,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "/work/ci-triage-agent/fixtures/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json",
+        {
+          "outputFile": "/work/ci-triage-agent/fixtures/runs/mut-29/3/report.json"
+        }
+      ],
+      [
+        "list",
+        null
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.59.0",
+    "workers": 4,
+    "webServer": {
+      "command": "node serve.mjs",
+      "url": "http://127.0.0.1:4173",
+      "reuseExistingServer": false,
+      "stdout": "ignore",
+      "stderr": "pipe"
+    }
+  },
+  "suites": [
+    {
+      "title": "product-lookup.spec.ts",
+      "file": "product-lookup.spec.ts",
+      "line": 0,
+      "column": 0,
+      "specs": [
+        {
+          "title": "the storefront shows the grinder",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "failed",
+                  "duration": 139,
+                  "error": {
+                    "message": "Error: expect(locator).toBeVisible() failed\n\nLocator: getByText('Burr Grinder')\nExpected: visible\nError: strict mode violation: getByText('Burr Grinder') resolved to 2 elements:\n    1) <h3>Burr Grinder</h3> aka getByRole('heading', { name: 'Burr Grinder' })\n    2) <li data-testid=\"rec-item\">Burr Grinder</li> aka getByTestId('recommendations').getByText('Burr Grinder')\n\nCall log:\n  - Expect \"toBeVisible\" with timeout 5000ms\n  - waiting for getByText('Burr Grinder')\n",
+                    "stack": "Error: expect(locator).toBeVisible() failed\n\nLocator: getByText('Burr Grinder')\nExpected: visible\nError: strict mode violation: getByText('Burr Grinder') resolved to 2 elements:\n    1) <h3>Burr Grinder</h3> aka getByRole('heading', { name: 'Burr Grinder' })\n    2) <li data-testid=\"rec-item\">Burr Grinder</li> aka getByTestId('recommendations').getByText('Burr Grinder')\n\nCall log:\n  - Expect \"toBeVisible\" with timeout 5000ms\n  - waiting for getByText('Burr Grinder')\n\n    at /work/ci-triage-agent/fixtures/tests/product-lookup.spec.ts:8:25",
+                    "location": {
+                      "file": "/work/ci-triage-agent/fixtures/tests/product-lookup.spec.ts",
+                      "column": 25,
+                      "line": 8
+                    },
+                    "snippet": "   6 |\n   7 |   const grinder = page.getByText('Burr Grinder');\n>  8 |   await expect(grinder).toBeVisible();\n     |                         ^\n   9 | });\n  10 |"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/work/ci-triage-agent/fixtures/tests/product-lookup.spec.ts",
+                        "column": 25,
+                        "line": 8
+                      },
+                      "message": "Error: expect(locator).toBeVisible() failed\n\nLocator: getByText('Burr Grinder')\nExpected: visible\nError: strict mode violation: getByText('Burr Grinder') resolved to 2 elements:\n    1) <h3>Burr Grinder</h3> aka getByRole('heading', { name: 'Burr Grinder' })\n    2) <li data-testid=\"rec-item\">Burr Grinder</li> aka getByTestId('recommendations').getByText('Burr Grinder')\n\nCall log:\n  - Expect \"toBeVisible\" with timeout 5000ms\n  - waiting for getByText('Burr Grinder')\n\n\n   6 |\n   7 |   const grinder = page.getByText('Burr Grinder');\n>  8 |   await expect(grinder).toBeVisible();\n     |                         ^\n   9 | });\n  10 |\n    at /work/ci-triage-agent/fixtures/tests/product-lookup.spec.ts:8:25"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-14T23:00:49.795Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-29/3/artifacts/product-lookup-the-storefront-shows-the-grinder-chromium/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-29/3/artifacts/product-lookup-the-storefront-shows-the-grinder-chromium/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-29/3/artifacts/product-lookup-the-storefront-shows-the-grinder-chromium/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/work/ci-triage-agent/fixtures/tests/product-lookup.spec.ts",
+                    "column": 25,
+                    "line": 8
+                  }
+                },
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 2,
+                  "status": "failed",
+                  "duration": 167,
+                  "error": {
+                    "message": "Error: expect(locator).toBeVisible() failed\n\nLocator: getByText('Burr Grinder')\nExpected: visible\nError: strict mode violation: getByText('Burr Grinder') resolved to 2 elements:\n    1) <h3>Burr Grinder</h3> aka getByRole('heading', { name: 'Burr Grinder' })\n    2) <li data-testid=\"rec-item\">Burr Grinder</li> aka getByTestId('recommendations').getByText('Burr Grinder')\n\nCall log:\n  - Expect \"toBeVisible\" with timeout 5000ms\n  - waiting for getByText('Burr Grinder')\n",
+                    "stack": "Error: expect(locator).toBeVisible() failed\n\nLocator: getByText('Burr Grinder')\nExpected: visible\nError: strict mode violation: getByText('Burr Grinder') resolved to 2 elements:\n    1) <h3>Burr Grinder</h3> aka getByRole('heading', { name: 'Burr Grinder' })\n    2) <li data-testid=\"rec-item\">Burr Grinder</li> aka getByTestId('recommendations').getByText('Burr Grinder')\n\nCall log:\n  - Expect \"toBeVisible\" with timeout 5000ms\n  - waiting for getByText('Burr Grinder')\n\n    at /work/ci-triage-agent/fixtures/tests/product-lookup.spec.ts:8:25",
+                    "location": {
+                      "file": "/work/ci-triage-agent/fixtures/tests/product-lookup.spec.ts",
+                      "column": 25,
+                      "line": 8
+                    },
+                    "snippet": "   6 |\n   7 |   const grinder = page.getByText('Burr Grinder');\n>  8 |   await expect(grinder).toBeVisible();\n     |                         ^\n   9 | });\n  10 |"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/work/ci-triage-agent/fixtures/tests/product-lookup.spec.ts",
+                        "column": 25,
+                        "line": 8
+                      },
+                      "message": "Error: expect(locator).toBeVisible() failed\n\nLocator: getByText('Burr Grinder')\nExpected: visible\nError: strict mode violation: getByText('Burr Grinder') resolved to 2 elements:\n    1) <h3>Burr Grinder</h3> aka getByRole('heading', { name: 'Burr Grinder' })\n    2) <li data-testid=\"rec-item\">Burr Grinder</li> aka getByTestId('recommendations').getByText('Burr Grinder')\n\nCall log:\n  - Expect \"toBeVisible\" with timeout 5000ms\n  - waiting for getByText('Burr Grinder')\n\n\n   6 |\n   7 |   const grinder = page.getByText('Burr Grinder');\n>  8 |   await expect(grinder).toBeVisible();\n     |                         ^\n   9 | });\n  10 |\n    at /work/ci-triage-agent/fixtures/tests/product-lookup.spec.ts:8:25"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 1,
+                  "startTime": "2026-09-14T23:00:50.928Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-29/3/artifacts/product-lookup-the-storefront-shows-the-grinder-chromium-retry1/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-29/3/artifacts/product-lookup-the-storefront-shows-the-grinder-chromium-retry1/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-29/3/artifacts/product-lookup-the-storefront-shows-the-grinder-chromium-retry1/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/work/ci-triage-agent/fixtures/tests/product-lookup.spec.ts",
+                    "column": 25,
+                    "line": 8
+                  }
+                },
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 158,
+                  "error": {
+                    "message": "Error: expect(locator).toBeVisible() failed\n\nLocator: getByText('Burr Grinder')\nExpected: visible\nError: strict mode violation: getByText('Burr Grinder') resolved to 2 elements:\n    1) <h3>Burr Grinder</h3> aka getByRole('heading', { name: 'Burr Grinder' })\n    2) <li data-testid=\"rec-item\">Burr Grinder</li> aka getByTestId('recommendations').getByText('Burr Grinder')\n\nCall log:\n  - Expect \"toBeVisible\" with timeout 5000ms\n  - waiting for getByText('Burr Grinder')\n",
+                    "stack": "Error: expect(locator).toBeVisible() failed\n\nLocator: getByText('Burr Grinder')\nExpected: visible\nError: strict mode violation: getByText('Burr Grinder') resolved to 2 elements:\n    1) <h3>Burr Grinder</h3> aka getByRole('heading', { name: 'Burr Grinder' })\n    2) <li data-testid=\"rec-item\">Burr Grinder</li> aka getByTestId('recommendations').getByText('Burr Grinder')\n\nCall log:\n  - Expect \"toBeVisible\" with timeout 5000ms\n  - waiting for getByText('Burr Grinder')\n\n    at /work/ci-triage-agent/fixtures/tests/product-lookup.spec.ts:8:25",
+                    "location": {
+                      "file": "/work/ci-triage-agent/fixtures/tests/product-lookup.spec.ts",
+                      "column": 25,
+                      "line": 8
+                    },
+                    "snippet": "   6 |\n   7 |   const grinder = page.getByText('Burr Grinder');\n>  8 |   await expect(grinder).toBeVisible();\n     |                         ^\n   9 | });\n  10 |"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/work/ci-triage-agent/fixtures/tests/product-lookup.spec.ts",
+                        "column": 25,
+                        "line": 8
+                      },
+                      "message": "Error: expect(locator).toBeVisible() failed\n\nLocator: getByText('Burr Grinder')\nExpected: visible\nError: strict mode violation: getByText('Burr Grinder') resolved to 2 elements:\n    1) <h3>Burr Grinder</h3> aka getByRole('heading', { name: 'Burr Grinder' })\n    2) <li data-testid=\"rec-item\">Burr Grinder</li> aka getByTestId('recommendations').getByText('Burr Grinder')\n\nCall log:\n  - Expect \"toBeVisible\" with timeout 5000ms\n  - waiting for getByText('Burr Grinder')\n\n\n   6 |\n   7 |   const grinder = page.getByText('Burr Grinder');\n>  8 |   await expect(grinder).toBeVisible();\n     |                         ^\n   9 | });\n  10 |\n    at /work/ci-triage-agent/fixtures/tests/product-lookup.spec.ts:8:25"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 2,
+                  "startTime": "2026-09-14T23:00:51.968Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-29/3/artifacts/product-lookup-the-storefront-shows-the-grinder-chromium-retry2/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-29/3/artifacts/product-lookup-the-storefront-shows-the-grinder-chromium-retry2/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-29/3/artifacts/product-lookup-the-storefront-shows-the-grinder-chromium-retry2/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/work/ci-triage-agent/fixtures/tests/product-lookup.spec.ts",
+                    "column": 25,
+                    "line": 8
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "99e4ffd91e25f79d387f-d51bd513f2a5ec05e6b4",
+          "file": "product-lookup.spec.ts",
+          "line": 4,
+          "column": 5
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-09-14T23:00:47.780Z",
+    "duration": 4655.107,
+    "expected": 21,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}

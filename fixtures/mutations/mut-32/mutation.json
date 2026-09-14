@@ -1,0 +1,21 @@
+{
+  "id": "mut-32",
+  "klasse": "FLAKE",
+  "beschreibung": "A new spec clicks \"Load reviews\" a second time while the first load is still in flight and then counts the list. Each load clears the list and appends to it once its own response arrives, so whether the first response lands before or after the second click decides whether the list ends up with four entries or eight.",
+  "begruendung": "test-only change: the new spec starts a second load while the first is still in flight and then asserts the settled list, so which of the two responses comes back first decides the count it sees",
+  "ziel": "fixtures/tests/reviews-double-load.spec.ts (new spec)",
+  "max_faelle": 2,
+  "laeufe": 8,
+  "aenderungen": [
+    {
+      "datei": "tests/reviews-double-load.spec.ts",
+      "inhalt": "import { test, expect } from '@playwright/test';\n\n// A shopper who does not see anything happen clicks the button a second time.\ntest('clicking load twice still shows four reviews', async ({ page }) => {\n  await page.goto('/');\n\n  await page.getByTestId('load-reviews').click();\n  await page.waitForTimeout(200);\n  await page.getByTestId('load-reviews').click();\n\n  await page.waitForLoadState('networkidle');\n\n  await expect(page.getByTestId('review-item')).toHaveCount(4);\n  await expect(page.getByTestId('average-rating')).toHaveText('Average rating: 4.3 out of 5');\n});\n"
+    }
+  ],
+  "beobachtet": {
+    "laeufe": 8,
+    "fehlschlaege": 6,
+    "versuche_gesamt": 16,
+    "versuche_fehlgeschlagen": 11
+  }
+}

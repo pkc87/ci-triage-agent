@@ -1,0 +1,35 @@
+{
+  "id": "syn-036",
+  "quelle": "synthetisch",
+  "repo": "fixtures/shop",
+  "test_titel": "the storefront shows the grinder",
+  "test_datei": "tests/product-lookup.spec.ts",
+  "test_zeile": 4,
+  "fehlermeldung": "Error: expect(locator).toBeVisible() failed\n\nLocator: getByText('Burr Grinder')\nExpected: visible\nError: strict mode violation: getByText('Burr Grinder') resolved to 2 elements:\n    1) <h3>Burr Grinder</h3> aka getByRole('heading', { name: 'Burr Grinder' })\n    2) <li data-testid=\"rec-item\">Burr Grinder</li> aka getByTestId('recommendations').getByText('Burr Grinder')\n\nCall log:\n  - Expect \"toBeVisible\" with timeout 5000ms\n  - waiting for getByText('Burr Grinder')\n",
+  "stack": "Error: expect(locator).toBeVisible() failed\n\nLocator: getByText('Burr Grinder')\nExpected: visible\nError: strict mode violation: getByText('Burr Grinder') resolved to 2 elements:\n    1) <h3>Burr Grinder</h3> aka getByRole('heading', { name: 'Burr Grinder' })\n    2) <li data-testid=\"rec-item\">Burr Grinder</li> aka getByTestId('recommendations').getByText('Burr Grinder')\n\nCall log:\n  - Expect \"toBeVisible\" with timeout 5000ms\n  - waiting for getByText('Burr Grinder')\n\n    at /work/ci-triage-agent/fixtures/tests/product-lookup.spec.ts:8:25\n\n   6 |\n   7 |   const grinder = page.getByText('Burr Grinder');\n>  8 |   await expect(grinder).toBeVisible();\n     |                         ^\n   9 | });\n  10 |",
+  "dauer_ms": 139,
+  "versuche": [
+    {
+      "nr": 1,
+      "status": "failed"
+    },
+    {
+      "nr": 2,
+      "status": "failed"
+    },
+    {
+      "nr": 3,
+      "status": "failed"
+    }
+  ],
+  "artefakte": {
+    "diff": "diff.patch",
+    "trace": "trace.txt",
+    "screenshot": "screenshot.png"
+  },
+  "kontext": {
+    "branch": "mr/mut-29",
+    "commit": "a051101",
+    "ci_lauf": "lokal (fixtures/generate.mjs)"
+  }
+}

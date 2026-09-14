@@ -1,0 +1,33 @@
+Before Hooks  (5ms)
+Expect "toBeVisible"  (5016ms)
+  ! Error: expect(locator).toBeVisible() failed
+  ! 
+  ! Locator:  getByTestId('cart-empty')
+  ! Expected: visible
+  ! Received: hidden
+  ! Timeout:  5000ms
+  ! 
+  ! Call log:
+  !   - Expect "toBeVisible" with timeout 5000ms
+  !   - waiting for getByTestId('cart-empty')
+  !     9 × locator resolved to <p hidden="" class="empty-note" data-testid="cart-empty">Your cart is empty.</p>
+  !       - unexpected value "hidden"
+  ! 
+After Hooks  (99ms)
+Attach "error-context"  (0ms)
+Worker Cleanup  (84ms)
+
+--- test errors ---
+Error: expect(locator).toBeVisible() failed
+
+Locator:  getByTestId('cart-empty')
+Expected: visible
+Received: hidden
+Timeout:  5000ms
+
+Call log:
+  - Expect "toBeVisible" with timeout 5000ms
+  - waiting for getByTestId('cart-empty')
+    9 × locator resolved to <p hidden="" class="empty-note" data-testid="cart-empty">Your cart is empty.</p>
+      - unexpected value "hidden"
+

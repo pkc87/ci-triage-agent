@@ -1,0 +1,21 @@
+{
+  "id": "mut-30",
+  "klasse": "FLAKE",
+  "beschreibung": "A new spec pins the order reference to six letters, but the storefront draws each character from an alphabet of letters and digits, so roughly four out of five references contain a digit.",
+  "begruendung": "test-only change: the new spec expects a letter-only order reference although the storefront draws the characters from letters and digits, so the same build passes and fails depending on the reference it happens to draw",
+  "ziel": "fixtures/tests/order-reference.spec.ts (new spec)",
+  "max_faelle": 2,
+  "laeufe": 8,
+  "aenderungen": [
+    {
+      "datei": "tests/order-reference.spec.ts",
+      "inhalt": "import { test, expect } from '@playwright/test';\n\n// Every order gets a short reference the shopper can quote to support.\ntest('the confirmation carries an order reference', async ({ page }) => {\n  await page.goto('/');\n  await page.getByTestId('add-p1').click();\n\n  await page.getByTestId('name').fill('Dana Fisher');\n  await page.getByTestId('email').fill('dana@example.com');\n  await page.getByTestId('zip').fill('94110');\n  await page.getByTestId('place-order').click();\n\n  await expect(page.getByTestId('order-confirmation')).toHaveText(/^Order #[A-Z]{6} placed on /);\n});\n"
+    }
+  ],
+  "beobachtet": {
+    "laeufe": 8,
+    "fehlschlaege": 6,
+    "versuche_gesamt": 18,
+    "versuche_fehlgeschlagen": 17
+  }
+}

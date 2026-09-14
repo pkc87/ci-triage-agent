@@ -1,0 +1,23 @@
+diff --git a/fixtures/tests/cart-row-focus.spec.ts b/fixtures/tests/cart-row-focus.spec.ts
+new file mode 100644
+--- /dev/null
++++ b/fixtures/tests/cart-row-focus.spec.ts
+@@ -0,0 +1,18 @@
++import { test, expect } from '@playwright/test';
++
++// After pulling the cart back from the server the shopper edits the quantity,
++// so the cursor goes into the quantity box.
++test('the quantity box takes the cursor after a restore', async ({ page }) => {
++  await page.goto('/');
++
++  await page.getByTestId('add-p2').click();
++  await page.getByTestId('save-cart').click();
++  await expect(page.getByTestId('cart-sync-status')).toHaveText('Cart saved');
++
++  const quantity = await page.waitForSelector('[data-testid="qty-p2"]');
++
++  await page.getByTestId('restore-cart').click();
++  await quantity.focus();
++
++  await expect(page.getByTestId('cart-sync-status')).toHaveText('Cart restored');
++});
