@@ -47,6 +47,13 @@ def zahlen_block(e: dict) -> str:
     z.append("|---|---|---|---|---|---|---|")
     for k in KLASSEN:
         j = b["je_klasse"][k]
+        if j["support_entschieden"] == 0:
+            # No decided case, so there is no rate to report. Printing 0.00 here
+            # would read as "it got them all wrong" rather than "it never said".
+            grund = "all escalated" if j["support_gesamt"] else "no cases"
+            z.append(f"| `{k}` | – <sub>({grund})</sub> | – <sub>({grund})</sub> | – | "
+                     f"{j['support_gesamt']} | 0 | {j['eskaliert']} |")
+            continue
         pci, rci = j["precision_ci95"], j["recall_ci95"]
         z.append(f"| `{k}` | {j['precision']:.2f} <sub>[{pci[0]:.2f}-{pci[1]:.2f}]</sub> | "
                  f"{j['recall']:.2f} <sub>[{rci[0]:.2f}-{rci[1]:.2f}]</sub> | {j['f1']:.2f} | "
