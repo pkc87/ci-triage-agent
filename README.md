@@ -312,11 +312,12 @@ real Playwright runs against a really-broken app, but we chose what to break,
 and we may have broken things in ways that are easier to recognise than what a
 production codebase produces at 2am.
 
-**The corpus is small and the intervals say so.** Forty-seven cases across three
-classes — 15 / 25 / 7. `FLAKE` rests on seven cases and its row should be read
-as a direction, not a measurement; its 95% interval for recall spans most of the
-range. The Wilson intervals in the table above are wide throughout, and they are
-the honest version of this result.
+**The corpus is small and the intervals say so.** Case counts per class are in
+the table above, and `FLAKE` is the thinnest of the three by some way — its
+recall interval spans most of the range, so that row is a direction rather than
+a measurement. The Wilson intervals are wide throughout. They are the honest
+shape of this result, and they are the reason no claim here is quoted to two
+decimals as though it were stable.
 
 **A model designed the failures it is being tested on.** No label here rests on
 model judgement — the historical labels cite the commit that fixed the failure,
