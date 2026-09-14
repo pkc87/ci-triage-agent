@@ -7,7 +7,7 @@
   "test_zeile": 7,
   "fehlermeldung": "Error: expect(locator).toHaveText(expected) failed\n\nLocator: getByTestId('cart-subtotal-value')\nExpected: \"$39.95\"\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('cart-subtotal-value')\n",
   "stack": "Error: expect(locator).toHaveText(expected) failed\n\nLocator: getByTestId('cart-subtotal-value')\nExpected: \"$39.95\"\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('cart-subtotal-value')\n\n    at /work/ci-triage-agent/fixtures/tests/cart.spec.ts:13:57\n\n  11 |   await expect(page.getByTestId('cart-empty')).toBeHidden();\n  12 |   await expect(page.getByTestId('line-total-p1')).toHaveText('$39.95');\n> 13 |   await expect(page.getByTestId('cart-subtotal-value')).toHaveText('$39.95');\n     |                                                         ^\n  14 | });\n  15 |\n  16 | test('changing the quantity updates the line total', async ({ page }) => {",
-  "dauer_ms": 5473,
+  "dauer_ms": 5421,
   "versuche": [
     {
       "nr": 1,
@@ -29,7 +29,7 @@
   },
   "kontext": {
     "branch": "mr/mut-02",
-    "commit": "f15e8e5",
+    "commit": "e300b56",
     "ci_lauf": "lokal (fixtures/generate.mjs)"
   }
 }

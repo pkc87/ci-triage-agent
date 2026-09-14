@@ -7,7 +7,7 @@
   "test_zeile": 36,
   "fehlermeldung": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('total')\nExpected: \"$45.75\"\nReceived: \"$45.74\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('total')\n    9 × locator resolved to <dd class=\"grand\" data-testid=\"total\">$45.74</dd>\n      - unexpected value \"$45.74\"\n",
   "stack": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('total')\nExpected: \"$45.75\"\nReceived: \"$45.74\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('total')\n    9 × locator resolved to <dd class=\"grand\" data-testid=\"total\">$45.74</dd>\n      - unexpected value \"$45.74\"\n\n    at /work/ci-triage-agent/fixtures/tests/pricing.spec.ts:43:43\n\n  41 |   await expect(page.getByTestId('discount-status')).toHaveText('Unknown promo code');\n  42 |   await expect(page.getByTestId('discount')).toHaveText('-$0.00');\n> 43 |   await expect(page.getByTestId('total')).toHaveText('$45.75');\n     |                                           ^\n  44 | });\n  45 |\n  46 | test('applying the same promo code twice does not stack it', async ({ page }) => {",
-  "dauer_ms": 5409,
+  "dauer_ms": 5384,
   "versuche": [
     {
       "nr": 1,
@@ -29,7 +29,7 @@
   },
   "kontext": {
     "branch": "mr/mut-01",
-    "commit": "f15e8e5",
+    "commit": "e300b56",
     "ci_lauf": "lokal (fixtures/generate.mjs)"
   }
 }

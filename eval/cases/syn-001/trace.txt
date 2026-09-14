@@ -1,14 +1,14 @@
-Before Hooks  (86ms)
-  beforeEach hook  (86ms)
-      Create context  (3ms)
-      Create page  (52ms)
-    Navigate to "/" [url=/]  (27ms)
-Click getByTestId('add-p1') [selector=internal:testid=[data-testid="add-p1"s]]  (52ms)
-Fill "-3" getByTestId('qty-p1') [selector=internal:testid=[data-testid="qty-p1"s] value=-3]  (17ms)
-Blur getByTestId('qty-p1') [selector=internal:testid=[data-testid="qty-p1"s]]  (13ms)
-Expect "toHaveValue" [expected=1]  (5ms)
-Expect "toHaveText" [expected=$39.95]  (7ms)
-Expect "toHaveText" [expected=$45.75]  (5004ms)
+Before Hooks  (116ms)
+  beforeEach hook  (116ms)
+      Create context  (2ms)
+      Create page  (79ms)
+    Navigate to "/" [url=/]  (31ms)
+Click getByTestId('add-p1') [selector=internal:testid=[data-testid="add-p1"s]]  (72ms)
+Fill "-3" getByTestId('qty-p1') [selector=internal:testid=[data-testid="qty-p1"s] value=-3]  (15ms)
+Blur getByTestId('qty-p1') [selector=internal:testid=[data-testid="qty-p1"s]]  (22ms)
+Expect "toHaveValue" [expected=1]  (11ms)
+Expect "toHaveText" [expected=$39.95]  (5ms)
+Expect "toHaveText" [expected=$45.75]  (5009ms)
   ! Error: expect(locator).toHaveText(expected) failed
   ! 
   ! Locator:  getByTestId('total')
@@ -22,10 +22,10 @@ Expect "toHaveText" [expected=$45.75]  (5004ms)
   !     9 × locator resolved to <dd class="grand" data-testid="total">$45.74</dd>
   !       - unexpected value "$45.74"
   ! 
-After Hooks  (470ms)
+After Hooks  (625ms)
     Close context  (2ms)
 Attach "error-context"  (0ms)
-Worker Cleanup  (211ms)
+Worker Cleanup  (78ms)
 
 --- test errors ---
 Error: expect(locator).toHaveText(expected) failed

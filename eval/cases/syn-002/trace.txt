@@ -1,10 +1,10 @@
-Before Hooks  (92ms)
-  beforeEach hook  (92ms)
-      Create context  (4ms)
-      Create page  (49ms)
-    Navigate to "/" [url=/]  (27ms)
-Click getByTestId('add-p1') [selector=internal:testid=[data-testid="add-p1"s]]  (47ms)
-Expect "toHaveText" [expected=$45.75]  (5032ms)
+Before Hooks  (133ms)
+  beforeEach hook  (132ms)
+      Create context  (1ms)
+      Create page  (85ms)
+    Navigate to "/" [url=/]  (42ms)
+Click getByTestId('add-p1') [selector=internal:testid=[data-testid="add-p1"s]]  (127ms)
+Expect "toHaveText" [expected=$45.75]  (5013ms)
   ! Error: expect(locator).toHaveText(expected) failed
   ! 
   ! Locator:  getByTestId('total')
@@ -18,10 +18,10 @@ Expect "toHaveText" [expected=$45.75]  (5032ms)
   !     9 × locator resolved to <dd class="grand" data-testid="total">$45.74</dd>
   !       - unexpected value "$45.74"
   ! 
-After Hooks  (221ms)
-    Close context  (4ms)
+After Hooks  (304ms)
+    Close context  (3ms)
 Attach "error-context"  (0ms)
-Worker Cleanup  (102ms)
+Worker Cleanup  (105ms)
 
 --- test errors ---
 Error: expect(locator).toHaveText(expected) failed

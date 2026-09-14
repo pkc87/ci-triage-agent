@@ -11,5 +11,11 @@
       "datei": "tests/banner-opacity.spec.ts",
       "inhalt": "import { test, expect } from '@playwright/test';\n\n// The promo bar should read as a solid colour, not a washed out one.\ntest('the promo banner stays fully opaque', async ({ page }) => {\n  await page.goto('/');\n\n  // Do a little shopping first, the way a real visit would.\n  await page.getByTestId('load-reviews').click();\n  await expect(page.getByTestId('average-rating')).toBeVisible();\n\n  const opacity = await page\n    .getByTestId('banner')\n    .evaluate((element) => Number(getComputedStyle(element).opacity));\n\n  expect(opacity).toBeGreaterThan(0.95);\n});\n"
     }
-  ]
+  ],
+  "beobachtet": {
+    "laeufe": 6,
+    "fehlschlaege": 6,
+    "versuche_gesamt": 18,
+    "versuche_fehlgeschlagen": 15
+  }
 }
