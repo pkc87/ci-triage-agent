@@ -1,14 +1,21 @@
 // Turn a Playwright trace.zip into a readable action log.
 //
-// Traces are zip archives whose *.trace member is newline-delimited JSON. We
-// only need the action events, so this reads the archive with node:zlib instead
-// of pulling in a zip dependency.
+// A trace is a zip archive whose *.trace members are newline-delimited JSON.
+// `test.trace` carries the test-runner view (steps, expects, hook boundaries),
+// which is what a human reads first, so that is what this extracts. No zip
+// dependency: node:zlib can inflate the members directly.
 
 import { readFileSync } from 'node:fs';
 import { inflateRawSync } from 'node:zlib';
 
 const EOCD_SIGNATURE = 0x06054b50;
 const CENTRAL_SIGNATURE = 0x02014b50;
+
+const ANSI = /[][[]()#;?]*(?:(?:(?:[a-zA-Zd]*(?:;[-a-zA-Zd/#&.:=?%@~_]*)*)?)|(?:(?:d{1,4}(?:;d{0,4})*)?[dA-PR-TZcf-nq-uy=><~]))/g;
+
+export function stripAnsi(text) {
+  return String(text ?? '').replace(ANSI, '');
+}
 
 /** Read a zip archive into a Map of entry name -> Buffer. */
 export function readZip(path) {
@@ -57,93 +64,101 @@ function parseEvents(text) {
     try {
       events.push(JSON.parse(trimmed));
     } catch {
-      // A truncated trailing line means the run was killed; skip it.
+      // A truncated trailing line means the run was killed mid-write; skip it.
     }
   }
   return events;
 }
 
-function short(value, limit = 160) {
-  const text = String(value).replace(/\s+/g, ' ').trim();
-  return text.length > limit ? `${text.slice(0, limit - 1)}…` : text;
+function shorten(value, limit) {
+  const text = stripAnsi(value).replace(/\s+/g, ' ').trim();
+  return text.length > limit ? `${text.slice(0, limit - 1)}...` : text;
 }
 
+const INTERESTING_PARAMS = ['url', 'expected', 'selector', 'value', 'text', 'key', 'timeout'];
+
 function describeParams(params = {}) {
-  const interesting = ['url', 'selector', 'value', 'text', 'expression', 'timeout', 'key'];
   const parts = [];
-  for (const key of interesting) {
-    if (params[key] !== undefined && params[key] !== null && params[key] !== '') {
-      parts.push(`${key}=${short(params[key], 70)}`);
-    }
+  for (const key of INTERESTING_PARAMS) {
+    const value = params[key];
+    if (value === undefined || value === null || value === '' || value === '0') continue;
+    parts.push(`${key}=${shorten(value, 90)}`);
   }
   return parts.join(' ');
 }
 
-/**
- * Build a compact action log: one line per API call with duration and error,
- * followed by the console and page errors the trace recorded.
- */
+/** Build a compact, human-readable action log for one trace archive. */
 export function traceToText(zipPath) {
   const entries = readZip(zipPath);
-  const traceNames = [...entries.keys()].filter((name) => name.endsWith('.trace'));
-  if (traceNames.length === 0) throw new Error(`no .trace member in ${zipPath}`);
+  const preferred = entries.has('test.trace')
+    ? ['test.trace']
+    : [...entries.keys()].filter((name) => name.endsWith('.trace'));
+  if (preferred.length === 0) throw new Error(`no .trace member in ${zipPath}`);
 
-  const events = traceNames.flatMap((name) => parseEvents(entries.get(name).toString('utf8')));
+  const events = preferred.flatMap((name) => parseEvents(entries.get(name).toString('utf8')));
 
   const calls = new Map();
   const order = [];
-  const logs = [];
+  const topLevelErrors = [];
 
   for (const event of events) {
     if (event.type === 'before') {
       calls.set(event.callId, {
-        title: event.title ?? event.apiName ?? event.method,
+        title: event.title ?? event.method,
         params: event.params,
+        parentId: event.parentId,
         start: event.startTime,
       });
       order.push(event.callId);
     } else if (event.type === 'after') {
       const call = calls.get(event.callId);
-      if (call) {
-        call.end = event.endTime;
-        call.error = event.error?.error?.message ?? event.error?.message;
-      }
-    } else if (event.type === 'log') {
-      const call = calls.get(event.callId);
-      if (call) (call.log ??= []).push(event.message);
-    } else if (event.type === 'console') {
-      const text = (event.args ?? []).map((arg) => arg.preview ?? arg.value ?? '').join(' ');
-      logs.push(`console.${event.messageType ?? 'log'}: ${short(text)}`);
-    } else if (event.type === 'event' && event.method === 'pageError') {
-      logs.push(`pageerror: ${short(event.params?.error?.error?.message ?? '')}`);
+      if (!call) continue;
+      call.end = event.endTime;
+      call.error = event.error?.message ?? event.error?.error?.message;
+    } else if (event.type === 'error') {
+      topLevelErrors.push(event.message ?? '');
     }
   }
 
+  const depthOf = (callId) => {
+    let depth = 0;
+    let current = calls.get(callId);
+    while (current?.parentId && calls.has(current.parentId)) {
+      depth += 1;
+      current = calls.get(current.parentId);
+    }
+    return depth;
+  };
+
   const lines = [];
-  let step = 0;
   for (const callId of order) {
     const call = calls.get(callId);
     if (!call) continue;
-    step += 1;
-    const duration = call.end && call.start ? `${Math.round(call.end - call.start)}ms` : '-';
+    // Fixture set-up and tear-down is noise for triage; the steps are not.
+    if (/^Fixture "/.test(call.title)) continue;
+
+    const indent = '  '.repeat(Math.min(depthOf(callId), 3));
+    const duration = Number.isFinite(call.end - call.start) ? `${Math.round(call.end - call.start)}ms` : '-';
     const params = describeParams(call.params);
-    lines.push(`${String(step).padStart(3, ' ')}. ${call.title}${params ? ` [${params}]` : ''} (${duration})`);
+    lines.push(`${indent}${call.title}${params ? ` [${params}]` : ''}  (${duration})`);
+
     if (call.error) {
-      lines.push(`     ERROR: ${short(call.error, 400)}`);
-      for (const message of (call.log ?? []).slice(-6)) {
-        lines.push(`     log: ${short(message, 200)}`);
+      for (const errorLine of stripAnsi(call.error).split('\n').slice(0, 30)) {
+        lines.push(`${indent}  ! ${errorLine}`);
       }
     }
   }
 
-  if (logs.length > 0) {
-    lines.push('', '--- page output ---', ...logs.slice(0, 40));
+  if (topLevelErrors.length > 0) {
+    lines.push('', '--- test errors ---');
+    for (const message of topLevelErrors) {
+      lines.push(...stripAnsi(message).split('\n').slice(0, 40));
+    }
   }
 
   return `${lines.join('\n')}\n`;
 }
 
-if (process.argv[1] && import.meta.url.endsWith(process.argv[1].replace(/\\/g, '/').split('/').pop())) {
-  const target = process.argv[2];
-  if (target) process.stdout.write(traceToText(target));
+if (process.argv[2]) {
+  process.stdout.write(traceToText(process.argv[2]));
 }
