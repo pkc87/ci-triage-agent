@@ -1,0 +1,46 @@
+name: ci
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  agent:
+    name: agent tests + eval pipeline
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install pytest
+      - name: unit tests
+        run: python -m pytest tests/ -q
+
+      # The eval pipeline runs on every PR with the stub backend: no API key,
+      # no spend, no network. It does not prove the agent is good -- it proves
+      # the corpus still loads, every case parses, the metrics still compute and
+      # the sweep still runs. That is the part that silently rots.
+      - name: eval pipeline (stub backend)
+        run: python eval/run_eval.py --backend stub --ausgabe eval/ergebnis_stub.json
+
+      - name: corpus integrity
+        run: python eval/pruefe_korpus.py
+
+  fixtures:
+    name: fixture suite must be green unmutated
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - working-directory: fixtures
+        run: npm ci || npm install
+      - working-directory: fixtures
+        run: npx playwright install --with-deps chromium
+      # If this suite is red without a mutation applied, every synthetic case in
+      # the corpus is suspect -- the baseline it was diffed against was broken.
+      - working-directory: fixtures
+        run: npx playwright test

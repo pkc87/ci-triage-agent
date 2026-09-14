@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Bean &amp; Brew — Coffee Gear</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="banner" data-testid="banner" role="status">Free shipping on orders over $50</div>
+
+    <header class="site-header">
+      <h1>Bean &amp; Brew</h1>
+      <div class="cart-badge" data-testid="cart-badge">0 items</div>
+    </header>
+
+    <main>
+      <section class="catalog" aria-labelledby="catalog-heading">
+        <h2 id="catalog-heading">Shop</h2>
+        <ul class="product-grid" data-testid="product-grid"></ul>
+      </section>
+
+      <aside class="sidebar">
+        <section class="cart" aria-labelledby="cart-heading">
+          <h2 id="cart-heading">Cart</h2>
+          <p class="empty-note" data-testid="cart-empty">Your cart is empty.</p>
+          <ul class="cart-list" data-testid="cart-items"></ul>
+          <div class="cart-actions">
+            <button type="button" data-testid="save-cart">Save cart</button>
+            <button type="button" data-testid="restore-cart">Restore cart</button>
+            <span class="cart-sync" data-testid="cart-sync-status"></span>
+          </div>
+        </section>
+
+        <section class="summary" data-testid="summary-panel" aria-labelledby="summary-heading">
+          <h2 id="summary-heading">Order summary</h2>
+          <dl class="summary-rows">
+            <dt>Subtotal</dt>
+            <dd data-testid="subtotal">$0.00</dd>
+            <dt>Handling</dt>
+            <dd data-testid="handling">$0.00</dd>
+            <dt>Tax (8.25%)</dt>
+            <dd data-testid="tax">$0.00</dd>
+            <dt>Discount</dt>
+            <dd data-testid="discount">-$0.00</dd>
+            <dt class="grand">Total</dt>
+            <dd class="grand" data-testid="total">$0.00</dd>
+          </dl>
+        </section>
+
+        <section class="promo" aria-labelledby="promo-heading">
+          <h2 id="promo-heading">Promo code</h2>
+          <div class="promo-row">
+            <label class="visually-hidden" for="discount-code">Promo code</label>
+            <input id="discount-code" data-testid="discount-code" type="text" placeholder="WELCOME10" />
+            <button type="button" data-testid="apply-discount">Apply</button>
+          </div>
+          <p class="promo-status" data-testid="discount-status"></p>
+        </section>
+
+        <section class="checkout" aria-labelledby="checkout-heading">
+          <h2 id="checkout-heading">Checkout</h2>
+          <form class="checkout-form" data-testid="checkout-form" novalidate>
+            <label for="name">Full name</label>
+            <input id="name" data-testid="name" type="text" autocomplete="off" />
+
+            <label for="email">Email</label>
+            <input id="email" data-testid="email" type="text" autocomplete="off" />
+
+            <label for="zip">ZIP code</label>
+            <input id="zip" data-testid="zip" type="text" autocomplete="off" />
+
+            <button type="submit" data-testid="place-order">Place order</button>
+          </form>
+          <ul class="form-errors" data-testid="form-error" hidden></ul>
+          <p class="confirmation" data-testid="order-confirmation" hidden></p>
+        </section>
+      </aside>
+    </main>
+
+    <section class="reviews" aria-labelledby="reviews-heading">
+      <h2 id="reviews-heading">Customer reviews</h2>
+      <button type="button" data-testid="load-reviews">Load reviews</button>
+      <p class="spinner" data-testid="reviews-spinner" hidden>Loading reviews…</p>
+      <p class="average" data-testid="average-rating" hidden></p>
+      <ul class="review-list" data-testid="reviews-list"></ul>
+    </section>
+
+    <section class="recommendations" aria-labelledby="recommendations-heading">
+      <h2 id="recommendations-heading">You might also like</h2>
+      <ul class="rec-list" data-testid="recommendations"></ul>
+    </section>
+
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>
