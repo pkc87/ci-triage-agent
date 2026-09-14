@@ -1,0 +1,20 @@
+import { test, expect } from '@playwright/test';
+
+// A second shopper journey that also parks its cart on the server.
+test('a second shopper saves and restores their own cart', async ({ page }) => {
+  await page.goto('/');
+
+  await page.getByTestId('add-p4').click();
+  await expect(page.getByTestId('cart-badge')).toHaveText('1 item');
+
+  await page.getByTestId('save-cart').click();
+  await expect(page.getByTestId('cart-sync-status')).toHaveText('Cart saved');
+
+  await page.waitForTimeout(250);
+  await page.reload();
+
+  await page.getByTestId('restore-cart').click();
+  await expect(page.getByTestId('cart-sync-status')).toHaveText('Cart restored');
+  await expect(page.getByTestId('cart-row-p4')).toBeVisible();
+  await expect(page.getByTestId('cart-badge')).toHaveText('1 item');
+});

@@ -175,3 +175,31 @@ comparison clean and the cost per failure low.
 
 Whether the screenshot earns its tokens is an open question, measured rather
 than asserted — see the README's limitations section for where that stands.
+
+---
+
+## 11. A prediction, written down before the corpus was scored
+
+Error analysis after the fact is easy to bend into a story. So here is the
+failure mode predicted in advance, on 2026-09-14, from a single hand-built probe
+case run during development — before the corpus existed and before any scored
+run.
+
+The probe was a product bug: `Math.round` changed to `Math.floor` in a tax
+calculation, and a test asserting the correctly-rounded total. Ground truth:
+`PRODUKTFEHLER`. The agent answered `KAPUTTER_TEST` at 0.85, reasoning that the
+diff "deliberately changes the tax rounding logic" and the test therefore
+asserts stale behaviour.
+
+That is the right reasoning applied to the wrong premise. Nothing in a diff
+says whether a change was intended — a deliberate-looking edit and a careless
+one look identical in a patch. The prompt explicitly asks the model to "read the
+diff for intent", which is precisely the instruction that produces this.
+
+**Predicted systematic error: `PRODUKTFEHLER` misread as `KAPUTTER_TEST`
+whenever the change under test looks purposeful.** The asymmetry matters —
+`KAPUTTER_TEST` still produces a `TICKET`, so a human sees it and the bug is
+not buried. It costs a misfiled ticket, not a shipped regression.
+
+Whether this survived contact with the corpus is in the README's error
+analysis. If it did not, that is recorded too.

@@ -12,5 +12,11 @@
       "suchen": "  const names = await items.allTextContents();\n  expect(new Set(names).size).toBe(3);\n  for (const name of names) {\n    expect(PRODUCT_NAMES).toContain(name);\n  }",
       "ersetzen": "  await expect(items.nth(0)).toHaveText('Burr Grinder');"
     }
-  ]
+  ],
+  "beobachtet": {
+    "laeufe": 6,
+    "fehlschlaege": 5,
+    "versuche_gesamt": 13,
+    "versuche_fehlgeschlagen": 10
+  }
 }
