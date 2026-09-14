@@ -4,7 +4,7 @@
   "beschreibung": "CI environment failure: the runner pins a chromium executablePath that is not installed on the machine, so no browser launches at all.",
   "begruendung": "environment failure: the config pins a chromium executablePath that does not exist on the runner, so no browser launches at all; the product is not at fault",
   "ziel": "fixtures/playwright.config.ts (use.launchOptions)",
-  "max_faelle": 3,
+  "max_faelle": 2,
   "aenderungen": [
     {
       "datei": "playwright.config.ts",

@@ -10,7 +10,7 @@ test('adding a product puts it in the cart', async ({ page }) => {
   await expect(page.getByTestId('cart-row-p1')).toBeVisible();
   await expect(page.getByTestId('cart-empty')).toBeHidden();
   await expect(page.getByTestId('line-total-p1')).toHaveText('$39.95');
-  await expect(page.getByTestId('cart-subtotal-value')).toHaveText('$39.95');
+  await expect(page.getByTestId('subtotal')).toHaveText('$39.95');
 });
 
 test('changing the quantity updates the line total', async ({ page }) => {

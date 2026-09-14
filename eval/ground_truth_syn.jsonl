@@ -1,0 +1,1 @@
+{"id":"syn-001","label":"KAPUTTER_TEST","quelle":"synthetisch","gelabelt_von":"konstruktion","begruendung_label":"mut-02: test-only change: the spec waits for data-testid=\"cart-subtotal-value\", a testid that has never existed in the markup; the storefront renders the subtotal as before","mutation":"mut-02"}

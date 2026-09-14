@@ -4,7 +4,7 @@
   "beschreibung": "CI environment failure: the SHOP_BASE_URL fallback is dropped from the config, so an unset variable leaves every navigation without a base URL.",
   "begruendung": "environment failure: the SHOP_BASE_URL fallback was dropped from the config, so an unset variable leaves every navigation without a base URL",
   "ziel": "fixtures/playwright.config.ts (BASE_URL)",
-  "max_faelle": 3,
+  "max_faelle": 2,
   "aenderungen": [
     {
       "datei": "playwright.config.ts",

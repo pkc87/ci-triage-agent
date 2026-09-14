@@ -19,7 +19,7 @@ import {
   rmSync,
   writeFileSync,
 } from 'node:fs';
-import { dirname, join, resolve } from 'node:path';
+import { dirname, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { stripAnsi, traceToText } from './trace.mjs';
@@ -268,15 +268,22 @@ function writeCase({ caseId, mutation, diff, run, failure, gitCommit }) {
     'utf8',
   );
 
+  // The report's rootDir is the common root of the spec files, so rebuild the
+  // path the way a reader of the repo would write it: tests/<spec>.
+  const specPath = relative(FIXTURES, resolve(run.report.config.rootDir, spec.file)).replace(/\\/g, '/');
+  const stack = [first.error?.stack ?? first.errors?.[0]?.stack, first.error?.snippet]
+    .filter(Boolean)
+    .join('\n\n');
+
   const fall = {
     id: caseId,
     quelle: 'synthetisch',
     repo: 'fixtures/shop',
     test_titel: spec.title,
-    test_datei: spec.file.replace(/\\/g, '/'),
+    test_datei: specPath,
     test_zeile: spec.line,
     fehlermeldung: scrub(first.error?.message ?? first.errors?.[0]?.message ?? ''),
-    stack: scrub(first.error?.stack ?? first.error?.snippet ?? ''),
+    stack: scrub(stack),
     dauer_ms: first.duration,
     versuche: (test.results ?? []).map((result) => ({ nr: result.retry + 1, status: result.status })),
     artefakte,

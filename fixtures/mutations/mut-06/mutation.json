@@ -12,5 +12,11 @@
       "suchen": "  // The banner starts on a random message and rotates every 400 ms, so sample\n  // it for longer than one full cycle instead of assuming a starting point.\n  const seen = await page.evaluate(\n    (durationMs) =>\n      new Promise<string[]>((resolve) => {\n        const element = document.querySelector('[data-testid=\"banner\"]')!;\n        const collected = new Set<string>();\n        const sampler = setInterval(() => {\n          collected.add((element.textContent ?? '').trim());\n        }, 50);\n        setTimeout(() => {\n          clearInterval(sampler);\n          resolve([...collected]);\n        }, durationMs);\n      }),\n    1600,\n  );\n\n  expect(seen.sort()).toEqual([...MESSAGES].sort());",
       "ersetzen": "  const shown = ((await banner.textContent()) ?? '').trim();\n  expect(shown).toBe(MESSAGES[0]);"
     }
-  ]
+  ],
+  "beobachtet": {
+    "laeufe": 6,
+    "fehlschlaege": 3,
+    "versuche_gesamt": 8,
+    "versuche_fehlgeschlagen": 7
+  }
 }

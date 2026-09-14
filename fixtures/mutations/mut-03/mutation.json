@@ -12,5 +12,11 @@
       "suchen": "  await page.getByTestId('load-reviews').click();\n\n  await expect(page.getByTestId('review-item')).toHaveCount(4);\n  await expect(page.getByTestId('average-rating')).toBeVisible();\n  await expect(page.getByTestId('average-rating')).toHaveText('Average rating: 4.3 out of 5');\n  await expect(page.getByTestId('reviews-spinner')).toBeHidden();",
       "ersetzen": "  await page.getByTestId('load-reviews').click();\n  await page.waitForTimeout(200);\n\n  expect(await page.getByTestId('review-item').count()).toBe(4);\n  expect(await page.getByTestId('average-rating').textContent()).toBe('Average rating: 4.3 out of 5');"
     }
-  ]
+  ],
+  "beobachtet": {
+    "laeufe": 6,
+    "fehlschlaege": 5,
+    "versuche_gesamt": 12,
+    "versuche_fehlgeschlagen": 8
+  }
 }

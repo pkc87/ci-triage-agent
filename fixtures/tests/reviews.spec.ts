@@ -22,7 +22,7 @@ test('loading reviews renders every approved review with the average', async ({ 
 
 test('the average rating ignores reviews that are not approved', async ({ page }) => {
   await page.getByTestId('load-reviews').click();
-  await expect(page.getByTestId('average-rating')).toBeVisible();
+  await expect(page.getByTestId('average-rating')).toBeVisible({ timeout: 220 });
 
   const authors = await page.getByTestId('review-item').locator('.review-author').allTextContents();
   expect(authors).not.toContain('unverified buyer');

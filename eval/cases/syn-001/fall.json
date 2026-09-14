@@ -1,0 +1,35 @@
+{
+  "id": "syn-001",
+  "quelle": "synthetisch",
+  "repo": "fixtures/shop",
+  "test_titel": "adding a product puts it in the cart",
+  "test_datei": "cart.spec.ts",
+  "test_zeile": 7,
+  "fehlermeldung": "Error: expect(locator).toHaveText(expected) failed\n\nLocator: getByTestId('cart-subtotal-value')\nExpected: \"$39.95\"\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('cart-subtotal-value')\n",
+  "stack": "Error: expect(locator).toHaveText(expected) failed\n\nLocator: getByTestId('cart-subtotal-value')\nExpected: \"$39.95\"\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('cart-subtotal-value')\n\n    at /work/ci-triage-agent/fixtures/tests/cart.spec.ts:13:57",
+  "dauer_ms": 5966,
+  "versuche": [
+    {
+      "nr": 1,
+      "status": "failed"
+    },
+    {
+      "nr": 2,
+      "status": "failed"
+    },
+    {
+      "nr": 3,
+      "status": "failed"
+    }
+  ],
+  "artefakte": {
+    "diff": "diff.patch",
+    "trace": "trace.txt",
+    "screenshot": "screenshot.png"
+  },
+  "kontext": {
+    "branch": "mr/mut-02",
+    "commit": "1e6e3d7",
+    "ci_lauf": "lokal (fixtures/generate.mjs)"
+  }
+}

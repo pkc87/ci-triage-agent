@@ -11,5 +11,11 @@
       "suchen": "  await expect(page.getByTestId('subtotal')).toHaveText('$39.95');",
       "ersetzen": "  await expect(page.getByTestId('cart-subtotal-value')).toHaveText('$39.95');"
     }
-  ]
+  ],
+  "beobachtet": {
+    "laeufe": 1,
+    "fehlschlaege": 1,
+    "versuche_gesamt": 3,
+    "versuche_fehlgeschlagen": 3
+  }
 }

@@ -1,17 +1,17 @@
-# Herkunft der historischen Fälle (`hist-*`)
+# Provenance of the historical cases (`hist-*`)
 
-Diese Datei dokumentiert, woher die `hist-*`-Fälle stammen, wie gesampelt wurde und
-worauf jedes Label ruht. Sie ist absichtlich unbequem: der Korpus trägt eine
-öffentliche Precision/Recall-Aussage, und die Schwächen unten gehören mitgelesen.
+This file documents where the `hist-*` cases come from, how they were sampled, and
+what each label rests on. It is deliberately uncomfortable: the corpus carries a
+public precision/recall claim, and the weaknesses below are part of the reading.
 
-## Quelle
+## Source
 
-Neun fehlgeschlagene `ci-test`-Läufe aus dem **privaten** Monorepo
-`KornmuellerConsulting/apps`, alle aus der App `apps/kc-web` (Astro-Firmenwebsite,
-Playwright). Es sind die eigenen Projekte des Repo-Eigentümers; die Veröffentlichung
-von Auszügen ist autorisiert.
+Nine failed `ci-test` runs from the **private** monorepo
+`KornmuellerConsulting/apps`, all from the app `apps/kc-web` (Astro company website,
+Playwright). These are the repo owner's own projects; publishing excerpts is
+authorized.
 
-| CI-Lauf | Datum | Branch | Head-Commit | Fehlschläge im Lauf | PR |
+| CI run | Date | Branch | Head commit | Failures in run | PR |
 |---|---|---|---|---|---|
 | 34139279743 | 2026-09-07 | `claude/neue-website-bauen-98626e` | `ae8cec99` | 120 | #134 |
 | 34142330079 | 2026-09-07 | `claude/neue-website-bauen-98626e` | `05f19739` | 120 | #134 |
@@ -23,66 +23,65 @@ von Auszügen ist autorisiert.
 | 34210053878 | 2026-09-08 | `fix/KC-016-cloudflare-dmarc` | `da6194ac` | 16 | #135 |
 | 34213646399 | 2026-09-08 | `fix/KC-016-cloudflare-dmarc` | `4c6e53a1` | 16 | #135 |
 
-Summe: **656 rohe Fehlschläge**.
+Total: **656 raw failures**.
 
-Die neun Läufe sind **keine Reruns desselben Commits** — jeder hat einen eigenen
-Head-Commit. Das ist wichtig für die Labels: Unterschiede zwischen zwei Läufen sind
-hier durch echte Codeänderungen erklärt, nicht durch Nichtdeterminismus.
+The nine runs are **not reruns of the same commit** — each has its own head commit.
+That matters for the labels: differences between two runs here are explained by real
+code changes, not by nondeterminism.
 
-## Wie die Rohdaten verarbeitet wurden
+## How the raw data was processed
 
-Logs via `gh run view --log`. Jede Zeile trägt das Präfix
-`job<TAB>step<TAB>ISO-Zeitstempel`; das wurde entfernt, ebenso ANSI-Sequenzen
-(in den Logs vorhanden: 60 bis 366 betroffene Zeilen je Datei). Ein Fehlschlag-Block
-beginnt bei `##[error]  N) [projekt] › datei:zeile:spalte › titel` und endet beim
-nächsten solchen Header.
+Logs via `gh run view --log`. Every line carries the prefix
+`job<TAB>step<TAB>ISO-timestamp`; that was stripped, as were ANSI sequences
+(present in the logs: 60 to 366 affected lines per file). A failure block
+starts at `##[error]  N) [project] › file:line:col › title` and ends at the
+next such header.
 
-Der **jeweils letzte** Block eines Laufs geht im Log unmittelbar in die
-Playwright-Laufzusammenfassung über (`##[notice]  120 failed`, die Liste aller
-fehlgeschlagenen Titel, die pnpm-Exit-Zeile). Diese Zusammenfassung wurde
-abgeschnitten: sie gehört zum Lauf, nicht zum einzelnen Fehlschlag, und hätte
-einzelnen Fällen eine Liste der Geschwister-Fehlschläge mitgegeben, die alle anderen
-Fälle nicht haben — ein Fairness-Problem für die Auswertung. Danach sind alle
-Auszüge je Cluster gleich lang (14 bzw. 36 Zeilen).
+The **last** block of each run runs straight into the Playwright run summary in the
+log (`##[notice]  120 failed`, the list of all failed titles, the pnpm exit line).
+That summary was cut off: it belongs to the run, not to the individual failure, and
+it would have given individual cases a list of sibling failures that none of the
+other cases have — a fairness problem for the evaluation. After that, all excerpts
+within a cluster are the same length (14 and 36 lines respectively).
 
-## Wie viele Ursachen das wirklich sind
+## How many root causes this really is
 
-**Zwei.** Nicht mehr.
+**Two.** No more.
 
-**Ursache A — Playwright-Browser fehlten in der CI (600 rohe Fehlschläge).**
-Über alle fünf Läufe vom 07.09. hinweg ist der Fehlertext **byte-identisch**:
+**Root cause A — Playwright browsers were missing in CI (600 raw failures).**
+Across all five runs from 2026-09-07 the error text is **byte-identical**:
 `browserType.launch: Executable doesn't exist at …/chrome-headless-shell`.
-Nachgemessen: die Titel-Menge der 120 Fehlschläge ist in allen fünf Läufen identisch,
-und es gibt über alle 600 Fehlschläge genau **einen** distinkten Fehlertext.
-Variation existiert nur in Testtitel, Zeilennummer und Route.
+Measured: the set of titles of the 120 failures is identical in all five runs,
+and across all 600 failures there is exactly **one** distinct error text.
+Variation exists only in test title, line number and route.
 
-**Ursache B — Linux-Baselines veraltet (56 rohe Fehlschläge).**
-Alle vier Läufe vom 08.09. sind `toHaveScreenshot`-Abweichungen aus derselben
-Testdatei `tests/visual/layout.spec.ts:33`. Zwei Erscheinungsformen:
-Höhendifferenz (`Expected an image 1440px by 3760px, received 1440px by 3782px`)
-und gleiche Abmessungen mit Pixelabweichung über der im Test gesetzten Schwelle
-`maxDiffPixelRatio: 0.001`. Beide gehen auf dieselbe Ursache zurück (siehe unten)
-und wurden **nicht** als zwei Ursachen gezählt.
+**Root cause B — Linux baselines out of date (56 raw failures).**
+All four runs from 2026-09-08 are `toHaveScreenshot` deviations from the same
+test file `tests/visual/layout.spec.ts:33`. Two manifestations:
+a height difference (`Expected an image 1440px by 3760px, received 1440px by 3782px`)
+and identical dimensions with a pixel deviation above the threshold
+`maxDiffPixelRatio: 0.001` set in the test. Both go back to the same cause (see below)
+and were **not** counted as two root causes.
 
 ## Sampling
 
-Ziel war „höchstens 18 Fälle, höchstens 7 je Ursache". Bei genau zwei Ursachen ist
-die Obergrenze damit **14** — und 14 Fälle wurden gezogen, 7 je Ursache.
+The goal was "at most 18 cases, at most 7 per root cause". With exactly two root
+causes the ceiling is therefore **14** — and 14 cases were drawn, 7 per root cause.
 
-Die fehlenden 4 wurden **bewusst nicht** aufgefüllt. Um auf 18 zu kommen, hätte man
-Ursache B in „Höhendifferenz" und „Pixeldifferenz bei gleicher Größe" aufspalten
-müssen. Das sind zwei Erscheinungsformen **einer** Ursache; sie zu trennen hätte die
-Zahl gehoben und die Aussage verwässert.
+The missing 4 were **deliberately not** filled in. To get to 18, root cause B would
+have had to be split into "height difference" and "pixel difference at identical
+size". Those are two manifestations of **one** cause; separating them would have
+raised the number and watered down the claim.
 
-Gezogen wurde nach maximaler Verschiedenheit der Evidenz, nicht zufällig:
+Cases were drawn for maximum diversity of evidence, not at random:
 
-**Ursache A (hist-001 … hist-007)** — die Qualitäts-Suite hat sechs distinkte
-Assertion-Stellen (Zeilen 43, 68, 79, 89, 99, 105). Gezogen wurde **je eine pro
-Stelle**, plus eine zweite an Zeile 79 mit anderem Viewport und anderer Route.
-Verteilt über **alle fünf** Head-Commits, damit jeder Fall einen anderen
-`diff.patch` trägt.
+**Root cause A (hist-001 … hist-007)** — the quality suite has six distinct
+assertion sites (lines 43, 68, 79, 89, 99, 105). One case was drawn **per
+site**, plus a second one at line 79 with a different viewport and a different route.
+Spread across **all five** head commits, so that each case carries a different
+`diff.patch`.
 
-| Fall | Lauf | Zeile | Testtitel |
+| Case | Run | Line | Test title |
 |---|---|---|---|
 | hist-001 | 34139279743 | 43 | `/ — jedes Bild rendert mit echter Breite` |
 | hist-002 | 34142330079 | 68 | `/es — keine Konsolenfehler` |
@@ -92,134 +91,137 @@ Verteilt über **alle fünf** Head-Commits, damit jeder Fall einen anderen
 | hist-006 | 34139279743 | 99 | `/unternehmen — genau eine H1` |
 | hist-007 | 34142330079 | 105 | `kein Fremd-CDN, kein Tracker, kein jQuery` |
 
-**Ursache B (hist-008 … hist-014)** — gezogen über sechs verschiedene Routen, beide
-Viewports, beide Erscheinungsformen, alle vier Head-Commits, und über die ganze
-Spannweite der Pixelverhältnisse (0,01 bis 0,17).
+**Root cause B (hist-008 … hist-014)** — drawn across six different routes, both
+viewports, both manifestations, all four head commits, and across the whole
+range of pixel ratios (0.01 to 0.17).
 
-| Fall | Lauf | Route/Viewport | Evidenz |
+| Case | Run | Route/viewport | Evidence |
 |---|---|---|---|
-| hist-008 | 34207139258 | `/es` desktop | 1440×3760 → 3782, 55043 px, 0,02 |
-| hist-009 | 34207139258 | `/datenschutz` mobil | 390×3108 → 3179, 126760 px, 0,11 |
-| hist-010 | 34207848044 | `/es/servicios` desktop | 1440×2820 → 2898, 459603 px, 0,12 |
-| hist-011 | 34210053878 | `/unternehmen` desktop | gleiche Größe, 22726 px, 0,01 |
-| hist-012 | 34210053878 | `/en/company` mobil | gleiche Größe, 4330 px, 0,01 |
-| hist-013 | 34213646399 | `/unternehmen` desktop | 1440×3404 → 3439, 460404 px, 0,10 |
-| hist-014 | 34213646399 | `/es/empresa` mobil | 390×4894 → 4986, 326032 px, 0,17 |
+| hist-008 | 34207139258 | `/es` desktop | 1440×3760 → 3782, 55043 px, 0.02 |
+| hist-009 | 34207139258 | `/datenschutz` mobil | 390×3108 → 3179, 126760 px, 0.11 |
+| hist-010 | 34207848044 | `/es/servicios` desktop | 1440×2820 → 2898, 459603 px, 0.12 |
+| hist-011 | 34210053878 | `/unternehmen` desktop | same size, 22726 px, 0.01 |
+| hist-012 | 34210053878 | `/en/company` mobil | same size, 4330 px, 0.01 |
+| hist-013 | 34213646399 | `/unternehmen` desktop | 1440×3404 → 3439, 460404 px, 0.10 |
+| hist-014 | 34213646399 | `/es/empresa` mobil | 390×4894 → 4986, 326032 px, 0.17 |
 
-Zwei Fälle sind mit Absicht drin, weil sie Triage-Fallen sind:
+Two cases are in there on purpose, because they are triage traps:
 
-* **hist-010** — der Head-Commit `c135d351` ändert **ausschließlich**
-  `apps/kc-web/scripts/deploy-cf.mjs`, eine Datei, die in keiner gebauten Seite
-  vorkommt. Der Fehlschlag ist byte-identisch zu dem aus dem Vorlauf. Wer den Diff
-  unter Test für die Ursache hält, liegt hier nachweisbar falsch.
-* **hist-011 / hist-013** — derselbe Test, dieselbe Ursache, zwei aufeinander
-  folgende Commits, aber völlig verschiedene Beweislage (22726 px bei gleicher
-  Größe gegen 460404 px mit Höhendifferenz).
+* **hist-010** — the head commit `c135d351` changes **only**
+  `apps/kc-web/scripts/deploy-cf.mjs`, a file that appears in no built page.
+  The failure is byte-identical to the one from the previous run. Anyone who takes
+  the diff under test to be the cause is demonstrably wrong here.
+* **hist-011 / hist-013** — same test, same cause, two consecutive commits, but a
+  completely different evidence picture (22726 px at identical size versus
+  460404 px with a height difference).
 
-## Labels und worauf sie ruhen
+## Labels and what they rest on
 
-**Alle 14 Fälle: `KAPUTTER_TEST`, alle `gelabelt_von: "historie"`.**
-Kein Fall ruht auf Modellurteil. Kein `claude-opus-5`-Label im Korpus.
+**All 14 cases: `KAPUTTER_TEST`, all `gelabelt_von: "historie"`.**
+No case rests on a model judgement. No `claude-opus-5` label in the corpus.
 
-**Ursache A** — der Fix ist `34b8d949e2b45e72a3f702e3a134a8094f505b4f` (PR #134):
-er verschiebt in `.github/workflows/ci-test.yaml` den Schritt
-`Install Playwright Browsers` **vor** den Schritt `Unit-Tests` und benennt den
-Vorfall im Datei-Kommentar wörtlich: *„Solange dieser Schritt danach stand,
-scheiterten am 07.09.2026 alle 120 kc-web-Pruefungen mit `browserType.launch:
-Executable doesn't exist`."* Die Commit-Nachricht führt es als REPO-023. Geändert
-wurde die CI-Umgebung — weder Produktcode noch Testcode. Nach `docs/fallformat.md`
-ist eine fehlende Browser-Binary ausdrücklich `KAPUTTER_TEST`.
+**Root cause A** — the fix is `34b8d949e2b45e72a3f702e3a134a8094f505b4f` (PR #134):
+it moves the step `Install Playwright Browsers` **before** the step `Unit-Tests`
+in `.github/workflows/ci-test.yaml` and names the incident verbatim in the file
+comment: *„Solange dieser Schritt danach stand, scheiterten am 07.09.2026 alle 120
+kc-web-Pruefungen mit `browserType.launch: Executable doesn't exist`."*
+[As long as this step came after it, on 2026-09-07 all 120 kc-web checks failed with
+`browserType.launch: Executable doesn't exist`.] The commit message files it as
+REPO-023. What changed was the CI environment — neither product code nor test code.
+Per `docs/fallformat.md`, a missing browser binary is explicitly `KAPUTTER_TEST`.
 
-**Ursache B** — die Beweiskette ist dreiteilig und wurde vollständig nachgemessen:
+**Root cause B** — the chain of evidence has three parts and was verified in full:
 
-1. `145bad4f629f50c34241e5be11ae334f61c7475a` (PR #136, 08.09.) legte die 34
-   Linux-Aufnahmen an, aufgenommen auf einem CI-Runner vom damaligen `main`-Stand
-   (`34b8d949`). Gegenprobe: `git diff 34b8d949..145bad4 -- apps/kc-web/` ist unter
-   `src/` **leer** — die Baselines bilden den Branch-Ausgangsstand sauber ab.
-2. Der PR-Branch änderte danach **absichtlich** Inhalt und erneuerte in denselben
-   Commits **nur den win32-Satz** der Baselines:
-   `811bc1dc` (KC-018, `src/content/es.ts`, 174 Korrekturen → nur `es-*-win32.png`),
-   `8dcb8ab` (KC-016, `src/pages/datenschutz.astro`, 14 Zeilen),
-   `da6194ac` (KC-020, H1 in de/en/es → nur `unternehmen-*` und `en-company-*-win32.png`),
-   `4c6e53a1` (KC-021, dieselbe H1 erneut).
-   Die CI läuft auf `ubuntu-latest` und sucht `*-visual-linux.png`.
-3. Aufgelöst am 10.09. durch `5f3210fd6f6e946c0de34d636ab018fb267369f1`
-   (*„test(KC-038): Linux-Baselines nachgezogen — sie waren aelter als der Umbau"*):
-   **34 geänderte Dateien, ausschließlich PNG, 0 Zeilen Code.** Nachgemessen mit
-   `git show --name-only 5f3210f | grep -v '\.png$'` → leer.
+1. `145bad4f629f50c34241e5be11ae334f61c7475a` (PR #136, 2026-09-08) created the 34
+   Linux snapshots, recorded on a CI runner from the then-current state of `main`
+   (`34b8d949`). Cross-check: `git diff 34b8d949..145bad4 -- apps/kc-web/` is
+   **empty** under `src/` — the baselines cleanly reflect the branch's starting state.
+2. The PR branch then **deliberately** changed content and, in the same commits,
+   refreshed **only the win32 set** of the baselines:
+   `811bc1dc` (KC-018, `src/content/es.ts`, 174 corrections → only `es-*-win32.png`),
+   `8dcb8ab` (KC-016, `src/pages/datenschutz.astro`, 14 lines),
+   `da6194ac` (KC-020, H1 in de/en/es → only `unternehmen-*` and `en-company-*-win32.png`),
+   `4c6e53a1` (KC-021, the same H1 again).
+   CI runs on `ubuntu-latest` and looks for `*-visual-linux.png`.
+3. Resolved on 2026-09-10 by `5f3210fd6f6e946c0de34d636ab018fb267369f1`
+   (*„test(KC-038): Linux-Baselines nachgezogen — sie waren aelter als der Umbau"*
+   [Linux baselines brought up to date — they were older than the rebuild]):
+   **34 changed files, all PNG, 0 lines of code.** Verified with
+   `git show --name-only 5f3210f | grep -v '\.png$'` → empty.
 
-Ein Fix, der nur Baselines anfasst und den Lauf grün macht, ist per Definition
+A fix that only touches baselines and turns the run green is by definition
 `KAPUTTER_TEST`.
 
-## Artefakte je Fall
+## Artifacts per case
 
 ```
 eval/cases/hist-NNN/
-  fall.json         strukturierte Evidenz
-  diff.patch        echter git-Diff, merge-base..head, gekürzt
-  log_excerpt.txt   verbatimer, de-ANSI'ter Fehlschlag-Block aus dem CI-Log
+  fall.json         structured evidence
+  diff.patch        real git diff, merge-base..head, truncated
+  log_excerpt.txt   verbatim, de-ANSI'd failure block from the CI log
 ```
 
-* **Kein `report.json`.** In den Logs gibt es keinen Playwright-JSON-Report
-  (`reporter: 'github'` in `playwright.config.ts`). Statt einen zu erfinden,
-  referenziert `artefakte` den Log-Auszug als `{"ci_log": "log_excerpt.txt"}`.
-* **Kein `trace.txt`, kein `screenshot.png`.** `trace: 'retain-on-failure'` ist zwar
-  gesetzt, aber die Artefakte wurden nie hochgeladen und sind nicht mehr zu holen.
-* **`dauer_ms` ist `null`.** Der `github`-Reporter druckt keine Laufzeit je Test.
-  Der Schlüssel bleibt zur Formtreue stehen, der Wert ist ehrlich unbekannt.
-* **`versuche` ist überall `[{"nr": 1, "status": "failed"}]`.** Nachgeprüft an allen
-  neun Commits: `retries: 0` in `apps/kc-web/playwright.config.ts`. Es gab genau
-  einen Versuch. Kein Fall erfindet einen Retry.
+* **No `report.json`.** There is no Playwright JSON report in the logs
+  (`reporter: 'github'` in `playwright.config.ts`). Rather than invent one,
+  `artefakte` references the log excerpt as `{"ci_log": "log_excerpt.txt"}`.
+* **No `trace.txt`, no `screenshot.png`.** `trace: 'retain-on-failure'` is set,
+  but the artifacts were never uploaded and can no longer be retrieved.
+* **`dauer_ms` is `null`.** The `github` reporter does not print a runtime per test.
+  The key stays for schema fidelity; the value is honestly unknown.
+* **`versuche` is `[{"nr": 1, "status": "failed"}]` everywhere.** Checked against all
+  nine commits: `retries: 0` in `apps/kc-web/playwright.config.ts`. There was exactly
+  one attempt. No case invents a retry.
 
-### diff.patch — was drin ist und was nicht
+### diff.patch — what is in it and what is not
 
-Erzeugt mit `git diff <merge-base(main, head)>..<head>`, gekürzt auf ~400 Zeilen an
-der nächstgelegenen Dateigrenze, mit explizitem `[... truncated N lines ...]`-Marker,
-der den vollständigen Befehl nennt. Alle Patches parsen mit `git apply --stat`.
+Generated with `git diff <merge-base(main, head)>..<head>`, truncated to ~400 lines at
+the nearest file boundary, with an explicit `[... truncated N lines ...]` marker
+that names the full command. All patches parse with `git apply --stat`.
 
-Merge-Basis je Cluster: `fed35e0d` (07.09.), `34b8d949` (08.09.).
+Merge base per cluster: `fed35e0d` (2026-09-07), `34b8d949` (2026-09-08).
 
-**Zwei Dateien sind aus jedem Patch per git-Pathspec ausgeschlossen:**
-`apps/kc-web/BLOCKERS.md` und `apps/kc-web/DECISIONS.md`. Beide nennen einen
-Referenzkunden namentlich, dessen schriftliche Freigabe zu dem Zeitpunkt noch
-ausstand. Das ist eine deklarierte Schwärzung, keine Fälschung: jeder Patch trägt sie
-im Fußzeilen-Marker. Sonst wurde nichts verändert. Nebeneffekt: das 400-Zeilen-Fenster
-reicht dadurch bis `playwright.config.ts` und `package.json` — die Schwärzung hat den
-Informationsgehalt erhöht, nicht gesenkt.
+**Two files are excluded from every patch via git pathspec:**
+`apps/kc-web/BLOCKERS.md` and `apps/kc-web/DECISIONS.md`. Both name a reference
+customer by name whose written approval was still outstanding at that point. This is
+a declared redaction, not a forgery: every patch carries it in the footer marker.
+Nothing else was changed. Side effect: the 400-line window therefore reaches as far
+as `playwright.config.ts` and `package.json` — the redaction raised the information
+content, it did not lower it.
 
-Geprüft wurde der gesamte ausgelieferte Inhalt auf Token-Muster (`ghp_`, `sk-`,
-`AKIA`, `xox*`, PEM-Header), `***`-maskierte Zeilen, E-Mail-Adressen und
-Kundennamen. Treffer: keine. Die verbleibenden Vorkommen von „Referenzkunden" sind
-Mengenangaben („dreizehn Referenzkunden"), keine Namen.
+The entire shipped content was checked for token patterns (`ghp_`, `sk-`,
+`AKIA`, `xox*`, PEM headers), `***`-masked lines, email addresses and
+customer names. Hits: none. The remaining occurrences of „Referenzkunden"
+[reference customers] are counts („dreizehn Referenzkunden" — thirteen reference
+customers), not names.
 
-## Schwächen — bitte mitlesen
+## Weaknesses — read these too
 
-1. **Eine einzige Klasse.** Alle 14 Fälle sind `KAPUTTER_TEST`. Es gibt **null**
-   `PRODUKTFEHLER` und **null** `FLAKE`. Ein Klassifikator, der blind
-   „KAPUTTER_TEST" rät, erreicht auf diesem Teilkorpus 100 %. Die `hist-*`-Fälle
-   können für sich genommen **keine** Precision/Recall-Aussage tragen; sie sind nur
-   im Verbund mit den synthetischen Fällen sinnvoll, und die Klassenverteilung des
-   Gesamtkorpus muss im README stehen.
-2. **Nur zwei Ursachen und eine App.** 656 rohe Fehlschläge kollabieren auf zwei
-   Ursachen, beide aus `apps/kc-web`, beide Playwright. Das ist kein Querschnitt
-   durch CI-Fehlschläge, sondern zwei gut dokumentierte Vorfälle.
-3. **Kein FLAKE, obwohl zunächst danach aussah.** Zwischen Lauf 34210053878 und
-   34213646399 ändern sich die Pixelzahlen desselben Tests (22726 → 460404). Das
-   sah nach Nichtdeterminismus aus, ist aber durch verschiedene Head-Commits
-   (`da6194ac` vs. `4c6e53a1`, beide ändern dieselbe H1) vollständig erklärt.
-   Es wurde **nicht** als FLAKE gelabelt. Ohne Rerun desselben Commits ist Flakiness
-   aus diesen Daten nicht belegbar.
-4. **Der Diff unter Test enthält die Ursache A nie.** Bei den sieben
-   Browser-Binary-Fällen liegt die Ursache im Workflow, der zum Zeitpunkt des Laufs
-   gar nicht im Diff stand. Ein Agent kann diese Fälle nur über den Fehlertext
-   lösen, nicht über den Diff. Das ist realistisch, aber es macht `diff.patch` dort
-   zu Kontext statt zu Evidenz.
-5. **Die CI testete den PR-Merge-Commit, nicht den Head-Commit.** Die Logs zeigen
-   `Merge <head> into <base>` gegen `refs/remotes/pull/<n>/merge`. `kontext.commit`
-   trägt den Head-Commit (das, was gepusht wurde); die CI-Basis wich davon ab —
-   für PR #135 war sie `145bad4` bzw. `9f571b3`, nicht die Merge-Basis `34b8d949`.
-   Gegengeprüft: zwischen `145bad4` und `9f571b3` hat `main` nichts unter
-   `apps/kc-web/` angefasst, die Labels sind davon also nicht betroffen.
-6. **Zwei Testtitel kommen doppelt vor.** hist-011 und hist-013 tragen denselben
-   `test_titel` (verschiedene Läufe/Commits). Wer über Titel dedupliziert statt über
-   `id`, zählt hier falsch.
+1. **A single class.** All 14 cases are `KAPUTTER_TEST`. There are **zero**
+   `PRODUKTFEHLER` and **zero** `FLAKE`. A classifier that blindly guesses
+   "KAPUTTER_TEST" scores 100% on this sub-corpus. On their own, the `hist-*`
+   cases can carry **no** precision/recall claim; they only make sense together
+   with the synthetic cases, and the class distribution of the full corpus has to
+   be stated in the README.
+2. **Only two root causes and one app.** 656 raw failures collapse into two
+   root causes, both from `apps/kc-web`, both Playwright. This is not a cross-section
+   of CI failures, it is two well-documented incidents.
+3. **No FLAKE, even though it looked like one at first.** Between run 34210053878 and
+   34213646399 the pixel counts of the same test change (22726 → 460404). That
+   looked like nondeterminism, but it is fully explained by different head commits
+   (`da6194ac` vs. `4c6e53a1`, both changing the same H1).
+   It was **not** labelled FLAKE. Without a rerun of the same commit, flakiness
+   cannot be demonstrated from this data.
+4. **The diff under test never contains root cause A.** In the seven
+   browser-binary cases the cause sits in the workflow, which at the time of the run
+   was not in the diff at all. An agent can only solve these cases via the error
+   text, not via the diff. That is realistic, but it makes `diff.patch` context
+   there rather than evidence.
+5. **CI tested the PR merge commit, not the head commit.** The logs show
+   `Merge <head> into <base>` against `refs/remotes/pull/<n>/merge`. `kontext.commit`
+   carries the head commit (what was pushed); the CI base differed from it —
+   for PR #135 it was `145bad4` or `9f571b3`, not the merge base `34b8d949`.
+   Cross-checked: between `145bad4` and `9f571b3`, `main` touched nothing under
+   `apps/kc-web/`, so the labels are unaffected.
+6. **Two test titles appear twice.** hist-011 and hist-013 carry the same
+   `test_titel` (different runs/commits). Anyone deduplicating by title instead of by
+   `id` will count wrong here.
