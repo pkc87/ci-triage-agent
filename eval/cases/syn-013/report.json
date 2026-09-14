@@ -1,0 +1,310 @@
+{
+  "config": {
+    "configFile": "/work/ci-triage-agent/fixtures/playwright.config.ts",
+    "rootDir": "/work/ci-triage-agent/fixtures/tests",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 4
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/work/ci-triage-agent/fixtures/runs/mut-08/1/artifacts",
+        "repeatEach": 1,
+        "retries": 2,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "/work/ci-triage-agent/fixtures/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json",
+        {
+          "outputFile": "/work/ci-triage-agent/fixtures/runs/mut-08/1/report.json"
+        }
+      ],
+      [
+        "list",
+        null
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.59.0",
+    "workers": 4,
+    "webServer": {
+      "command": "node serve.mjs",
+      "url": "http://127.0.0.1:4173",
+      "reuseExistingServer": false,
+      "stdout": "ignore",
+      "stderr": "pipe"
+    }
+  },
+  "suites": [
+    {
+      "title": "visual.spec.ts",
+      "file": "visual.spec.ts",
+      "line": 0,
+      "column": 0,
+      "specs": [
+        {
+          "title": "the order summary panel matches the visual baseline",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "failed",
+                  "duration": 1744,
+                  "error": {
+                    "message": "Error: expect(locator).toHaveScreenshot(expected) failed\n\nLocator: getByTestId('summary-panel')\n  Expected an image 340px by 212px, received 340px by 220px. 3123 pixels (ratio 0.05 of all image pixels) are different.\n\n  Snapshot: summary-panel.png\n\nCall log:\n  - Expect \"toHaveScreenshot(summary-panel.png)\" with timeout 5000ms\n    - verifying given screenshot expectation\n  - waiting for getByTestId('summary-panel')\n    - locator resolved to <section class=\"summary\" data-testid=\"summary-panel\" aria-labelledby=\"summary-heading\">…</section>\n  - taking element screenshot\n    - disabled all CSS animations\n  - waiting for fonts to load...\n  - fonts loaded\n  - attempting scroll into view action\n    - waiting for element to be stable\n  - Expected an image 340px by 212px, received 340px by 220px. 3123 pixels (ratio 0.05 of all image pixels) are different.\n  - waiting 100ms before taking screenshot\n  - waiting for getByTestId('summary-panel')\n    - locator resolved to <section class=\"summary\" data-testid=\"summary-panel\" aria-labelledby=\"summary-heading\">…</section>\n  - taking element screenshot\n    - disabled all CSS animations\n  - waiting for fonts to load...\n  - fonts loaded\n  - attempting scroll into view action\n    - waiting for element to be stable\n  - captured a stable screenshot\n  - Expected an image 340px by 212px, received 340px by 220px. 3123 pixels (ratio 0.05 of all image pixels) are different.\n",
+                    "stack": "Error: expect(locator).toHaveScreenshot(expected) failed\n\nLocator: getByTestId('summary-panel')\n  Expected an image 340px by 212px, received 340px by 220px. 3123 pixels (ratio 0.05 of all image pixels) are different.\n\n  Snapshot: summary-panel.png\n\nCall log:\n  - Expect \"toHaveScreenshot(summary-panel.png)\" with timeout 5000ms\n    - verifying given screenshot expectation\n  - waiting for getByTestId('summary-panel')\n    - locator resolved to <section class=\"summary\" data-testid=\"summary-panel\" aria-labelledby=\"summary-heading\">…</section>\n  - taking element screenshot\n    - disabled all CSS animations\n  - waiting for fonts to load...\n  - fonts loaded\n  - attempting scroll into view action\n    - waiting for element to be stable\n  - Expected an image 340px by 212px, received 340px by 220px. 3123 pixels (ratio 0.05 of all image pixels) are different.\n  - waiting 100ms before taking screenshot\n  - waiting for getByTestId('summary-panel')\n    - locator resolved to <section class=\"summary\" data-testid=\"summary-panel\" aria-labelledby=\"summary-heading\">…</section>\n  - taking element screenshot\n    - disabled all CSS animations\n  - waiting for fonts to load...\n  - fonts loaded\n  - attempting scroll into view action\n    - waiting for element to be stable\n  - captured a stable screenshot\n  - Expected an image 340px by 212px, received 340px by 220px. 3123 pixels (ratio 0.05 of all image pixels) are different.\n\n    at /work/ci-triage-agent/fixtures/tests/visual.spec.ts:11:51",
+                    "location": {
+                      "file": "/work/ci-triage-agent/fixtures/tests/visual.spec.ts",
+                      "column": 51,
+                      "line": 11
+                    },
+                    "snippet": "   9 |   await expect(page.getByTestId('total')).toHaveText('$88.99');\n  10 |\n> 11 |   await expect(page.getByTestId('summary-panel')).toHaveScreenshot('summary-panel.png');\n     |                                                   ^\n  12 | });\n  13 |"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/work/ci-triage-agent/fixtures/tests/visual.spec.ts",
+                        "column": 51,
+                        "line": 11
+                      },
+                      "message": "Error: expect(locator).toHaveScreenshot(expected) failed\n\nLocator: getByTestId('summary-panel')\n  Expected an image 340px by 212px, received 340px by 220px. 3123 pixels (ratio 0.05 of all image pixels) are different.\n\n  Snapshot: summary-panel.png\n\nCall log:\n  - Expect \"toHaveScreenshot(summary-panel.png)\" with timeout 5000ms\n    - verifying given screenshot expectation\n  - waiting for getByTestId('summary-panel')\n    - locator resolved to <section class=\"summary\" data-testid=\"summary-panel\" aria-labelledby=\"summary-heading\">…</section>\n  - taking element screenshot\n    - disabled all CSS animations\n  - waiting for fonts to load...\n  - fonts loaded\n  - attempting scroll into view action\n    - waiting for element to be stable\n  - Expected an image 340px by 212px, received 340px by 220px. 3123 pixels (ratio 0.05 of all image pixels) are different.\n  - waiting 100ms before taking screenshot\n  - waiting for getByTestId('summary-panel')\n    - locator resolved to <section class=\"summary\" data-testid=\"summary-panel\" aria-labelledby=\"summary-heading\">…</section>\n  - taking element screenshot\n    - disabled all CSS animations\n  - waiting for fonts to load...\n  - fonts loaded\n  - attempting scroll into view action\n    - waiting for element to be stable\n  - captured a stable screenshot\n  - Expected an image 340px by 212px, received 340px by 220px. 3123 pixels (ratio 0.05 of all image pixels) are different.\n\n\n   9 |   await expect(page.getByTestId('total')).toHaveText('$88.99');\n  10 |\n> 11 |   await expect(page.getByTestId('summary-panel')).toHaveScreenshot('summary-panel.png');\n     |                                                   ^\n  12 | });\n  13 |\n    at /work/ci-triage-agent/fixtures/tests/visual.spec.ts:11:51"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-14T11:48:22.061Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "summary-panel-expected.png",
+                      "contentType": "image/png",
+                      "path": "/work/ci-triage-agent/fixtures/tests/visual.spec.ts-snapshots/summary-panel-chromium-win32.png"
+                    },
+                    {
+                      "name": "summary-panel-actual.png",
+                      "contentType": "image/png",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-08/1/artifacts/visual-the-order-summary-panel-matches-the-visual-baseline-chromium/summary-panel-actual.png"
+                    },
+                    {
+                      "name": "summary-panel-diff.png",
+                      "contentType": "image/png",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-08/1/artifacts/visual-the-order-summary-panel-matches-the-visual-baseline-chromium/summary-panel-diff.png"
+                    },
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-08/1/artifacts/visual-the-order-summary-panel-matches-the-visual-baseline-chromium/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-08/1/artifacts/visual-the-order-summary-panel-matches-the-visual-baseline-chromium/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-08/1/artifacts/visual-the-order-summary-panel-matches-the-visual-baseline-chromium/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/work/ci-triage-agent/fixtures/tests/visual.spec.ts",
+                    "column": 51,
+                    "line": 11
+                  }
+                },
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 732,
+                  "error": {
+                    "message": "Error: expect(locator).toHaveScreenshot(expected) failed\n\nLocator: getByTestId('summary-panel')\n  Expected an image 340px by 212px, received 340px by 220px. 3123 pixels (ratio 0.05 of all image pixels) are different.\n\n  Snapshot: summary-panel.png\n\nCall log:\n  - Expect \"toHaveScreenshot(summary-panel.png)\" with timeout 5000ms\n    - verifying given screenshot expectation\n  - waiting for getByTestId('summary-panel')\n    - locator resolved to <section class=\"summary\" data-testid=\"summary-panel\" aria-labelledby=\"summary-heading\">…</section>\n  - taking element screenshot\n    - disabled all CSS animations\n  - waiting for fonts to load...\n  - fonts loaded\n  - attempting scroll into view action\n    - waiting for element to be stable\n  - Expected an image 340px by 212px, received 340px by 220px. 3123 pixels (ratio 0.05 of all image pixels) are different.\n  - waiting 100ms before taking screenshot\n  - waiting for getByTestId('summary-panel')\n    - locator resolved to <section class=\"summary\" data-testid=\"summary-panel\" aria-labelledby=\"summary-heading\">…</section>\n  - taking element screenshot\n    - disabled all CSS animations\n  - waiting for fonts to load...\n  - fonts loaded\n  - attempting scroll into view action\n    - waiting for element to be stable\n  - captured a stable screenshot\n  - Expected an image 340px by 212px, received 340px by 220px. 3123 pixels (ratio 0.05 of all image pixels) are different.\n",
+                    "stack": "Error: expect(locator).toHaveScreenshot(expected) failed\n\nLocator: getByTestId('summary-panel')\n  Expected an image 340px by 212px, received 340px by 220px. 3123 pixels (ratio 0.05 of all image pixels) are different.\n\n  Snapshot: summary-panel.png\n\nCall log:\n  - Expect \"toHaveScreenshot(summary-panel.png)\" with timeout 5000ms\n    - verifying given screenshot expectation\n  - waiting for getByTestId('summary-panel')\n    - locator resolved to <section class=\"summary\" data-testid=\"summary-panel\" aria-labelledby=\"summary-heading\">…</section>\n  - taking element screenshot\n    - disabled all CSS animations\n  - waiting for fonts to load...\n  - fonts loaded\n  - attempting scroll into view action\n    - waiting for element to be stable\n  - Expected an image 340px by 212px, received 340px by 220px. 3123 pixels (ratio 0.05 of all image pixels) are different.\n  - waiting 100ms before taking screenshot\n  - waiting for getByTestId('summary-panel')\n    - locator resolved to <section class=\"summary\" data-testid=\"summary-panel\" aria-labelledby=\"summary-heading\">…</section>\n  - taking element screenshot\n    - disabled all CSS animations\n  - waiting for fonts to load...\n  - fonts loaded\n  - attempting scroll into view action\n    - waiting for element to be stable\n  - captured a stable screenshot\n  - Expected an image 340px by 212px, received 340px by 220px. 3123 pixels (ratio 0.05 of all image pixels) are different.\n\n    at /work/ci-triage-agent/fixtures/tests/visual.spec.ts:11:51",
+                    "location": {
+                      "file": "/work/ci-triage-agent/fixtures/tests/visual.spec.ts",
+                      "column": 51,
+                      "line": 11
+                    },
+                    "snippet": "   9 |   await expect(page.getByTestId('total')).toHaveText('$88.99');\n  10 |\n> 11 |   await expect(page.getByTestId('summary-panel')).toHaveScreenshot('summary-panel.png');\n     |                                                   ^\n  12 | });\n  13 |"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/work/ci-triage-agent/fixtures/tests/visual.spec.ts",
+                        "column": 51,
+                        "line": 11
+                      },
+                      "message": "Error: expect(locator).toHaveScreenshot(expected) failed\n\nLocator: getByTestId('summary-panel')\n  Expected an image 340px by 212px, received 340px by 220px. 3123 pixels (ratio 0.05 of all image pixels) are different.\n\n  Snapshot: summary-panel.png\n\nCall log:\n  - Expect \"toHaveScreenshot(summary-panel.png)\" with timeout 5000ms\n    - verifying given screenshot expectation\n  - waiting for getByTestId('summary-panel')\n    - locator resolved to <section class=\"summary\" data-testid=\"summary-panel\" aria-labelledby=\"summary-heading\">…</section>\n  - taking element screenshot\n    - disabled all CSS animations\n  - waiting for fonts to load...\n  - fonts loaded\n  - attempting scroll into view action\n    - waiting for element to be stable\n  - Expected an image 340px by 212px, received 340px by 220px. 3123 pixels (ratio 0.05 of all image pixels) are different.\n  - waiting 100ms before taking screenshot\n  - waiting for getByTestId('summary-panel')\n    - locator resolved to <section class=\"summary\" data-testid=\"summary-panel\" aria-labelledby=\"summary-heading\">…</section>\n  - taking element screenshot\n    - disabled all CSS animations\n  - waiting for fonts to load...\n  - fonts loaded\n  - attempting scroll into view action\n    - waiting for element to be stable\n  - captured a stable screenshot\n  - Expected an image 340px by 212px, received 340px by 220px. 3123 pixels (ratio 0.05 of all image pixels) are different.\n\n\n   9 |   await expect(page.getByTestId('total')).toHaveText('$88.99');\n  10 |\n> 11 |   await expect(page.getByTestId('summary-panel')).toHaveScreenshot('summary-panel.png');\n     |                                                   ^\n  12 | });\n  13 |\n    at /work/ci-triage-agent/fixtures/tests/visual.spec.ts:11:51"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 1,
+                  "startTime": "2026-09-14T11:48:25.078Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "summary-panel-expected.png",
+                      "contentType": "image/png",
+                      "path": "/work/ci-triage-agent/fixtures/tests/visual.spec.ts-snapshots/summary-panel-chromium-win32.png"
+                    },
+                    {
+                      "name": "summary-panel-actual.png",
+                      "contentType": "image/png",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-08/1/artifacts/visual-the-order-summary-panel-matches-the-visual-baseline-chromium-retry1/summary-panel-actual.png"
+                    },
+                    {
+                      "name": "summary-panel-diff.png",
+                      "contentType": "image/png",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-08/1/artifacts/visual-the-order-summary-panel-matches-the-visual-baseline-chromium-retry1/summary-panel-diff.png"
+                    },
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-08/1/artifacts/visual-the-order-summary-panel-matches-the-visual-baseline-chromium-retry1/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-08/1/artifacts/visual-the-order-summary-panel-matches-the-visual-baseline-chromium-retry1/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-08/1/artifacts/visual-the-order-summary-panel-matches-the-visual-baseline-chromium-retry1/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/work/ci-triage-agent/fixtures/tests/visual.spec.ts",
+                    "column": 51,
+                    "line": 11
+                  }
+                },
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 489,
+                  "error": {
+                    "message": "Error: expect(locator).toHaveScreenshot(expected) failed\n\nLocator: getByTestId('summary-panel')\n  Expected an image 340px by 212px, received 340px by 220px. 3123 pixels (ratio 0.05 of all image pixels) are different.\n\n  Snapshot: summary-panel.png\n\nCall log:\n  - Expect \"toHaveScreenshot(summary-panel.png)\" with timeout 5000ms\n    - verifying given screenshot expectation\n  - waiting for getByTestId('summary-panel')\n    - locator resolved to <section class=\"summary\" data-testid=\"summary-panel\" aria-labelledby=\"summary-heading\">…</section>\n  - taking element screenshot\n    - disabled all CSS animations\n  - waiting for fonts to load...\n  - fonts loaded\n  - attempting scroll into view action\n    - waiting for element to be stable\n  - Expected an image 340px by 212px, received 340px by 220px. 3123 pixels (ratio 0.05 of all image pixels) are different.\n  - waiting 100ms before taking screenshot\n  - waiting for getByTestId('summary-panel')\n    - locator resolved to <section class=\"summary\" data-testid=\"summary-panel\" aria-labelledby=\"summary-heading\">…</section>\n  - taking element screenshot\n    - disabled all CSS animations\n  - waiting for fonts to load...\n  - fonts loaded\n  - attempting scroll into view action\n    - waiting for element to be stable\n  - captured a stable screenshot\n  - Expected an image 340px by 212px, received 340px by 220px. 3123 pixels (ratio 0.05 of all image pixels) are different.\n",
+                    "stack": "Error: expect(locator).toHaveScreenshot(expected) failed\n\nLocator: getByTestId('summary-panel')\n  Expected an image 340px by 212px, received 340px by 220px. 3123 pixels (ratio 0.05 of all image pixels) are different.\n\n  Snapshot: summary-panel.png\n\nCall log:\n  - Expect \"toHaveScreenshot(summary-panel.png)\" with timeout 5000ms\n    - verifying given screenshot expectation\n  - waiting for getByTestId('summary-panel')\n    - locator resolved to <section class=\"summary\" data-testid=\"summary-panel\" aria-labelledby=\"summary-heading\">…</section>\n  - taking element screenshot\n    - disabled all CSS animations\n  - waiting for fonts to load...\n  - fonts loaded\n  - attempting scroll into view action\n    - waiting for element to be stable\n  - Expected an image 340px by 212px, received 340px by 220px. 3123 pixels (ratio 0.05 of all image pixels) are different.\n  - waiting 100ms before taking screenshot\n  - waiting for getByTestId('summary-panel')\n    - locator resolved to <section class=\"summary\" data-testid=\"summary-panel\" aria-labelledby=\"summary-heading\">…</section>\n  - taking element screenshot\n    - disabled all CSS animations\n  - waiting for fonts to load...\n  - fonts loaded\n  - attempting scroll into view action\n    - waiting for element to be stable\n  - captured a stable screenshot\n  - Expected an image 340px by 212px, received 340px by 220px. 3123 pixels (ratio 0.05 of all image pixels) are different.\n\n    at /work/ci-triage-agent/fixtures/tests/visual.spec.ts:11:51",
+                    "location": {
+                      "file": "/work/ci-triage-agent/fixtures/tests/visual.spec.ts",
+                      "column": 51,
+                      "line": 11
+                    },
+                    "snippet": "   9 |   await expect(page.getByTestId('total')).toHaveText('$88.99');\n  10 |\n> 11 |   await expect(page.getByTestId('summary-panel')).toHaveScreenshot('summary-panel.png');\n     |                                                   ^\n  12 | });\n  13 |"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/work/ci-triage-agent/fixtures/tests/visual.spec.ts",
+                        "column": 51,
+                        "line": 11
+                      },
+                      "message": "Error: expect(locator).toHaveScreenshot(expected) failed\n\nLocator: getByTestId('summary-panel')\n  Expected an image 340px by 212px, received 340px by 220px. 3123 pixels (ratio 0.05 of all image pixels) are different.\n\n  Snapshot: summary-panel.png\n\nCall log:\n  - Expect \"toHaveScreenshot(summary-panel.png)\" with timeout 5000ms\n    - verifying given screenshot expectation\n  - waiting for getByTestId('summary-panel')\n    - locator resolved to <section class=\"summary\" data-testid=\"summary-panel\" aria-labelledby=\"summary-heading\">…</section>\n  - taking element screenshot\n    - disabled all CSS animations\n  - waiting for fonts to load...\n  - fonts loaded\n  - attempting scroll into view action\n    - waiting for element to be stable\n  - Expected an image 340px by 212px, received 340px by 220px. 3123 pixels (ratio 0.05 of all image pixels) are different.\n  - waiting 100ms before taking screenshot\n  - waiting for getByTestId('summary-panel')\n    - locator resolved to <section class=\"summary\" data-testid=\"summary-panel\" aria-labelledby=\"summary-heading\">…</section>\n  - taking element screenshot\n    - disabled all CSS animations\n  - waiting for fonts to load...\n  - fonts loaded\n  - attempting scroll into view action\n    - waiting for element to be stable\n  - captured a stable screenshot\n  - Expected an image 340px by 212px, received 340px by 220px. 3123 pixels (ratio 0.05 of all image pixels) are different.\n\n\n   9 |   await expect(page.getByTestId('total')).toHaveText('$88.99');\n  10 |\n> 11 |   await expect(page.getByTestId('summary-panel')).toHaveScreenshot('summary-panel.png');\n     |                                                   ^\n  12 | });\n  13 |\n    at /work/ci-triage-agent/fixtures/tests/visual.spec.ts:11:51"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 2,
+                  "startTime": "2026-09-14T11:48:27.175Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "summary-panel-expected.png",
+                      "contentType": "image/png",
+                      "path": "/work/ci-triage-agent/fixtures/tests/visual.spec.ts-snapshots/summary-panel-chromium-win32.png"
+                    },
+                    {
+                      "name": "summary-panel-actual.png",
+                      "contentType": "image/png",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-08/1/artifacts/visual-the-order-summary-panel-matches-the-visual-baseline-chromium-retry2/summary-panel-actual.png"
+                    },
+                    {
+                      "name": "summary-panel-diff.png",
+                      "contentType": "image/png",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-08/1/artifacts/visual-the-order-summary-panel-matches-the-visual-baseline-chromium-retry2/summary-panel-diff.png"
+                    },
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-08/1/artifacts/visual-the-order-summary-panel-matches-the-visual-baseline-chromium-retry2/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-08/1/artifacts/visual-the-order-summary-panel-matches-the-visual-baseline-chromium-retry2/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-08/1/artifacts/visual-the-order-summary-panel-matches-the-visual-baseline-chromium-retry2/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/work/ci-triage-agent/fixtures/tests/visual.spec.ts",
+                    "column": 51,
+                    "line": 11
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "8324bb52c49185e48ff4-652facf41bae82162851",
+          "file": "visual.spec.ts",
+          "line": 3,
+          "column": 5
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-09-14T11:48:18.923Z",
+    "duration": 9052.171,
+    "expected": 20,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}

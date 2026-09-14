@@ -1,0 +1,41 @@
+Before Hooks  (57ms)
+    Create context  (7ms)
+    Create page  (46ms)
+Navigate to "/" [url=/]  (30ms)
+Click getByTestId('add-p4') [selector=internal:testid=[data-testid="add-p4"s]]  (44ms)
+Expect "toHaveText" [expected=1 item]  (4ms)
+Click getByTestId('save-cart') [selector=internal:testid=[data-testid="save-cart"s]]  (44ms)
+Expect "toHaveText" [expected=Cart saved]  (114ms)
+Wait for timeout  (252ms)
+Reload  (16ms)
+Click getByTestId('restore-cart') [selector=internal:testid=[data-testid="restore-cart"s]]  (49ms)
+Expect "toHaveText" [expected=Cart restored]  (110ms)
+Expect "toBeVisible"  (5005ms)
+  ! Error: expect(locator).toBeVisible() failed
+  ! 
+  ! Locator: getByTestId('cart-row-p4')
+  ! Expected: visible
+  ! Timeout: 5000ms
+  ! Error: element(s) not found
+  ! 
+  ! Call log:
+  !   - Expect "toBeVisible" with timeout 5000ms
+  !   - waiting for getByTestId('cart-row-p4')
+  ! 
+After Hooks  (274ms)
+    Close context  (3ms)
+Attach "error-context"  (0ms)
+Worker Cleanup  (50ms)
+
+--- test errors ---
+Error: expect(locator).toBeVisible() failed
+
+Locator: getByTestId('cart-row-p4')
+Expected: visible
+Timeout: 5000ms
+Error: element(s) not found
+
+Call log:
+  - Expect "toBeVisible" with timeout 5000ms
+  - waiting for getByTestId('cart-row-p4')
+

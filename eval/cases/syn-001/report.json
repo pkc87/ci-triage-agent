@@ -16,7 +16,7 @@
     "preserveOutput": "always",
     "projects": [
       {
-        "outputDir": "/work/ci-triage-agent/fixtures/runs/mut-02/1/artifacts",
+        "outputDir": "/work/ci-triage-agent/fixtures/runs/mut-01/1/artifacts",
         "repeatEach": 1,
         "retries": 2,
         "metadata": {
@@ -37,7 +37,7 @@
       [
         "json",
         {
-          "outputFile": "/work/ci-triage-agent/fixtures/runs/mut-02/1/report.json"
+          "outputFile": "/work/ci-triage-agent/fixtures/runs/mut-01/1/report.json"
         }
       ],
       [
@@ -71,7 +71,7 @@
       "column": 0,
       "specs": [
         {
-          "title": "adding a product puts it in the cart",
+          "title": "a negative quantity is clamped to one",
           "ok": false,
           "tags": [],
           "tests": [
@@ -86,168 +86,168 @@
                   "workerIndex": 1,
                   "parallelIndex": 1,
                   "status": "failed",
-                  "duration": 5966,
+                  "duration": 5645,
                   "error": {
-                    "message": "Error: expect(locator).toHaveText(expected) failed\n\nLocator: getByTestId('cart-subtotal-value')\nExpected: \"$39.95\"\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('cart-subtotal-value')\n",
-                    "stack": "Error: expect(locator).toHaveText(expected) failed\n\nLocator: getByTestId('cart-subtotal-value')\nExpected: \"$39.95\"\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('cart-subtotal-value')\n\n    at /work/ci-triage-agent/fixtures/tests/cart.spec.ts:13:57",
+                    "message": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('total')\nExpected: \"$45.75\"\nReceived: \"$45.74\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('total')\n    9 × locator resolved to <dd class=\"grand\" data-testid=\"total\">$45.74</dd>\n      - unexpected value \"$45.74\"\n",
+                    "stack": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('total')\nExpected: \"$45.75\"\nReceived: \"$45.74\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('total')\n    9 × locator resolved to <dd class=\"grand\" data-testid=\"total\">$45.74</dd>\n      - unexpected value \"$45.74\"\n\n    at /work/ci-triage-agent/fixtures/tests/cart.spec.ts:45:43",
                     "location": {
                       "file": "/work/ci-triage-agent/fixtures/tests/cart.spec.ts",
-                      "column": 57,
-                      "line": 13
+                      "column": 43,
+                      "line": 45
                     },
-                    "snippet": "  11 |   await expect(page.getByTestId('cart-empty')).toBeHidden();\n  12 |   await expect(page.getByTestId('line-total-p1')).toHaveText('$39.95');\n> 13 |   await expect(page.getByTestId('cart-subtotal-value')).toHaveText('$39.95');\n     |                                                         ^\n  14 | });\n  15 |\n  16 | test('changing the quantity updates the line total', async ({ page }) => {"
+                    "snippet": "  43 |   await expect(page.getByTestId('qty-p1')).toHaveValue('1');\n  44 |   await expect(page.getByTestId('line-total-p1')).toHaveText('$39.95');\n> 45 |   await expect(page.getByTestId('total')).toHaveText('$45.75');\n     |                                           ^\n  46 | });\n  47 |\n  48 | test('the cart badge counts units, not lines', async ({ page }) => {"
                   },
                   "errors": [
                     {
                       "location": {
                         "file": "/work/ci-triage-agent/fixtures/tests/cart.spec.ts",
-                        "column": 57,
-                        "line": 13
+                        "column": 43,
+                        "line": 45
                       },
-                      "message": "Error: expect(locator).toHaveText(expected) failed\n\nLocator: getByTestId('cart-subtotal-value')\nExpected: \"$39.95\"\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('cart-subtotal-value')\n\n\n  11 |   await expect(page.getByTestId('cart-empty')).toBeHidden();\n  12 |   await expect(page.getByTestId('line-total-p1')).toHaveText('$39.95');\n> 13 |   await expect(page.getByTestId('cart-subtotal-value')).toHaveText('$39.95');\n     |                                                         ^\n  14 | });\n  15 |\n  16 | test('changing the quantity updates the line total', async ({ page }) => {\n    at /work/ci-triage-agent/fixtures/tests/cart.spec.ts:13:57"
+                      "message": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('total')\nExpected: \"$45.75\"\nReceived: \"$45.74\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('total')\n    9 × locator resolved to <dd class=\"grand\" data-testid=\"total\">$45.74</dd>\n      - unexpected value \"$45.74\"\n\n\n  43 |   await expect(page.getByTestId('qty-p1')).toHaveValue('1');\n  44 |   await expect(page.getByTestId('line-total-p1')).toHaveText('$39.95');\n> 45 |   await expect(page.getByTestId('total')).toHaveText('$45.75');\n     |                                           ^\n  46 | });\n  47 |\n  48 | test('the cart badge counts units, not lines', async ({ page }) => {\n    at /work/ci-triage-agent/fixtures/tests/cart.spec.ts:45:43"
                     }
                   ],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-09-14T11:23:29.295Z",
+                  "startTime": "2026-09-14T11:44:41.454Z",
                   "annotations": [],
                   "attachments": [
                     {
                       "name": "screenshot",
                       "contentType": "image/png",
-                      "path": "/work/ci-triage-agent/fixtures/runs/mut-02/1/artifacts/cart-adding-a-product-puts-it-in-the-cart-chromium/test-failed-1.png"
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-01/1/artifacts/cart-a-negative-quantity-is-clamped-to-one-chromium/test-failed-1.png"
                     },
                     {
                       "name": "error-context",
                       "contentType": "text/markdown",
-                      "path": "/work/ci-triage-agent/fixtures/runs/mut-02/1/artifacts/cart-adding-a-product-puts-it-in-the-cart-chromium/error-context.md"
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-01/1/artifacts/cart-a-negative-quantity-is-clamped-to-one-chromium/error-context.md"
                     },
                     {
                       "name": "trace",
                       "contentType": "application/zip",
-                      "path": "/work/ci-triage-agent/fixtures/runs/mut-02/1/artifacts/cart-adding-a-product-puts-it-in-the-cart-chromium/trace.zip"
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-01/1/artifacts/cart-a-negative-quantity-is-clamped-to-one-chromium/trace.zip"
                     }
                   ],
                   "errorLocation": {
                     "file": "/work/ci-triage-agent/fixtures/tests/cart.spec.ts",
-                    "column": 57,
-                    "line": 13
+                    "column": 43,
+                    "line": 45
                   }
                 },
                 {
                   "workerIndex": 4,
-                  "parallelIndex": 0,
+                  "parallelIndex": 1,
                   "status": "failed",
-                  "duration": 5969,
+                  "duration": 5623,
                   "error": {
-                    "message": "Error: expect(locator).toHaveText(expected) failed\n\nLocator: getByTestId('cart-subtotal-value')\nExpected: \"$39.95\"\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('cart-subtotal-value')\n",
-                    "stack": "Error: expect(locator).toHaveText(expected) failed\n\nLocator: getByTestId('cart-subtotal-value')\nExpected: \"$39.95\"\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('cart-subtotal-value')\n\n    at /work/ci-triage-agent/fixtures/tests/cart.spec.ts:13:57",
+                    "message": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('total')\nExpected: \"$45.75\"\nReceived: \"$45.74\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('total')\n    9 × locator resolved to <dd class=\"grand\" data-testid=\"total\">$45.74</dd>\n      - unexpected value \"$45.74\"\n",
+                    "stack": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('total')\nExpected: \"$45.75\"\nReceived: \"$45.74\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('total')\n    9 × locator resolved to <dd class=\"grand\" data-testid=\"total\">$45.74</dd>\n      - unexpected value \"$45.74\"\n\n    at /work/ci-triage-agent/fixtures/tests/cart.spec.ts:45:43",
                     "location": {
                       "file": "/work/ci-triage-agent/fixtures/tests/cart.spec.ts",
-                      "column": 57,
-                      "line": 13
+                      "column": 43,
+                      "line": 45
                     },
-                    "snippet": "  11 |   await expect(page.getByTestId('cart-empty')).toBeHidden();\n  12 |   await expect(page.getByTestId('line-total-p1')).toHaveText('$39.95');\n> 13 |   await expect(page.getByTestId('cart-subtotal-value')).toHaveText('$39.95');\n     |                                                         ^\n  14 | });\n  15 |\n  16 | test('changing the quantity updates the line total', async ({ page }) => {"
+                    "snippet": "  43 |   await expect(page.getByTestId('qty-p1')).toHaveValue('1');\n  44 |   await expect(page.getByTestId('line-total-p1')).toHaveText('$39.95');\n> 45 |   await expect(page.getByTestId('total')).toHaveText('$45.75');\n     |                                           ^\n  46 | });\n  47 |\n  48 | test('the cart badge counts units, not lines', async ({ page }) => {"
                   },
                   "errors": [
                     {
                       "location": {
                         "file": "/work/ci-triage-agent/fixtures/tests/cart.spec.ts",
-                        "column": 57,
-                        "line": 13
+                        "column": 43,
+                        "line": 45
                       },
-                      "message": "Error: expect(locator).toHaveText(expected) failed\n\nLocator: getByTestId('cart-subtotal-value')\nExpected: \"$39.95\"\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('cart-subtotal-value')\n\n\n  11 |   await expect(page.getByTestId('cart-empty')).toBeHidden();\n  12 |   await expect(page.getByTestId('line-total-p1')).toHaveText('$39.95');\n> 13 |   await expect(page.getByTestId('cart-subtotal-value')).toHaveText('$39.95');\n     |                                                         ^\n  14 | });\n  15 |\n  16 | test('changing the quantity updates the line total', async ({ page }) => {\n    at /work/ci-triage-agent/fixtures/tests/cart.spec.ts:13:57"
+                      "message": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('total')\nExpected: \"$45.75\"\nReceived: \"$45.74\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('total')\n    9 × locator resolved to <dd class=\"grand\" data-testid=\"total\">$45.74</dd>\n      - unexpected value \"$45.74\"\n\n\n  43 |   await expect(page.getByTestId('qty-p1')).toHaveValue('1');\n  44 |   await expect(page.getByTestId('line-total-p1')).toHaveText('$39.95');\n> 45 |   await expect(page.getByTestId('total')).toHaveText('$45.75');\n     |                                           ^\n  46 | });\n  47 |\n  48 | test('the cart badge counts units, not lines', async ({ page }) => {\n    at /work/ci-triage-agent/fixtures/tests/cart.spec.ts:45:43"
                     }
                   ],
                   "stdout": [],
                   "stderr": [],
                   "retry": 1,
-                  "startTime": "2026-09-14T11:24:12.383Z",
+                  "startTime": "2026-09-14T11:44:48.116Z",
                   "annotations": [],
                   "attachments": [
                     {
                       "name": "screenshot",
                       "contentType": "image/png",
-                      "path": "/work/ci-triage-agent/fixtures/runs/mut-02/1/artifacts/cart-adding-a-product-puts-it-in-the-cart-chromium-retry1/test-failed-1.png"
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-01/1/artifacts/cart-a-negative-quantity-is-clamped-to-one-chromium-retry1/test-failed-1.png"
                     },
                     {
                       "name": "error-context",
                       "contentType": "text/markdown",
-                      "path": "/work/ci-triage-agent/fixtures/runs/mut-02/1/artifacts/cart-adding-a-product-puts-it-in-the-cart-chromium-retry1/error-context.md"
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-01/1/artifacts/cart-a-negative-quantity-is-clamped-to-one-chromium-retry1/error-context.md"
                     },
                     {
                       "name": "trace",
                       "contentType": "application/zip",
-                      "path": "/work/ci-triage-agent/fixtures/runs/mut-02/1/artifacts/cart-adding-a-product-puts-it-in-the-cart-chromium-retry1/trace.zip"
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-01/1/artifacts/cart-a-negative-quantity-is-clamped-to-one-chromium-retry1/trace.zip"
                     }
                   ],
                   "errorLocation": {
                     "file": "/work/ci-triage-agent/fixtures/tests/cart.spec.ts",
-                    "column": 57,
-                    "line": 13
+                    "column": 43,
+                    "line": 45
                   }
                 },
                 {
-                  "workerIndex": 5,
-                  "parallelIndex": 0,
+                  "workerIndex": 8,
+                  "parallelIndex": 1,
                   "status": "failed",
-                  "duration": 5600,
+                  "duration": 7891,
                   "error": {
-                    "message": "Error: expect(locator).toHaveText(expected) failed\n\nLocator: getByTestId('cart-subtotal-value')\nExpected: \"$39.95\"\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('cart-subtotal-value')\n",
-                    "stack": "Error: expect(locator).toHaveText(expected) failed\n\nLocator: getByTestId('cart-subtotal-value')\nExpected: \"$39.95\"\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('cart-subtotal-value')\n\n    at /work/ci-triage-agent/fixtures/tests/cart.spec.ts:13:57",
+                    "message": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('total')\nExpected: \"$45.75\"\nReceived: \"$45.74\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('total')\n    9 × locator resolved to <dd class=\"grand\" data-testid=\"total\">$45.74</dd>\n      - unexpected value \"$45.74\"\n",
+                    "stack": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('total')\nExpected: \"$45.75\"\nReceived: \"$45.74\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('total')\n    9 × locator resolved to <dd class=\"grand\" data-testid=\"total\">$45.74</dd>\n      - unexpected value \"$45.74\"\n\n    at /work/ci-triage-agent/fixtures/tests/cart.spec.ts:45:43",
                     "location": {
                       "file": "/work/ci-triage-agent/fixtures/tests/cart.spec.ts",
-                      "column": 57,
-                      "line": 13
+                      "column": 43,
+                      "line": 45
                     },
-                    "snippet": "  11 |   await expect(page.getByTestId('cart-empty')).toBeHidden();\n  12 |   await expect(page.getByTestId('line-total-p1')).toHaveText('$39.95');\n> 13 |   await expect(page.getByTestId('cart-subtotal-value')).toHaveText('$39.95');\n     |                                                         ^\n  14 | });\n  15 |\n  16 | test('changing the quantity updates the line total', async ({ page }) => {"
+                    "snippet": "  43 |   await expect(page.getByTestId('qty-p1')).toHaveValue('1');\n  44 |   await expect(page.getByTestId('line-total-p1')).toHaveText('$39.95');\n> 45 |   await expect(page.getByTestId('total')).toHaveText('$45.75');\n     |                                           ^\n  46 | });\n  47 |\n  48 | test('the cart badge counts units, not lines', async ({ page }) => {"
                   },
                   "errors": [
                     {
                       "location": {
                         "file": "/work/ci-triage-agent/fixtures/tests/cart.spec.ts",
-                        "column": 57,
-                        "line": 13
+                        "column": 43,
+                        "line": 45
                       },
-                      "message": "Error: expect(locator).toHaveText(expected) failed\n\nLocator: getByTestId('cart-subtotal-value')\nExpected: \"$39.95\"\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('cart-subtotal-value')\n\n\n  11 |   await expect(page.getByTestId('cart-empty')).toBeHidden();\n  12 |   await expect(page.getByTestId('line-total-p1')).toHaveText('$39.95');\n> 13 |   await expect(page.getByTestId('cart-subtotal-value')).toHaveText('$39.95');\n     |                                                         ^\n  14 | });\n  15 |\n  16 | test('changing the quantity updates the line total', async ({ page }) => {\n    at /work/ci-triage-agent/fixtures/tests/cart.spec.ts:13:57"
+                      "message": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('total')\nExpected: \"$45.75\"\nReceived: \"$45.74\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('total')\n    9 × locator resolved to <dd class=\"grand\" data-testid=\"total\">$45.74</dd>\n      - unexpected value \"$45.74\"\n\n\n  43 |   await expect(page.getByTestId('qty-p1')).toHaveValue('1');\n  44 |   await expect(page.getByTestId('line-total-p1')).toHaveText('$39.95');\n> 45 |   await expect(page.getByTestId('total')).toHaveText('$45.75');\n     |                                           ^\n  46 | });\n  47 |\n  48 | test('the cart badge counts units, not lines', async ({ page }) => {\n    at /work/ci-triage-agent/fixtures/tests/cart.spec.ts:45:43"
                     }
                   ],
                   "stdout": [],
                   "stderr": [],
                   "retry": 2,
-                  "startTime": "2026-09-14T11:24:36.690Z",
+                  "startTime": "2026-09-14T11:44:54.712Z",
                   "annotations": [],
                   "attachments": [
                     {
                       "name": "screenshot",
                       "contentType": "image/png",
-                      "path": "/work/ci-triage-agent/fixtures/runs/mut-02/1/artifacts/cart-adding-a-product-puts-it-in-the-cart-chromium-retry2/test-failed-1.png"
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-01/1/artifacts/cart-a-negative-quantity-is-clamped-to-one-chromium-retry2/test-failed-1.png"
                     },
                     {
                       "name": "error-context",
                       "contentType": "text/markdown",
-                      "path": "/work/ci-triage-agent/fixtures/runs/mut-02/1/artifacts/cart-adding-a-product-puts-it-in-the-cart-chromium-retry2/error-context.md"
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-01/1/artifacts/cart-a-negative-quantity-is-clamped-to-one-chromium-retry2/error-context.md"
                     },
                     {
                       "name": "trace",
                       "contentType": "application/zip",
-                      "path": "/work/ci-triage-agent/fixtures/runs/mut-02/1/artifacts/cart-adding-a-product-puts-it-in-the-cart-chromium-retry2/trace.zip"
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-01/1/artifacts/cart-a-negative-quantity-is-clamped-to-one-chromium-retry2/trace.zip"
                     }
                   ],
                   "errorLocation": {
                     "file": "/work/ci-triage-agent/fixtures/tests/cart.spec.ts",
-                    "column": 57,
-                    "line": 13
+                    "column": 43,
+                    "line": 45
                   }
                 }
               ],
               "status": "unexpected"
             }
           ],
-          "id": "1981448f0b79506fb670-ff0aebca29640b670584",
+          "id": "1981448f0b79506fb670-a0a80e78832895f4ecfd",
           "file": "cart.spec.ts",
-          "line": 7,
+          "line": 38,
           "column": 5
         }
       ]
@@ -255,11 +255,11 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-09-14T11:23:27.802Z",
-    "duration": 135782.792,
-    "expected": 20,
+    "startTime": "2026-09-14T11:44:40.253Z",
+    "duration": 26320.207,
+    "expected": 17,
     "skipped": 0,
-    "unexpected": 1,
+    "unexpected": 4,
     "flaky": 0
   }
 }

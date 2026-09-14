@@ -1,0 +1,34 @@
+{
+  "id": "syn-026",
+  "quelle": "synthetisch",
+  "repo": "fixtures/shop",
+  "test_titel": "the promo banner cycles through every message",
+  "test_datei": "tests/banner.spec.ts",
+  "test_zeile": 9,
+  "fehlermeldung": "Error: browserType.launch: Failed to launch chromium because executable doesn't exist at C:\\ci-agents\\browsers\\chromium-1148\\chrome-win\\chrome.exe",
+  "stack": "Error: browserType.launch: Failed to launch chromium because executable doesn't exist at C:\\ci-agents\\browsers\\chromium-1148\\chrome-win\\chrome.exe",
+  "dauer_ms": 1,
+  "versuche": [
+    {
+      "nr": 1,
+      "status": "failed"
+    },
+    {
+      "nr": 2,
+      "status": "failed"
+    },
+    {
+      "nr": 3,
+      "status": "failed"
+    }
+  ],
+  "artefakte": {
+    "diff": "diff.patch",
+    "trace": "trace.txt"
+  },
+  "kontext": {
+    "branch": "mr/mut-19",
+    "commit": "f15e8e5",
+    "ci_lauf": "lokal (fixtures/generate.mjs)"
+  }
+}

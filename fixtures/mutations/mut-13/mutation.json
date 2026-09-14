@@ -11,5 +11,11 @@
       "suchen": "  if (!Number.isFinite(parsed)) return 1;\n  return Math.max(1, parsed);",
       "ersetzen": "  if (!Number.isFinite(parsed)) return 1;\n  return parsed;"
     }
-  ]
+  ],
+  "beobachtet": {
+    "laeufe": 1,
+    "fehlschlaege": 1,
+    "versuche_gesamt": 3,
+    "versuche_fehlgeschlagen": 3
+  }
 }

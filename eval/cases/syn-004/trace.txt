@@ -1,0 +1,39 @@
+Before Hooks  (337ms)
+  beforeEach hook  (336ms)
+      Launch browser [timeout=180000]  (133ms)
+      Create context  (3ms)
+      Create page  (129ms)
+    Navigate to "/" [url=/]  (48ms)
+Click getByTestId('add-p1') [selector=internal:testid=[data-testid="add-p1"s]]  (65ms)
+Expect "toBeVisible"  (8ms)
+Expect "toBeHidden"  (3ms)
+Expect "toHaveText" [expected=$39.95]  (4ms)
+Expect "toHaveText" [expected=$39.95]  (5008ms)
+  ! Error: expect(locator).toHaveText(expected) failed
+  ! 
+  ! Locator: getByTestId('cart-subtotal-value')
+  ! Expected: "$39.95"
+  ! Timeout: 5000ms
+  ! Error: element(s) not found
+  ! 
+  ! Call log:
+  !   - Expect "toHaveText" with timeout 5000ms
+  !   - waiting for getByTestId('cart-subtotal-value')
+  ! 
+After Hooks  (200ms)
+    Close context  (5ms)
+Attach "error-context"  (0ms)
+Worker Cleanup  (87ms)
+
+--- test errors ---
+Error: expect(locator).toHaveText(expected) failed
+
+Locator: getByTestId('cart-subtotal-value')
+Expected: "$39.95"
+Timeout: 5000ms
+Error: element(s) not found
+
+Call log:
+  - Expect "toHaveText" with timeout 5000ms
+  - waiting for getByTestId('cart-subtotal-value')
+

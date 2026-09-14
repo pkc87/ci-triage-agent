@@ -1,0 +1,35 @@
+{
+  "id": "syn-006",
+  "quelle": "synthetisch",
+  "repo": "fixtures/shop",
+  "test_titel": "a promo code discounts the gross amount, after tax",
+  "test_datei": "tests/pricing.spec.ts",
+  "test_zeile": 23,
+  "fehlermeldung": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('discount')\nExpected: \"-$4.58\"\nReceived: \"-$4.00\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('discount')\n    9 × locator resolved to <dd data-testid=\"discount\">-$4.00</dd>\n      - unexpected value \"-$4.00\"\n",
+  "stack": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('discount')\nExpected: \"-$4.58\"\nReceived: \"-$4.00\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('discount')\n    9 × locator resolved to <dd data-testid=\"discount\">-$4.00</dd>\n      - unexpected value \"-$4.00\"\n\n    at /work/ci-triage-agent/fixtures/tests/pricing.spec.ts:32:46\n\n  30 |   // 10% of the gross 45.75 is 4.58, not 10% of the 39.95 in goods.\n  31 |   await expect(page.getByTestId('discount-status')).toHaveText('Code WELCOME10 applied');\n> 32 |   await expect(page.getByTestId('discount')).toHaveText('-$4.58');\n     |                                              ^\n  33 |   await expect(page.getByTestId('total')).toHaveText('$41.17');\n  34 | });\n  35 |",
+  "dauer_ms": 5316,
+  "versuche": [
+    {
+      "nr": 1,
+      "status": "failed"
+    },
+    {
+      "nr": 2,
+      "status": "failed"
+    },
+    {
+      "nr": 3,
+      "status": "failed"
+    }
+  ],
+  "artefakte": {
+    "diff": "diff.patch",
+    "trace": "trace.txt",
+    "screenshot": "screenshot.png"
+  },
+  "kontext": {
+    "branch": "mr/mut-04",
+    "commit": "f15e8e5",
+    "ci_lauf": "lokal (fixtures/generate.mjs)"
+  }
+}

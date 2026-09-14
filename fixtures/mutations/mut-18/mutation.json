@@ -11,5 +11,11 @@
       "suchen": "    average.textContent = `Average rating: ${averageRating(visible).toFixed(1)} out of 5`;",
       "ersetzen": "    average.textContent = `Average rating: ${averageRating(payload.reviews).toFixed(1)} out of 5`;"
     }
-  ]
+  ],
+  "beobachtet": {
+    "laeufe": 1,
+    "fehlschlaege": 1,
+    "versuche_gesamt": 6,
+    "versuche_fehlgeschlagen": 6
+  }
 }

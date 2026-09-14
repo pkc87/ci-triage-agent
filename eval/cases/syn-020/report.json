@@ -1,0 +1,265 @@
+{
+  "config": {
+    "configFile": "/work/ci-triage-agent/fixtures/playwright.config.ts",
+    "rootDir": "/work/ci-triage-agent/fixtures/tests",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 4
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/work/ci-triage-agent/fixtures/runs/mut-14/1/artifacts",
+        "repeatEach": 1,
+        "retries": 2,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "/work/ci-triage-agent/fixtures/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json",
+        {
+          "outputFile": "/work/ci-triage-agent/fixtures/runs/mut-14/1/report.json"
+        }
+      ],
+      [
+        "list",
+        null
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.59.0",
+    "workers": 4,
+    "webServer": {
+      "command": "node serve.mjs",
+      "url": "http://127.0.0.1:4173",
+      "reuseExistingServer": false,
+      "stdout": "ignore",
+      "stderr": "pipe"
+    }
+  },
+  "suites": [
+    {
+      "title": "pricing.spec.ts",
+      "file": "pricing.spec.ts",
+      "line": 0,
+      "column": 0,
+      "specs": [
+        {
+          "title": "a mixed cart adds up to subtotal, handling, tax and total",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "failed",
+                  "duration": 8999,
+                  "error": {
+                    "message": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('subtotal')\nExpected: \"104,65 €\"\nReceived: \"$104.65\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('subtotal')\n    9 × locator resolved to <dd data-testid=\"subtotal\">$104.65</dd>\n      - unexpected value \"$104.65\"\n",
+                    "stack": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('subtotal')\nExpected: \"104,65 €\"\nReceived: \"$104.65\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('subtotal')\n    9 × locator resolved to <dd data-testid=\"subtotal\">$104.65</dd>\n      - unexpected value \"$104.65\"\n\n    at /work/ci-triage-agent/fixtures/tests/pricing.spec.ts:17:46",
+                    "location": {
+                      "file": "/work/ci-triage-agent/fixtures/tests/pricing.spec.ts",
+                      "column": 46,
+                      "line": 17
+                    },
+                    "snippet": "  15 |   await page.getByTestId('qty-p4').blur();\n  16 |\n> 17 |   await expect(page.getByTestId('subtotal')).toHaveText('104,65 €');\n     |                                              ^\n  18 |   await expect(page.getByTestId('handling')).toHaveText('2,50 €');\n  19 |   await expect(page.getByTestId('tax')).toHaveText('$8.63');\n  20 |   await expect(page.getByTestId('total')).toHaveText('$115.78');"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/work/ci-triage-agent/fixtures/tests/pricing.spec.ts",
+                        "column": 46,
+                        "line": 17
+                      },
+                      "message": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('subtotal')\nExpected: \"104,65 €\"\nReceived: \"$104.65\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('subtotal')\n    9 × locator resolved to <dd data-testid=\"subtotal\">$104.65</dd>\n      - unexpected value \"$104.65\"\n\n\n  15 |   await page.getByTestId('qty-p4').blur();\n  16 |\n> 17 |   await expect(page.getByTestId('subtotal')).toHaveText('104,65 €');\n     |                                              ^\n  18 |   await expect(page.getByTestId('handling')).toHaveText('2,50 €');\n  19 |   await expect(page.getByTestId('tax')).toHaveText('$8.63');\n  20 |   await expect(page.getByTestId('total')).toHaveText('$115.78');\n    at /work/ci-triage-agent/fixtures/tests/pricing.spec.ts:17:46"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-14T11:52:33.922Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-14/1/artifacts/pricing-a-mixed-cart-adds--782b6-otal-handling-tax-and-total-chromium/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-14/1/artifacts/pricing-a-mixed-cart-adds--782b6-otal-handling-tax-and-total-chromium/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-14/1/artifacts/pricing-a-mixed-cart-adds--782b6-otal-handling-tax-and-total-chromium/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/work/ci-triage-agent/fixtures/tests/pricing.spec.ts",
+                    "column": 46,
+                    "line": 17
+                  }
+                },
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 5396,
+                  "error": {
+                    "message": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('subtotal')\nExpected: \"104,65 €\"\nReceived: \"$104.65\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('subtotal')\n    9 × locator resolved to <dd data-testid=\"subtotal\">$104.65</dd>\n      - unexpected value \"$104.65\"\n",
+                    "stack": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('subtotal')\nExpected: \"104,65 €\"\nReceived: \"$104.65\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('subtotal')\n    9 × locator resolved to <dd data-testid=\"subtotal\">$104.65</dd>\n      - unexpected value \"$104.65\"\n\n    at /work/ci-triage-agent/fixtures/tests/pricing.spec.ts:17:46",
+                    "location": {
+                      "file": "/work/ci-triage-agent/fixtures/tests/pricing.spec.ts",
+                      "column": 46,
+                      "line": 17
+                    },
+                    "snippet": "  15 |   await page.getByTestId('qty-p4').blur();\n  16 |\n> 17 |   await expect(page.getByTestId('subtotal')).toHaveText('104,65 €');\n     |                                              ^\n  18 |   await expect(page.getByTestId('handling')).toHaveText('2,50 €');\n  19 |   await expect(page.getByTestId('tax')).toHaveText('$8.63');\n  20 |   await expect(page.getByTestId('total')).toHaveText('$115.78');"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/work/ci-triage-agent/fixtures/tests/pricing.spec.ts",
+                        "column": 46,
+                        "line": 17
+                      },
+                      "message": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('subtotal')\nExpected: \"104,65 €\"\nReceived: \"$104.65\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('subtotal')\n    9 × locator resolved to <dd data-testid=\"subtotal\">$104.65</dd>\n      - unexpected value \"$104.65\"\n\n\n  15 |   await page.getByTestId('qty-p4').blur();\n  16 |\n> 17 |   await expect(page.getByTestId('subtotal')).toHaveText('104,65 €');\n     |                                              ^\n  18 |   await expect(page.getByTestId('handling')).toHaveText('2,50 €');\n  19 |   await expect(page.getByTestId('tax')).toHaveText('$8.63');\n  20 |   await expect(page.getByTestId('total')).toHaveText('$115.78');\n    at /work/ci-triage-agent/fixtures/tests/pricing.spec.ts:17:46"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 1,
+                  "startTime": "2026-09-14T11:52:46.961Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-14/1/artifacts/pricing-a-mixed-cart-adds--782b6-otal-handling-tax-and-total-chromium-retry1/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-14/1/artifacts/pricing-a-mixed-cart-adds--782b6-otal-handling-tax-and-total-chromium-retry1/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-14/1/artifacts/pricing-a-mixed-cart-adds--782b6-otal-handling-tax-and-total-chromium-retry1/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/work/ci-triage-agent/fixtures/tests/pricing.spec.ts",
+                    "column": 46,
+                    "line": 17
+                  }
+                },
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 5294,
+                  "error": {
+                    "message": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('subtotal')\nExpected: \"104,65 €\"\nReceived: \"$104.65\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('subtotal')\n    9 × locator resolved to <dd data-testid=\"subtotal\">$104.65</dd>\n      - unexpected value \"$104.65\"\n",
+                    "stack": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('subtotal')\nExpected: \"104,65 €\"\nReceived: \"$104.65\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('subtotal')\n    9 × locator resolved to <dd data-testid=\"subtotal\">$104.65</dd>\n      - unexpected value \"$104.65\"\n\n    at /work/ci-triage-agent/fixtures/tests/pricing.spec.ts:17:46",
+                    "location": {
+                      "file": "/work/ci-triage-agent/fixtures/tests/pricing.spec.ts",
+                      "column": 46,
+                      "line": 17
+                    },
+                    "snippet": "  15 |   await page.getByTestId('qty-p4').blur();\n  16 |\n> 17 |   await expect(page.getByTestId('subtotal')).toHaveText('104,65 €');\n     |                                              ^\n  18 |   await expect(page.getByTestId('handling')).toHaveText('2,50 €');\n  19 |   await expect(page.getByTestId('tax')).toHaveText('$8.63');\n  20 |   await expect(page.getByTestId('total')).toHaveText('$115.78');"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/work/ci-triage-agent/fixtures/tests/pricing.spec.ts",
+                        "column": 46,
+                        "line": 17
+                      },
+                      "message": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('subtotal')\nExpected: \"104,65 €\"\nReceived: \"$104.65\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('subtotal')\n    9 × locator resolved to <dd data-testid=\"subtotal\">$104.65</dd>\n      - unexpected value \"$104.65\"\n\n\n  15 |   await page.getByTestId('qty-p4').blur();\n  16 |\n> 17 |   await expect(page.getByTestId('subtotal')).toHaveText('104,65 €');\n     |                                              ^\n  18 |   await expect(page.getByTestId('handling')).toHaveText('2,50 €');\n  19 |   await expect(page.getByTestId('tax')).toHaveText('$8.63');\n  20 |   await expect(page.getByTestId('total')).toHaveText('$115.78');\n    at /work/ci-triage-agent/fixtures/tests/pricing.spec.ts:17:46"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 2,
+                  "startTime": "2026-09-14T11:52:53.333Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-14/1/artifacts/pricing-a-mixed-cart-adds--782b6-otal-handling-tax-and-total-chromium-retry2/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-14/1/artifacts/pricing-a-mixed-cart-adds--782b6-otal-handling-tax-and-total-chromium-retry2/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-14/1/artifacts/pricing-a-mixed-cart-adds--782b6-otal-handling-tax-and-total-chromium-retry2/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/work/ci-triage-agent/fixtures/tests/pricing.spec.ts",
+                    "column": 46,
+                    "line": 17
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "727e3f52dedb009881fb-1a56454fa142da29ac0d",
+          "file": "pricing.spec.ts",
+          "line": 7,
+          "column": 5
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-09-14T11:52:31.739Z",
+    "duration": 27227.029,
+    "expected": 20,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}

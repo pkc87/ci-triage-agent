@@ -1,0 +1,31 @@
+{
+  "id": "syn-021",
+  "quelle": "synthetisch",
+  "repo": "fixtures/shop",
+  "test_titel": "a second shopper saves and restores their own cart",
+  "test_datei": "tests/saved-cart-sync.spec.ts",
+  "test_zeile": 4,
+  "fehlermeldung": "Error: expect(locator).toBeVisible() failed\n\nLocator: getByTestId('cart-row-p4')\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" with timeout 5000ms\n  - waiting for getByTestId('cart-row-p4')\n",
+  "stack": "Error: expect(locator).toBeVisible() failed\n\nLocator: getByTestId('cart-row-p4')\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" with timeout 5000ms\n  - waiting for getByTestId('cart-row-p4')\n\n    at /work/ci-triage-agent/fixtures/tests/saved-cart-sync.spec.ts:18:49\n\n  16 |   await page.getByTestId('restore-cart').click();\n  17 |   await expect(page.getByTestId('cart-sync-status')).toHaveText('Cart restored');\n> 18 |   await expect(page.getByTestId('cart-row-p4')).toBeVisible();\n     |                                                 ^\n  19 |   await expect(page.getByTestId('cart-badge')).toHaveText('1 item');\n  20 | });\n  21 |",
+  "dauer_ms": 5997,
+  "versuche": [
+    {
+      "nr": 1,
+      "status": "failed"
+    },
+    {
+      "nr": 2,
+      "status": "passed"
+    }
+  ],
+  "artefakte": {
+    "diff": "diff.patch",
+    "trace": "trace.txt",
+    "screenshot": "screenshot.png"
+  },
+  "kontext": {
+    "branch": "mr/mut-15",
+    "commit": "f15e8e5",
+    "ci_lauf": "lokal (fixtures/generate.mjs)"
+  }
+}

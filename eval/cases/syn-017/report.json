@@ -1,0 +1,265 @@
+{
+  "config": {
+    "configFile": "/work/ci-triage-agent/fixtures/playwright.config.ts",
+    "rootDir": "/work/ci-triage-agent/fixtures/tests",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 4
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/work/ci-triage-agent/fixtures/runs/mut-11/1/artifacts",
+        "repeatEach": 1,
+        "retries": 2,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "/work/ci-triage-agent/fixtures/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json",
+        {
+          "outputFile": "/work/ci-triage-agent/fixtures/runs/mut-11/1/report.json"
+        }
+      ],
+      [
+        "list",
+        null
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.59.0",
+    "workers": 4,
+    "webServer": {
+      "command": "node serve.mjs",
+      "url": "http://127.0.0.1:4173",
+      "reuseExistingServer": false,
+      "stdout": "ignore",
+      "stderr": "pipe"
+    }
+  },
+  "suites": [
+    {
+      "title": "checkout.spec.ts",
+      "file": "checkout.spec.ts",
+      "line": 0,
+      "column": 0,
+      "specs": [
+        {
+          "title": "a complete order shows a confirmation and empties the cart",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "failed",
+                  "duration": 5292,
+                  "error": {
+                    "message": "Error: expect(locator).toHaveText(expected) failed\n\nLocator: getByTestId('order-confirmation')\nExpected pattern: /^Order #[A-Z0-9]{6} placed on \\d{2}\\.\\d{2}\\.\\d{4}$/\nReceived string:  \"Order #9R8U7D placed on September 14, 2026\"\nTimeout: 5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('order-confirmation')\n    9 × locator resolved to <p class=\"confirmation\" data-testid=\"order-confirmation\">Order #9R8U7D placed on September 14, 2026</p>\n      - unexpected value \"Order #9R8U7D placed on September 14, 2026\"\n",
+                    "stack": "Error: expect(locator).toHaveText(expected) failed\n\nLocator: getByTestId('order-confirmation')\nExpected pattern: /^Order #[A-Z0-9]{6} placed on \\d{2}\\.\\d{2}\\.\\d{4}$/\nReceived string:  \"Order #9R8U7D placed on September 14, 2026\"\nTimeout: 5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('order-confirmation')\n    9 × locator resolved to <p class=\"confirmation\" data-testid=\"order-confirmation\">Order #9R8U7D placed on September 14, 2026</p>\n      - unexpected value \"Order #9R8U7D placed on September 14, 2026\"\n\n    at /work/ci-triage-agent/fixtures/tests/checkout.spec.ts:37:30",
+                    "location": {
+                      "file": "/work/ci-triage-agent/fixtures/tests/checkout.spec.ts",
+                      "column": 30,
+                      "line": 37
+                    },
+                    "snippet": "  35 |   const confirmation = page.getByTestId('order-confirmation');\n  36 |   await expect(confirmation).toBeVisible();\n> 37 |   await expect(confirmation).toHaveText(/^Order #[A-Z0-9]{6} placed on \\d{2}\\.\\d{2}\\.\\d{4}$/);\n     |                              ^\n  38 |\n  39 |   await expect(page.getByTestId('form-error')).toBeHidden();\n  40 |   await expect(page.getByTestId('cart-empty')).toBeVisible();"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/work/ci-triage-agent/fixtures/tests/checkout.spec.ts",
+                        "column": 30,
+                        "line": 37
+                      },
+                      "message": "Error: expect(locator).toHaveText(expected) failed\n\nLocator: getByTestId('order-confirmation')\nExpected pattern: /^Order #[A-Z0-9]{6} placed on \\d{2}\\.\\d{2}\\.\\d{4}$/\nReceived string:  \"Order #9R8U7D placed on September 14, 2026\"\nTimeout: 5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('order-confirmation')\n    9 × locator resolved to <p class=\"confirmation\" data-testid=\"order-confirmation\">Order #9R8U7D placed on September 14, 2026</p>\n      - unexpected value \"Order #9R8U7D placed on September 14, 2026\"\n\n\n  35 |   const confirmation = page.getByTestId('order-confirmation');\n  36 |   await expect(confirmation).toBeVisible();\n> 37 |   await expect(confirmation).toHaveText(/^Order #[A-Z0-9]{6} placed on \\d{2}\\.\\d{2}\\.\\d{4}$/);\n     |                              ^\n  38 |\n  39 |   await expect(page.getByTestId('form-error')).toBeHidden();\n  40 |   await expect(page.getByTestId('cart-empty')).toBeVisible();\n    at /work/ci-triage-agent/fixtures/tests/checkout.spec.ts:37:30"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-14T11:49:55.697Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-11/1/artifacts/checkout-a-complete-order--20913-mation-and-empties-the-cart-chromium/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-11/1/artifacts/checkout-a-complete-order--20913-mation-and-empties-the-cart-chromium/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-11/1/artifacts/checkout-a-complete-order--20913-mation-and-empties-the-cart-chromium/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/work/ci-triage-agent/fixtures/tests/checkout.spec.ts",
+                    "column": 30,
+                    "line": 37
+                  }
+                },
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 5284,
+                  "error": {
+                    "message": "Error: expect(locator).toHaveText(expected) failed\n\nLocator: getByTestId('order-confirmation')\nExpected pattern: /^Order #[A-Z0-9]{6} placed on \\d{2}\\.\\d{2}\\.\\d{4}$/\nReceived string:  \"Order #XKJSEL placed on September 14, 2026\"\nTimeout: 5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('order-confirmation')\n    9 × locator resolved to <p class=\"confirmation\" data-testid=\"order-confirmation\">Order #XKJSEL placed on September 14, 2026</p>\n      - unexpected value \"Order #XKJSEL placed on September 14, 2026\"\n",
+                    "stack": "Error: expect(locator).toHaveText(expected) failed\n\nLocator: getByTestId('order-confirmation')\nExpected pattern: /^Order #[A-Z0-9]{6} placed on \\d{2}\\.\\d{2}\\.\\d{4}$/\nReceived string:  \"Order #XKJSEL placed on September 14, 2026\"\nTimeout: 5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('order-confirmation')\n    9 × locator resolved to <p class=\"confirmation\" data-testid=\"order-confirmation\">Order #XKJSEL placed on September 14, 2026</p>\n      - unexpected value \"Order #XKJSEL placed on September 14, 2026\"\n\n    at /work/ci-triage-agent/fixtures/tests/checkout.spec.ts:37:30",
+                    "location": {
+                      "file": "/work/ci-triage-agent/fixtures/tests/checkout.spec.ts",
+                      "column": 30,
+                      "line": 37
+                    },
+                    "snippet": "  35 |   const confirmation = page.getByTestId('order-confirmation');\n  36 |   await expect(confirmation).toBeVisible();\n> 37 |   await expect(confirmation).toHaveText(/^Order #[A-Z0-9]{6} placed on \\d{2}\\.\\d{2}\\.\\d{4}$/);\n     |                              ^\n  38 |\n  39 |   await expect(page.getByTestId('form-error')).toBeHidden();\n  40 |   await expect(page.getByTestId('cart-empty')).toBeVisible();"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/work/ci-triage-agent/fixtures/tests/checkout.spec.ts",
+                        "column": 30,
+                        "line": 37
+                      },
+                      "message": "Error: expect(locator).toHaveText(expected) failed\n\nLocator: getByTestId('order-confirmation')\nExpected pattern: /^Order #[A-Z0-9]{6} placed on \\d{2}\\.\\d{2}\\.\\d{4}$/\nReceived string:  \"Order #XKJSEL placed on September 14, 2026\"\nTimeout: 5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('order-confirmation')\n    9 × locator resolved to <p class=\"confirmation\" data-testid=\"order-confirmation\">Order #XKJSEL placed on September 14, 2026</p>\n      - unexpected value \"Order #XKJSEL placed on September 14, 2026\"\n\n\n  35 |   const confirmation = page.getByTestId('order-confirmation');\n  36 |   await expect(confirmation).toBeVisible();\n> 37 |   await expect(confirmation).toHaveText(/^Order #[A-Z0-9]{6} placed on \\d{2}\\.\\d{2}\\.\\d{4}$/);\n     |                              ^\n  38 |\n  39 |   await expect(page.getByTestId('form-error')).toBeHidden();\n  40 |   await expect(page.getByTestId('cart-empty')).toBeVisible();\n    at /work/ci-triage-agent/fixtures/tests/checkout.spec.ts:37:30"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 1,
+                  "startTime": "2026-09-14T11:50:01.800Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-11/1/artifacts/checkout-a-complete-order--20913-mation-and-empties-the-cart-chromium-retry1/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-11/1/artifacts/checkout-a-complete-order--20913-mation-and-empties-the-cart-chromium-retry1/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-11/1/artifacts/checkout-a-complete-order--20913-mation-and-empties-the-cart-chromium-retry1/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/work/ci-triage-agent/fixtures/tests/checkout.spec.ts",
+                    "column": 30,
+                    "line": 37
+                  }
+                },
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 5330,
+                  "error": {
+                    "message": "Error: expect(locator).toHaveText(expected) failed\n\nLocator: getByTestId('order-confirmation')\nExpected pattern: /^Order #[A-Z0-9]{6} placed on \\d{2}\\.\\d{2}\\.\\d{4}$/\nReceived string:  \"Order #VHGW5K placed on September 14, 2026\"\nTimeout: 5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('order-confirmation')\n    9 × locator resolved to <p class=\"confirmation\" data-testid=\"order-confirmation\">Order #VHGW5K placed on September 14, 2026</p>\n      - unexpected value \"Order #VHGW5K placed on September 14, 2026\"\n",
+                    "stack": "Error: expect(locator).toHaveText(expected) failed\n\nLocator: getByTestId('order-confirmation')\nExpected pattern: /^Order #[A-Z0-9]{6} placed on \\d{2}\\.\\d{2}\\.\\d{4}$/\nReceived string:  \"Order #VHGW5K placed on September 14, 2026\"\nTimeout: 5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('order-confirmation')\n    9 × locator resolved to <p class=\"confirmation\" data-testid=\"order-confirmation\">Order #VHGW5K placed on September 14, 2026</p>\n      - unexpected value \"Order #VHGW5K placed on September 14, 2026\"\n\n    at /work/ci-triage-agent/fixtures/tests/checkout.spec.ts:37:30",
+                    "location": {
+                      "file": "/work/ci-triage-agent/fixtures/tests/checkout.spec.ts",
+                      "column": 30,
+                      "line": 37
+                    },
+                    "snippet": "  35 |   const confirmation = page.getByTestId('order-confirmation');\n  36 |   await expect(confirmation).toBeVisible();\n> 37 |   await expect(confirmation).toHaveText(/^Order #[A-Z0-9]{6} placed on \\d{2}\\.\\d{2}\\.\\d{4}$/);\n     |                              ^\n  38 |\n  39 |   await expect(page.getByTestId('form-error')).toBeHidden();\n  40 |   await expect(page.getByTestId('cart-empty')).toBeVisible();"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/work/ci-triage-agent/fixtures/tests/checkout.spec.ts",
+                        "column": 30,
+                        "line": 37
+                      },
+                      "message": "Error: expect(locator).toHaveText(expected) failed\n\nLocator: getByTestId('order-confirmation')\nExpected pattern: /^Order #[A-Z0-9]{6} placed on \\d{2}\\.\\d{2}\\.\\d{4}$/\nReceived string:  \"Order #VHGW5K placed on September 14, 2026\"\nTimeout: 5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('order-confirmation')\n    9 × locator resolved to <p class=\"confirmation\" data-testid=\"order-confirmation\">Order #VHGW5K placed on September 14, 2026</p>\n      - unexpected value \"Order #VHGW5K placed on September 14, 2026\"\n\n\n  35 |   const confirmation = page.getByTestId('order-confirmation');\n  36 |   await expect(confirmation).toBeVisible();\n> 37 |   await expect(confirmation).toHaveText(/^Order #[A-Z0-9]{6} placed on \\d{2}\\.\\d{2}\\.\\d{4}$/);\n     |                              ^\n  38 |\n  39 |   await expect(page.getByTestId('form-error')).toBeHidden();\n  40 |   await expect(page.getByTestId('cart-empty')).toBeVisible();\n    at /work/ci-triage-agent/fixtures/tests/checkout.spec.ts:37:30"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 2,
+                  "startTime": "2026-09-14T11:50:08.189Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-11/1/artifacts/checkout-a-complete-order--20913-mation-and-empties-the-cart-chromium-retry2/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-11/1/artifacts/checkout-a-complete-order--20913-mation-and-empties-the-cart-chromium-retry2/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-11/1/artifacts/checkout-a-complete-order--20913-mation-and-empties-the-cart-chromium-retry2/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/work/ci-triage-agent/fixtures/tests/checkout.spec.ts",
+                    "column": 30,
+                    "line": 37
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "25ab1bfc84c57e3e3a45-da4d81885dd7bc60413b",
+          "file": "checkout.spec.ts",
+          "line": 29,
+          "column": 5
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-09-14T11:49:53.927Z",
+    "duration": 20281.035,
+    "expected": 20,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}

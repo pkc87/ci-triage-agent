@@ -2,12 +2,12 @@
   "id": "syn-001",
   "quelle": "synthetisch",
   "repo": "fixtures/shop",
-  "test_titel": "adding a product puts it in the cart",
-  "test_datei": "cart.spec.ts",
-  "test_zeile": 7,
-  "fehlermeldung": "Error: expect(locator).toHaveText(expected) failed\n\nLocator: getByTestId('cart-subtotal-value')\nExpected: \"$39.95\"\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('cart-subtotal-value')\n",
-  "stack": "Error: expect(locator).toHaveText(expected) failed\n\nLocator: getByTestId('cart-subtotal-value')\nExpected: \"$39.95\"\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('cart-subtotal-value')\n\n    at /work/ci-triage-agent/fixtures/tests/cart.spec.ts:13:57",
-  "dauer_ms": 5966,
+  "test_titel": "a negative quantity is clamped to one",
+  "test_datei": "tests/cart.spec.ts",
+  "test_zeile": 38,
+  "fehlermeldung": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('total')\nExpected: \"$45.75\"\nReceived: \"$45.74\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('total')\n    9 × locator resolved to <dd class=\"grand\" data-testid=\"total\">$45.74</dd>\n      - unexpected value \"$45.74\"\n",
+  "stack": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('total')\nExpected: \"$45.75\"\nReceived: \"$45.74\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('total')\n    9 × locator resolved to <dd class=\"grand\" data-testid=\"total\">$45.74</dd>\n      - unexpected value \"$45.74\"\n\n    at /work/ci-triage-agent/fixtures/tests/cart.spec.ts:45:43\n\n  43 |   await expect(page.getByTestId('qty-p1')).toHaveValue('1');\n  44 |   await expect(page.getByTestId('line-total-p1')).toHaveText('$39.95');\n> 45 |   await expect(page.getByTestId('total')).toHaveText('$45.75');\n     |                                           ^\n  46 | });\n  47 |\n  48 | test('the cart badge counts units, not lines', async ({ page }) => {",
+  "dauer_ms": 5645,
   "versuche": [
     {
       "nr": 1,
@@ -28,8 +28,8 @@
     "screenshot": "screenshot.png"
   },
   "kontext": {
-    "branch": "mr/mut-02",
-    "commit": "1e6e3d7",
+    "branch": "mr/mut-01",
+    "commit": "f15e8e5",
     "ci_lauf": "lokal (fixtures/generate.mjs)"
   }
 }

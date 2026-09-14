@@ -11,5 +11,11 @@
       "suchen": "  if (!EMAIL_PATTERN.test(email.trim())) {\n    errors.push('Enter a valid email address');\n  }",
       "ersetzen": "  if (email.trim() && !EMAIL_PATTERN.test(email.trim())) {\n    errors.push('Enter a valid email address');\n  }"
     }
-  ]
+  ],
+  "beobachtet": {
+    "laeufe": 1,
+    "fehlschlaege": 1,
+    "versuche_gesamt": 3,
+    "versuche_fehlgeschlagen": 3
+  }
 }

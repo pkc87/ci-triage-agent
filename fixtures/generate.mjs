@@ -13,10 +13,12 @@ import { spawnSync } from 'node:child_process';
 import {
   copyFileSync,
   existsSync,
+  lstatSync,
   mkdirSync,
   readFileSync,
   readdirSync,
-  rmSync,
+  rmdirSync,
+  unlinkSync,
   writeFileSync,
 } from 'node:fs';
 import { dirname, join, relative, resolve } from 'node:path';
@@ -47,6 +49,23 @@ function scrub(text) {
     .split(REPO.replace(/\\/g, '\\\\'))
     .join(SCRUB_TARGET)
     .replace(SCRUBBED_PATH, (match) => match.replace(/\\/g, '/'));
+}
+
+/**
+ * Delete a file or directory tree.
+ *
+ * Not fs.rmSync: some sandboxed environments neuter it into a silent no-op,
+ * which would leave a mutation's new spec file lying around and poison every
+ * later run. unlink + rmdir either work or throw.
+ */
+function entfernen(ziel) {
+  if (!existsSync(ziel)) return;
+  if (lstatSync(ziel).isDirectory()) {
+    for (const name of readdirSync(ziel)) entfernen(join(ziel, name));
+    rmdirSync(ziel);
+  } else {
+    unlinkSync(ziel);
+  }
 }
 
 function scrubDeep(value) {
@@ -91,7 +110,12 @@ function applyMutation(mutation) {
   for (const change of mutation.aenderungen) {
     const target = join(FIXTURES, change.datei);
     if (change.inhalt !== undefined) {
-      if (existsSync(target)) throw new Error(`${mutation.id}: ${change.datei} already exists`);
+      // A file a mutation creates must never survive into the next run: it
+      // would race the base suite and every later mutation would inherit it.
+      if (existsSync(target)) {
+        process.stderr.write(`  warning: ${change.datei} was left behind, removing it first\n`);
+        entfernen(target);
+      }
       originals.push({ datei: change.datei, target, vorher: null });
       mkdirSync(dirname(target), { recursive: true });
       writeFileSync(target, change.inhalt, 'utf8');
@@ -111,7 +135,7 @@ function applyMutation(mutation) {
 function revertMutation(originals) {
   for (const entry of originals) {
     if (entry.vorher === null) {
-      if (existsSync(entry.target)) rmSync(entry.target);
+      if (existsSync(entry.target)) entfernen(entry.target);
     } else {
       writeFileSync(entry.target, entry.vorher, 'utf8');
     }
@@ -121,7 +145,7 @@ function revertMutation(originals) {
 /** Unified diff of the mutation, as it would show up in a merge request. */
 function buildDiff(mutation, originals) {
   const tmp = join(RUNS_DIR, '.diff');
-  rmSync(tmp, { recursive: true, force: true });
+  entfernen(tmp);
   const chunks = [];
 
   for (const entry of originals) {
@@ -161,13 +185,13 @@ function buildDiff(mutation, originals) {
     chunks.push(result.stdout);
   }
 
-  rmSync(tmp, { recursive: true, force: true });
+  entfernen(tmp);
   return chunks.join('');
 }
 
 function runSuite(mutation, index) {
   const outDir = join(RUNS_DIR, mutation.id, String(index));
-  rmSync(outDir, { recursive: true, force: true });
+  entfernen(outDir);
   mkdirSync(outDir, { recursive: true });
   const reportPath = join(outDir, 'report.json');
 
@@ -235,7 +259,7 @@ function sliceReport(report, suite, spec, test) {
 
 function writeCase({ caseId, mutation, diff, run, failure, gitCommit }) {
   const dir = join(CASES_DIR, caseId);
-  rmSync(dir, { recursive: true, force: true });
+  entfernen(dir);
   mkdirSync(dir, { recursive: true });
 
   const { suite, spec, test, failing } = failure;
@@ -305,17 +329,30 @@ function gitShortHead() {
 function wipeSynthetic() {
   if (existsSync(CASES_DIR)) {
     for (const name of readdirSync(CASES_DIR)) {
-      if (name.startsWith('syn-')) rmSync(join(CASES_DIR, name), { recursive: true, force: true });
+      if (name.startsWith('syn-')) entfernen(join(CASES_DIR, name));
     }
   }
   mkdirSync(CASES_DIR, { recursive: true });
-  if (existsSync(GROUND_TRUTH)) rmSync(GROUND_TRUTH);
+  if (existsSync(GROUND_TRUTH)) entfernen(GROUND_TRUTH);
 }
 
 function main() {
   const args = parseArgs(process.argv.slice(2));
   const mutations = loadMutations(args.only);
   if (mutations.length === 0) throw new Error('no mutations selected');
+
+  // Any spec a mutation creates belongs to that mutation only. If a previous
+  // run was interrupted, one can still be on disk -- clear it before measuring.
+  for (const mutation of loadMutations(null)) {
+    for (const change of mutation.aenderungen) {
+      if (change.inhalt === undefined) continue;
+      const target = join(FIXTURES, change.datei);
+      if (existsSync(target)) {
+        process.stdout.write(`removing leftover ${change.datei} from ${mutation.id}\n`);
+        entfernen(target);
+      }
+    }
+  }
 
   if (!args.probe) wipeSynthetic();
   mkdirSync(RUNS_DIR, { recursive: true });

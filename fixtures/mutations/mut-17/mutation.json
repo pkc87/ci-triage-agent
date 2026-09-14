@@ -11,5 +11,11 @@
       "suchen": "  await expect(cards).toHaveCount(4);",
       "ersetzen": "  await expect(cards).toHaveCount(5);"
     }
-  ]
+  ],
+  "beobachtet": {
+    "laeufe": 1,
+    "fehlschlaege": 1,
+    "versuche_gesamt": 3,
+    "versuche_fehlgeschlagen": 3
+  }
 }

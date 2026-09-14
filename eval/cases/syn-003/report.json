@@ -1,0 +1,265 @@
+{
+  "config": {
+    "configFile": "/work/ci-triage-agent/fixtures/playwright.config.ts",
+    "rootDir": "/work/ci-triage-agent/fixtures/tests",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 4
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/work/ci-triage-agent/fixtures/runs/mut-01/1/artifacts",
+        "repeatEach": 1,
+        "retries": 2,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "/work/ci-triage-agent/fixtures/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json",
+        {
+          "outputFile": "/work/ci-triage-agent/fixtures/runs/mut-01/1/report.json"
+        }
+      ],
+      [
+        "list",
+        null
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.59.0",
+    "workers": 4,
+    "webServer": {
+      "command": "node serve.mjs",
+      "url": "http://127.0.0.1:4173",
+      "reuseExistingServer": false,
+      "stdout": "ignore",
+      "stderr": "pipe"
+    }
+  },
+  "suites": [
+    {
+      "title": "pricing.spec.ts",
+      "file": "pricing.spec.ts",
+      "line": 0,
+      "column": 0,
+      "specs": [
+        {
+          "title": "an unknown promo code changes nothing",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "failed",
+                  "duration": 5409,
+                  "error": {
+                    "message": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('total')\nExpected: \"$45.75\"\nReceived: \"$45.74\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('total')\n    9 × locator resolved to <dd class=\"grand\" data-testid=\"total\">$45.74</dd>\n      - unexpected value \"$45.74\"\n",
+                    "stack": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('total')\nExpected: \"$45.75\"\nReceived: \"$45.74\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('total')\n    9 × locator resolved to <dd class=\"grand\" data-testid=\"total\">$45.74</dd>\n      - unexpected value \"$45.74\"\n\n    at /work/ci-triage-agent/fixtures/tests/pricing.spec.ts:43:43",
+                    "location": {
+                      "file": "/work/ci-triage-agent/fixtures/tests/pricing.spec.ts",
+                      "column": 43,
+                      "line": 43
+                    },
+                    "snippet": "  41 |   await expect(page.getByTestId('discount-status')).toHaveText('Unknown promo code');\n  42 |   await expect(page.getByTestId('discount')).toHaveText('-$0.00');\n> 43 |   await expect(page.getByTestId('total')).toHaveText('$45.75');\n     |                                           ^\n  44 | });\n  45 |\n  46 | test('applying the same promo code twice does not stack it', async ({ page }) => {"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/work/ci-triage-agent/fixtures/tests/pricing.spec.ts",
+                        "column": 43,
+                        "line": 43
+                      },
+                      "message": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('total')\nExpected: \"$45.75\"\nReceived: \"$45.74\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('total')\n    9 × locator resolved to <dd class=\"grand\" data-testid=\"total\">$45.74</dd>\n      - unexpected value \"$45.74\"\n\n\n  41 |   await expect(page.getByTestId('discount-status')).toHaveText('Unknown promo code');\n  42 |   await expect(page.getByTestId('discount')).toHaveText('-$0.00');\n> 43 |   await expect(page.getByTestId('total')).toHaveText('$45.75');\n     |                                           ^\n  44 | });\n  45 |\n  46 | test('applying the same promo code twice does not stack it', async ({ page }) => {\n    at /work/ci-triage-agent/fixtures/tests/pricing.spec.ts:43:43"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-14T11:44:43.576Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-01/1/artifacts/pricing-an-unknown-promo-code-changes-nothing-chromium/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-01/1/artifacts/pricing-an-unknown-promo-code-changes-nothing-chromium/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-01/1/artifacts/pricing-an-unknown-promo-code-changes-nothing-chromium/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/work/ci-triage-agent/fixtures/tests/pricing.spec.ts",
+                    "column": 43,
+                    "line": 43
+                  }
+                },
+                {
+                  "workerIndex": 7,
+                  "parallelIndex": 3,
+                  "status": "failed",
+                  "duration": 5473,
+                  "error": {
+                    "message": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('total')\nExpected: \"$45.75\"\nReceived: \"$45.74\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('total')\n    9 × locator resolved to <dd class=\"grand\" data-testid=\"total\">$45.74</dd>\n      - unexpected value \"$45.74\"\n",
+                    "stack": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('total')\nExpected: \"$45.75\"\nReceived: \"$45.74\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('total')\n    9 × locator resolved to <dd class=\"grand\" data-testid=\"total\">$45.74</dd>\n      - unexpected value \"$45.74\"\n\n    at /work/ci-triage-agent/fixtures/tests/pricing.spec.ts:43:43",
+                    "location": {
+                      "file": "/work/ci-triage-agent/fixtures/tests/pricing.spec.ts",
+                      "column": 43,
+                      "line": 43
+                    },
+                    "snippet": "  41 |   await expect(page.getByTestId('discount-status')).toHaveText('Unknown promo code');\n  42 |   await expect(page.getByTestId('discount')).toHaveText('-$0.00');\n> 43 |   await expect(page.getByTestId('total')).toHaveText('$45.75');\n     |                                           ^\n  44 | });\n  45 |\n  46 | test('applying the same promo code twice does not stack it', async ({ page }) => {"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/work/ci-triage-agent/fixtures/tests/pricing.spec.ts",
+                        "column": 43,
+                        "line": 43
+                      },
+                      "message": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('total')\nExpected: \"$45.75\"\nReceived: \"$45.74\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('total')\n    9 × locator resolved to <dd class=\"grand\" data-testid=\"total\">$45.74</dd>\n      - unexpected value \"$45.74\"\n\n\n  41 |   await expect(page.getByTestId('discount-status')).toHaveText('Unknown promo code');\n  42 |   await expect(page.getByTestId('discount')).toHaveText('-$0.00');\n> 43 |   await expect(page.getByTestId('total')).toHaveText('$45.75');\n     |                                           ^\n  44 | });\n  45 |\n  46 | test('applying the same promo code twice does not stack it', async ({ page }) => {\n    at /work/ci-triage-agent/fixtures/tests/pricing.spec.ts:43:43"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 1,
+                  "startTime": "2026-09-14T11:44:50.031Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-01/1/artifacts/pricing-an-unknown-promo-code-changes-nothing-chromium-retry1/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-01/1/artifacts/pricing-an-unknown-promo-code-changes-nothing-chromium-retry1/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-01/1/artifacts/pricing-an-unknown-promo-code-changes-nothing-chromium-retry1/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/work/ci-triage-agent/fixtures/tests/pricing.spec.ts",
+                    "column": 43,
+                    "line": 43
+                  }
+                },
+                {
+                  "workerIndex": 11,
+                  "parallelIndex": 3,
+                  "status": "failed",
+                  "duration": 5987,
+                  "error": {
+                    "message": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('total')\nExpected: \"$45.75\"\nReceived: \"$45.74\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('total')\n    9 × locator resolved to <dd class=\"grand\" data-testid=\"total\">$45.74</dd>\n      - unexpected value \"$45.74\"\n",
+                    "stack": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('total')\nExpected: \"$45.75\"\nReceived: \"$45.74\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('total')\n    9 × locator resolved to <dd class=\"grand\" data-testid=\"total\">$45.74</dd>\n      - unexpected value \"$45.74\"\n\n    at /work/ci-triage-agent/fixtures/tests/pricing.spec.ts:43:43",
+                    "location": {
+                      "file": "/work/ci-triage-agent/fixtures/tests/pricing.spec.ts",
+                      "column": 43,
+                      "line": 43
+                    },
+                    "snippet": "  41 |   await expect(page.getByTestId('discount-status')).toHaveText('Unknown promo code');\n  42 |   await expect(page.getByTestId('discount')).toHaveText('-$0.00');\n> 43 |   await expect(page.getByTestId('total')).toHaveText('$45.75');\n     |                                           ^\n  44 | });\n  45 |\n  46 | test('applying the same promo code twice does not stack it', async ({ page }) => {"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/work/ci-triage-agent/fixtures/tests/pricing.spec.ts",
+                        "column": 43,
+                        "line": 43
+                      },
+                      "message": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('total')\nExpected: \"$45.75\"\nReceived: \"$45.74\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('total')\n    9 × locator resolved to <dd class=\"grand\" data-testid=\"total\">$45.74</dd>\n      - unexpected value \"$45.74\"\n\n\n  41 |   await expect(page.getByTestId('discount-status')).toHaveText('Unknown promo code');\n  42 |   await expect(page.getByTestId('discount')).toHaveText('-$0.00');\n> 43 |   await expect(page.getByTestId('total')).toHaveText('$45.75');\n     |                                           ^\n  44 | });\n  45 |\n  46 | test('applying the same promo code twice does not stack it', async ({ page }) => {\n    at /work/ci-triage-agent/fixtures/tests/pricing.spec.ts:43:43"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 2,
+                  "startTime": "2026-09-14T11:44:56.657Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-01/1/artifacts/pricing-an-unknown-promo-code-changes-nothing-chromium-retry2/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-01/1/artifacts/pricing-an-unknown-promo-code-changes-nothing-chromium-retry2/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-01/1/artifacts/pricing-an-unknown-promo-code-changes-nothing-chromium-retry2/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/work/ci-triage-agent/fixtures/tests/pricing.spec.ts",
+                    "column": 43,
+                    "line": 43
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "727e3f52dedb009881fb-0f0b36f2262bf8846c09",
+          "file": "pricing.spec.ts",
+          "line": 36,
+          "column": 5
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-09-14T11:44:40.253Z",
+    "duration": 26320.207,
+    "expected": 17,
+    "skipped": 0,
+    "unexpected": 4,
+    "flaky": 0
+  }
+}

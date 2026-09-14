@@ -1,0 +1,15 @@
+diff --git a/fixtures/tests/pricing.spec.ts b/fixtures/tests/pricing.spec.ts
+index ccddad6..0d7eaef 100644
+--- a/fixtures/tests/pricing.spec.ts
++++ b/fixtures/tests/pricing.spec.ts
+@@ -14,8 +14,8 @@ test('a mixed cart adds up to subtotal, handling, tax and total', async ({ page
+   await page.getByTestId('qty-p4').fill('3');
+   await page.getByTestId('qty-p4').blur();
+ 
+-  await expect(page.getByTestId('subtotal')).toHaveText('$104.65');
+-  await expect(page.getByTestId('handling')).toHaveText('$2.50');
++  await expect(page.getByTestId('subtotal')).toHaveText('104,65 €');
++  await expect(page.getByTestId('handling')).toHaveText('2,50 €');
+   await expect(page.getByTestId('tax')).toHaveText('$8.63');
+   await expect(page.getByTestId('total')).toHaveText('$115.78');
+ });

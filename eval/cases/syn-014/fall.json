@@ -1,0 +1,35 @@
+{
+  "id": "syn-014",
+  "quelle": "synthetisch",
+  "repo": "fixtures/shop",
+  "test_titel": "the average rating ignores reviews that are not approved",
+  "test_datei": "tests/reviews.spec.ts",
+  "test_zeile": 23,
+  "fehlermeldung": "Error: expect(locator).toBeVisible() failed\n\nLocator:  getByTestId('average-rating')\nExpected: visible\nReceived: hidden\nTimeout:  220ms\n\nCall log:\n  - Expect \"toBeVisible\" with timeout 220ms\n  - waiting for getByTestId('average-rating')\n    3 × locator resolved to <p hidden=\"\" class=\"average\" data-testid=\"average-rating\"></p>\n      - unexpected value \"hidden\"\n",
+  "stack": "Error: expect(locator).toBeVisible() failed\n\nLocator:  getByTestId('average-rating')\nExpected: visible\nReceived: hidden\nTimeout:  220ms\n\nCall log:\n  - Expect \"toBeVisible\" with timeout 220ms\n  - waiting for getByTestId('average-rating')\n    3 × locator resolved to <p hidden=\"\" class=\"average\" data-testid=\"average-rating\"></p>\n      - unexpected value \"hidden\"\n\n    at /work/ci-triage-agent/fixtures/tests/reviews.spec.ts:25:52\n\n  23 | test('the average rating ignores reviews that are not approved', async ({ page }) => {\n  24 |   await page.getByTestId('load-reviews').click();\n> 25 |   await expect(page.getByTestId('average-rating')).toBeVisible({ timeout: 220 });\n     |                                                    ^\n  26 |\n  27 |   const authors = await page.getByTestId('review-item').locator('.review-author').allTextContents();\n  28 |   expect(authors).not.toContain('unverified buyer');",
+  "dauer_ms": 403,
+  "versuche": [
+    {
+      "nr": 1,
+      "status": "failed"
+    },
+    {
+      "nr": 2,
+      "status": "failed"
+    },
+    {
+      "nr": 3,
+      "status": "failed"
+    }
+  ],
+  "artefakte": {
+    "diff": "diff.patch",
+    "trace": "trace.txt",
+    "screenshot": "screenshot.png"
+  },
+  "kontext": {
+    "branch": "mr/mut-09",
+    "commit": "f15e8e5",
+    "ci_lauf": "lokal (fixtures/generate.mjs)"
+  }
+}

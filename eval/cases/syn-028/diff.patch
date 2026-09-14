@@ -1,0 +1,13 @@
+diff --git a/fixtures/shop/app.js b/fixtures/shop/app.js
+index 08e65c0..b48d6a5 100644
+--- a/fixtures/shop/app.js
++++ b/fixtures/shop/app.js
+@@ -104,7 +104,7 @@ function renderSummary() {
+ }
+ 
+ function renderBadge() {
+-  const units = unitCount();
++  const units = cartLines().length;
+   $('cart-badge').textContent = `${units} item${units === 1 ? '' : 's'}`;
+ }
+ 

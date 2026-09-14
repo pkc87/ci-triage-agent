@@ -11,5 +11,11 @@
       "suchen": "  await expect(page.getByTestId('subtotal')).toHaveText('$104.65');\n  await expect(page.getByTestId('handling')).toHaveText('$2.50');",
       "ersetzen": "  await expect(page.getByTestId('subtotal')).toHaveText('104,65 €');\n  await expect(page.getByTestId('handling')).toHaveText('2,50 €');"
     }
-  ]
+  ],
+  "beobachtet": {
+    "laeufe": 1,
+    "fehlschlaege": 1,
+    "versuche_gesamt": 3,
+    "versuche_fehlgeschlagen": 3
+  }
 }

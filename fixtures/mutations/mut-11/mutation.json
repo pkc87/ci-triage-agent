@@ -11,5 +11,11 @@
       "suchen": "  await expect(confirmation).toHaveText(/^Order #[A-Z0-9]{6} placed on [A-Z][a-z]+ \\d{1,2}, \\d{4}$/);",
       "ersetzen": "  await expect(confirmation).toHaveText(/^Order #[A-Z0-9]{6} placed on \\d{2}\\.\\d{2}\\.\\d{4}$/);"
     }
-  ]
+  ],
+  "beobachtet": {
+    "laeufe": 1,
+    "fehlschlaege": 1,
+    "versuche_gesamt": 3,
+    "versuche_fehlgeschlagen": 3
+  }
 }

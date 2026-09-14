@@ -1,0 +1,35 @@
+{
+  "id": "syn-018",
+  "quelle": "synthetisch",
+  "repo": "fixtures/shop",
+  "test_titel": "the recommendations strip shows three distinct products",
+  "test_datei": "tests/catalog.spec.ts",
+  "test_zeile": 23,
+  "fehlermeldung": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('rec-item').first()\nExpected: \"Burr Grinder\"\nReceived: \"Aeropress Go\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('rec-item').first()\n    9 × locator resolved to <li data-testid=\"rec-item\">Aeropress Go</li>\n      - unexpected value \"Aeropress Go\"\n",
+  "stack": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('rec-item').first()\nExpected: \"Burr Grinder\"\nReceived: \"Aeropress Go\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('rec-item').first()\n    9 × locator resolved to <li data-testid=\"rec-item\">Aeropress Go</li>\n      - unexpected value \"Aeropress Go\"\n\n    at /work/ci-triage-agent/fixtures/tests/catalog.spec.ts:27:30\n\n  25 |   await expect(items).toHaveCount(3);\n  26 |\n> 27 |   await expect(items.nth(0)).toHaveText('Burr Grinder');\n     |                              ^\n  28 | });\n  29 |",
+  "dauer_ms": 5690,
+  "versuche": [
+    {
+      "nr": 1,
+      "status": "failed"
+    },
+    {
+      "nr": 2,
+      "status": "failed"
+    },
+    {
+      "nr": 3,
+      "status": "failed"
+    }
+  ],
+  "artefakte": {
+    "diff": "diff.patch",
+    "trace": "trace.txt",
+    "screenshot": "screenshot.png"
+  },
+  "kontext": {
+    "branch": "mr/mut-12",
+    "commit": "f15e8e5",
+    "ci_lauf": "lokal (fixtures/generate.mjs)"
+  }
+}

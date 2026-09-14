@@ -1,0 +1,19 @@
+Before Hooks  (399ms)
+    Launch browser [timeout=180000]  (234ms)
+    Create context  (4ms)
+    Create page  (135ms)
+Navigate to "/" [url=/]  (12ms)
+  ! Error: page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+  ! Call log:
+  !   - navigating to "/", waiting until "load"
+  ! 
+After Hooks  (63ms)
+    Close context  (3ms)
+Attach "error-context"  (0ms)
+Worker Cleanup  (7353ms)
+
+--- test errors ---
+Error: page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+  - navigating to "/", waiting until "load"
+

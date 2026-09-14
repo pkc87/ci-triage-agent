@@ -1,0 +1,39 @@
+Before Hooks  (63ms)
+  beforeEach hook  (62ms)
+      Create context  (1ms)
+      Create page  (31ms)
+    Navigate to "/" [url=/]  (26ms)
+Expect "toBeVisible"  (11ms)
+Expect "toHaveText" [expected=Load reviews]  (5006ms)
+  ! Error: expect(locator).toHaveText(expected) failed
+  ! 
+  ! Locator:  getByTestId('load-reviews')
+  ! Expected: "Load reviews"
+  ! Received: "Show reviews"
+  ! Timeout:  5000ms
+  ! 
+  ! Call log:
+  !   - Expect "toHaveText" with timeout 5000ms
+  !   - waiting for getByTestId('load-reviews')
+  !     9 × locator resolved to <button type="button" data-testid="load-reviews">Show reviews</button>
+  !       - unexpected value "Show reviews"
+  ! 
+After Hooks  (111ms)
+    Close context  (3ms)
+Attach "error-context"  (0ms)
+Worker Cleanup  (75ms)
+
+--- test errors ---
+Error: expect(locator).toHaveText(expected) failed
+
+Locator:  getByTestId('load-reviews')
+Expected: "Load reviews"
+Received: "Show reviews"
+Timeout:  5000ms
+
+Call log:
+  - Expect "toHaveText" with timeout 5000ms
+  - waiting for getByTestId('load-reviews')
+    9 × locator resolved to <button type="button" data-testid="load-reviews">Show reviews</button>
+      - unexpected value "Show reviews"
+

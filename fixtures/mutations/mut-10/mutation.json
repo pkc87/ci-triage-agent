@@ -11,5 +11,11 @@
       "suchen": "export function handling(lines) {\n  return lines.length === 0 ? 0 : HANDLING_FEE;\n}",
       "ersetzen": "export function handling(lines) {\n  return HANDLING_FEE;\n}"
     }
-  ]
+  ],
+  "beobachtet": {
+    "laeufe": 1,
+    "fehlschlaege": 1,
+    "versuche_gesamt": 6,
+    "versuche_fehlgeschlagen": 6
+  }
 }

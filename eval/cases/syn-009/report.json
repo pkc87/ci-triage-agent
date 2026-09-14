@@ -1,0 +1,265 @@
+{
+  "config": {
+    "configFile": "/work/ci-triage-agent/fixtures/playwright.config.ts",
+    "rootDir": "/work/ci-triage-agent/fixtures/tests",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 4
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/work/ci-triage-agent/fixtures/runs/mut-05/1/artifacts",
+        "repeatEach": 1,
+        "retries": 2,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "/work/ci-triage-agent/fixtures/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json",
+        {
+          "outputFile": "/work/ci-triage-agent/fixtures/runs/mut-05/1/report.json"
+        }
+      ],
+      [
+        "list",
+        null
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.59.0",
+    "workers": 4,
+    "webServer": {
+      "command": "node serve.mjs",
+      "url": "http://127.0.0.1:4173",
+      "reuseExistingServer": false,
+      "stdout": "ignore",
+      "stderr": "pipe"
+    }
+  },
+  "suites": [
+    {
+      "title": "reviews.spec.ts",
+      "file": "reviews.spec.ts",
+      "line": 0,
+      "column": 0,
+      "specs": [
+        {
+          "title": "the reviews section offers a load action",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "failed",
+                  "duration": 5183,
+                  "error": {
+                    "message": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('load-reviews')\nExpected: \"Load reviews\"\nReceived: \"Show reviews\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('load-reviews')\n    9 × locator resolved to <button type=\"button\" data-testid=\"load-reviews\">Show reviews</button>\n      - unexpected value \"Show reviews\"\n",
+                    "stack": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('load-reviews')\nExpected: \"Load reviews\"\nReceived: \"Show reviews\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('load-reviews')\n    9 × locator resolved to <button type=\"button\" data-testid=\"load-reviews\">Show reviews</button>\n      - unexpected value \"Show reviews\"\n\n    at /work/ci-triage-agent/fixtures/tests/reviews.spec.ts:10:24",
+                    "location": {
+                      "file": "/work/ci-triage-agent/fixtures/tests/reviews.spec.ts",
+                      "column": 24,
+                      "line": 10
+                    },
+                    "snippet": "   8 |   const button = page.getByTestId('load-reviews');\n   9 |   await expect(button).toBeVisible();\n> 10 |   await expect(button).toHaveText('Load reviews');\n     |                        ^\n  11 |   await expect(page.getByTestId('reviews-list').locator('li')).toHaveCount(0);\n  12 | });\n  13 |"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/work/ci-triage-agent/fixtures/tests/reviews.spec.ts",
+                        "column": 24,
+                        "line": 10
+                      },
+                      "message": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('load-reviews')\nExpected: \"Load reviews\"\nReceived: \"Show reviews\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('load-reviews')\n    9 × locator resolved to <button type=\"button\" data-testid=\"load-reviews\">Show reviews</button>\n      - unexpected value \"Show reviews\"\n\n\n   8 |   const button = page.getByTestId('load-reviews');\n   9 |   await expect(button).toBeVisible();\n> 10 |   await expect(button).toHaveText('Load reviews');\n     |                        ^\n  11 |   await expect(page.getByTestId('reviews-list').locator('li')).toHaveCount(0);\n  12 | });\n  13 |\n    at /work/ci-triage-agent/fixtures/tests/reviews.spec.ts:10:24"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-14T11:46:32.149Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-05/1/artifacts/reviews-the-reviews-section-offers-a-load-action-chromium/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-05/1/artifacts/reviews-the-reviews-section-offers-a-load-action-chromium/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-05/1/artifacts/reviews-the-reviews-section-offers-a-load-action-chromium/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/work/ci-triage-agent/fixtures/tests/reviews.spec.ts",
+                    "column": 24,
+                    "line": 10
+                  }
+                },
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 1,
+                  "status": "failed",
+                  "duration": 5982,
+                  "error": {
+                    "message": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('load-reviews')\nExpected: \"Load reviews\"\nReceived: \"Show reviews\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('load-reviews')\n    9 × locator resolved to <button type=\"button\" data-testid=\"load-reviews\">Show reviews</button>\n      - unexpected value \"Show reviews\"\n",
+                    "stack": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('load-reviews')\nExpected: \"Load reviews\"\nReceived: \"Show reviews\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('load-reviews')\n    9 × locator resolved to <button type=\"button\" data-testid=\"load-reviews\">Show reviews</button>\n      - unexpected value \"Show reviews\"\n\n    at /work/ci-triage-agent/fixtures/tests/reviews.spec.ts:10:24",
+                    "location": {
+                      "file": "/work/ci-triage-agent/fixtures/tests/reviews.spec.ts",
+                      "column": 24,
+                      "line": 10
+                    },
+                    "snippet": "   8 |   const button = page.getByTestId('load-reviews');\n   9 |   await expect(button).toBeVisible();\n> 10 |   await expect(button).toHaveText('Load reviews');\n     |                        ^\n  11 |   await expect(page.getByTestId('reviews-list').locator('li')).toHaveCount(0);\n  12 | });\n  13 |"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/work/ci-triage-agent/fixtures/tests/reviews.spec.ts",
+                        "column": 24,
+                        "line": 10
+                      },
+                      "message": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('load-reviews')\nExpected: \"Load reviews\"\nReceived: \"Show reviews\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('load-reviews')\n    9 × locator resolved to <button type=\"button\" data-testid=\"load-reviews\">Show reviews</button>\n      - unexpected value \"Show reviews\"\n\n\n   8 |   const button = page.getByTestId('load-reviews');\n   9 |   await expect(button).toBeVisible();\n> 10 |   await expect(button).toHaveText('Load reviews');\n     |                        ^\n  11 |   await expect(page.getByTestId('reviews-list').locator('li')).toHaveCount(0);\n  12 | });\n  13 |\n    at /work/ci-triage-agent/fixtures/tests/reviews.spec.ts:10:24"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 1,
+                  "startTime": "2026-09-14T11:46:38.336Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-05/1/artifacts/reviews-the-reviews-section-offers-a-load-action-chromium-retry1/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-05/1/artifacts/reviews-the-reviews-section-offers-a-load-action-chromium-retry1/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-05/1/artifacts/reviews-the-reviews-section-offers-a-load-action-chromium-retry1/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/work/ci-triage-agent/fixtures/tests/reviews.spec.ts",
+                    "column": 24,
+                    "line": 10
+                  }
+                },
+                {
+                  "workerIndex": 7,
+                  "parallelIndex": 1,
+                  "status": "failed",
+                  "duration": 5238,
+                  "error": {
+                    "message": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('load-reviews')\nExpected: \"Load reviews\"\nReceived: \"Show reviews\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('load-reviews')\n    9 × locator resolved to <button type=\"button\" data-testid=\"load-reviews\">Show reviews</button>\n      - unexpected value \"Show reviews\"\n",
+                    "stack": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('load-reviews')\nExpected: \"Load reviews\"\nReceived: \"Show reviews\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('load-reviews')\n    9 × locator resolved to <button type=\"button\" data-testid=\"load-reviews\">Show reviews</button>\n      - unexpected value \"Show reviews\"\n\n    at /work/ci-triage-agent/fixtures/tests/reviews.spec.ts:10:24",
+                    "location": {
+                      "file": "/work/ci-triage-agent/fixtures/tests/reviews.spec.ts",
+                      "column": 24,
+                      "line": 10
+                    },
+                    "snippet": "   8 |   const button = page.getByTestId('load-reviews');\n   9 |   await expect(button).toBeVisible();\n> 10 |   await expect(button).toHaveText('Load reviews');\n     |                        ^\n  11 |   await expect(page.getByTestId('reviews-list').locator('li')).toHaveCount(0);\n  12 | });\n  13 |"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/work/ci-triage-agent/fixtures/tests/reviews.spec.ts",
+                        "column": 24,
+                        "line": 10
+                      },
+                      "message": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('load-reviews')\nExpected: \"Load reviews\"\nReceived: \"Show reviews\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('load-reviews')\n    9 × locator resolved to <button type=\"button\" data-testid=\"load-reviews\">Show reviews</button>\n      - unexpected value \"Show reviews\"\n\n\n   8 |   const button = page.getByTestId('load-reviews');\n   9 |   await expect(button).toBeVisible();\n> 10 |   await expect(button).toHaveText('Load reviews');\n     |                        ^\n  11 |   await expect(page.getByTestId('reviews-list').locator('li')).toHaveCount(0);\n  12 | });\n  13 |\n    at /work/ci-triage-agent/fixtures/tests/reviews.spec.ts:10:24"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 2,
+                  "startTime": "2026-09-14T11:46:45.580Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-05/1/artifacts/reviews-the-reviews-section-offers-a-load-action-chromium-retry2/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-05/1/artifacts/reviews-the-reviews-section-offers-a-load-action-chromium-retry2/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-05/1/artifacts/reviews-the-reviews-section-offers-a-load-action-chromium-retry2/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/work/ci-triage-agent/fixtures/tests/reviews.spec.ts",
+                    "column": 24,
+                    "line": 10
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "e1198ca194b02ae20e2d-ade7b28ec88414efe8ef",
+          "file": "reviews.spec.ts",
+          "line": 7,
+          "column": 5
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-09-14T11:46:29.930Z",
+    "duration": 21354.782,
+    "expected": 19,
+    "skipped": 0,
+    "unexpected": 2,
+    "flaky": 0
+  }
+}

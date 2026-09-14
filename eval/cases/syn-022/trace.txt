@@ -1,0 +1,43 @@
+Before Hooks  (266ms)
+  beforeEach hook  (266ms)
+      Create context  (2ms)
+      Create page  (165ms)
+    Navigate to "/" [url=/]  (51ms)
+    Click getByTestId('add-p1') [selector=internal:testid=[data-testid="add-p1"s]]  (43ms)
+Fill "Dana Fisher" getByTestId('name') [selector=internal:testid=[data-testid="name"s] value=Dana Fisher]  (8ms)
+Fill "" getByTestId('email') [selector=internal:testid=[data-testid="email"s]]  (6ms)
+Fill "94110" getByTestId('zip') [selector=internal:testid=[data-testid="zip"s] value=94110]  (6ms)
+Click getByTestId('place-order') [selector=internal:testid=[data-testid="place-order"s]]  (47ms)
+Expect "toBeVisible"  (5004ms)
+  ! Error: expect(locator).toBeVisible() failed
+  ! 
+  ! Locator:  getByTestId('form-error')
+  ! Expected: visible
+  ! Received: hidden
+  ! Timeout:  5000ms
+  ! 
+  ! Call log:
+  !   - Expect "toBeVisible" with timeout 5000ms
+  !   - waiting for getByTestId('form-error')
+  !     9 × locator resolved to <ul hidden="" class="form-errors" data-testid="form-error"></ul>
+  !       - unexpected value "hidden"
+  ! 
+After Hooks  (87ms)
+    Close context  (3ms)
+Attach "error-context"  (0ms)
+Worker Cleanup  (59ms)
+
+--- test errors ---
+Error: expect(locator).toBeVisible() failed
+
+Locator:  getByTestId('form-error')
+Expected: visible
+Received: hidden
+Timeout:  5000ms
+
+Call log:
+  - Expect "toBeVisible" with timeout 5000ms
+  - waiting for getByTestId('form-error')
+    9 × locator resolved to <ul hidden="" class="form-errors" data-testid="form-error"></ul>
+      - unexpected value "hidden"
+

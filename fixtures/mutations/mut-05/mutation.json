@@ -16,5 +16,11 @@
       "suchen": "      <button type=\"button\" data-testid=\"load-reviews\">Load reviews</button>",
       "ersetzen": "      <button type=\"button\" data-testid=\"load-reviews\">Show reviews</button>"
     }
-  ]
+  ],
+  "beobachtet": {
+    "laeufe": 1,
+    "fehlschlaege": 1,
+    "versuche_gesamt": 6,
+    "versuche_fehlgeschlagen": 6
+  }
 }

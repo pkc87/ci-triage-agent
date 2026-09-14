@@ -1,0 +1,35 @@
+{
+  "id": "syn-011",
+  "quelle": "synthetisch",
+  "repo": "fixtures/shop",
+  "test_titel": "a promo code discounts the gross amount, after tax",
+  "test_datei": "tests/pricing.spec.ts",
+  "test_zeile": 23,
+  "fehlermeldung": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('total')\nExpected: \"$41.17\"\nReceived: \"$36.59\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('total')\n    9 × locator resolved to <dd class=\"grand\" data-testid=\"total\">$36.59</dd>\n      - unexpected value \"$36.59\"\n",
+  "stack": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('total')\nExpected: \"$41.17\"\nReceived: \"$36.59\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('total')\n    9 × locator resolved to <dd class=\"grand\" data-testid=\"total\">$36.59</dd>\n      - unexpected value \"$36.59\"\n\n    at /work/ci-triage-agent/fixtures/tests/pricing.spec.ts:33:43\n\n  31 |   await expect(page.getByTestId('discount-status')).toHaveText('Code WELCOME10 applied');\n  32 |   await expect(page.getByTestId('discount')).toHaveText('-$4.58');\n> 33 |   await expect(page.getByTestId('total')).toHaveText('$41.17');\n     |                                           ^\n  34 | });\n  35 |\n  36 | test('an unknown promo code changes nothing', async ({ page }) => {",
+  "dauer_ms": 6270,
+  "versuche": [
+    {
+      "nr": 1,
+      "status": "failed"
+    },
+    {
+      "nr": 2,
+      "status": "failed"
+    },
+    {
+      "nr": 3,
+      "status": "failed"
+    }
+  ],
+  "artefakte": {
+    "diff": "diff.patch",
+    "trace": "trace.txt",
+    "screenshot": "screenshot.png"
+  },
+  "kontext": {
+    "branch": "mr/mut-07",
+    "commit": "f15e8e5",
+    "ci_lauf": "lokal (fixtures/generate.mjs)"
+  }
+}

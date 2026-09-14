@@ -11,5 +11,11 @@
       "suchen": "  use: {\n    baseURL: BASE_URL,",
       "ersetzen": "  use: {\n    launchOptions: {\n      executablePath:\n        process.env.CHROMIUM_PATH ?? String.raw`C:\\ci-agents\\browsers\\chromium-1148\\chrome-win\\chrome.exe`,\n    },\n    baseURL: BASE_URL,"
     }
-  ]
+  ],
+  "beobachtet": {
+    "laeufe": 1,
+    "fehlschlaege": 1,
+    "versuche_gesamt": 63,
+    "versuche_fehlgeschlagen": 63
+  }
 }

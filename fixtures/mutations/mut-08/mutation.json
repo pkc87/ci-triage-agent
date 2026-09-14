@@ -11,5 +11,11 @@
       "suchen": ".sidebar section {\n  background: var(--paper);\n  border: 1px solid var(--line);\n  border-radius: 6px;\n  padding: 16px;\n}",
       "ersetzen": ".sidebar section {\n  background: var(--paper);\n  border: 1px solid var(--line);\n  border-radius: 10px;\n  padding: 20px 18px;\n}"
     }
-  ]
+  ],
+  "beobachtet": {
+    "laeufe": 1,
+    "fehlschlaege": 1,
+    "versuche_gesamt": 3,
+    "versuche_fehlgeschlagen": 3
+  }
 }

@@ -1,0 +1,39 @@
+Before Hooks  (72ms)
+  beforeEach hook  (71ms)
+      Create context  (2ms)
+      Create page  (37ms)
+    Navigate to "/" [url=/]  (28ms)
+Click getByTestId('load-reviews') [selector=internal:testid=[data-testid="load-reviews"s]]  (47ms)
+Expect "toBeVisible" [expected=Object]  (229ms)
+  ! Error: expect(locator).toBeVisible() failed
+  ! 
+  ! Locator:  getByTestId('average-rating')
+  ! Expected: visible
+  ! Received: hidden
+  ! Timeout:  220ms
+  ! 
+  ! Call log:
+  !   - Expect "toBeVisible" with timeout 220ms
+  !   - waiting for getByTestId('average-rating')
+  !     3 × locator resolved to <p hidden="" class="average" data-testid="average-rating"></p>
+  !       - unexpected value "hidden"
+  ! 
+After Hooks  (62ms)
+    Close context  (2ms)
+Attach "error-context"  (0ms)
+Worker Cleanup  (32ms)
+
+--- test errors ---
+Error: expect(locator).toBeVisible() failed
+
+Locator:  getByTestId('average-rating')
+Expected: visible
+Received: hidden
+Timeout:  220ms
+
+Call log:
+  - Expect "toBeVisible" with timeout 220ms
+  - waiting for getByTestId('average-rating')
+    3 × locator resolved to <p hidden="" class="average" data-testid="average-rating"></p>
+      - unexpected value "hidden"
+

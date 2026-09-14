@@ -11,5 +11,11 @@
       "suchen": "  const gross = round2(goods + fee + taxDue);\n  const discount = discountAmount(gross, code);\n  return {",
       "ersetzen": "  const discount = discountAmount(round2(goods + fee + taxDue), code);\n  const gross = round2(goods + fee + taxDue - discount);\n  return {"
     }
-  ]
+  ],
+  "beobachtet": {
+    "laeufe": 1,
+    "fehlschlaege": 1,
+    "versuche_gesamt": 6,
+    "versuche_fehlgeschlagen": 6
+  }
 }

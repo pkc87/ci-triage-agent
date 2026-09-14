@@ -1,0 +1,265 @@
+{
+  "config": {
+    "configFile": "/work/ci-triage-agent/fixtures/playwright.config.ts",
+    "rootDir": "/work/ci-triage-agent/fixtures/tests",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 4
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/work/ci-triage-agent/fixtures/runs/mut-04/1/artifacts",
+        "repeatEach": 1,
+        "retries": 2,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "/work/ci-triage-agent/fixtures/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json",
+        {
+          "outputFile": "/work/ci-triage-agent/fixtures/runs/mut-04/1/report.json"
+        }
+      ],
+      [
+        "list",
+        null
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.59.0",
+    "workers": 4,
+    "webServer": {
+      "command": "node serve.mjs",
+      "url": "http://127.0.0.1:4173",
+      "reuseExistingServer": false,
+      "stdout": "ignore",
+      "stderr": "pipe"
+    }
+  },
+  "suites": [
+    {
+      "title": "pricing.spec.ts",
+      "file": "pricing.spec.ts",
+      "line": 0,
+      "column": 0,
+      "specs": [
+        {
+          "title": "a promo code discounts the gross amount, after tax",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "failed",
+                  "duration": 5316,
+                  "error": {
+                    "message": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('discount')\nExpected: \"-$4.58\"\nReceived: \"-$4.00\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('discount')\n    9 × locator resolved to <dd data-testid=\"discount\">-$4.00</dd>\n      - unexpected value \"-$4.00\"\n",
+                    "stack": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('discount')\nExpected: \"-$4.58\"\nReceived: \"-$4.00\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('discount')\n    9 × locator resolved to <dd data-testid=\"discount\">-$4.00</dd>\n      - unexpected value \"-$4.00\"\n\n    at /work/ci-triage-agent/fixtures/tests/pricing.spec.ts:32:46",
+                    "location": {
+                      "file": "/work/ci-triage-agent/fixtures/tests/pricing.spec.ts",
+                      "column": 46,
+                      "line": 32
+                    },
+                    "snippet": "  30 |   // 10% of the gross 45.75 is 4.58, not 10% of the 39.95 in goods.\n  31 |   await expect(page.getByTestId('discount-status')).toHaveText('Code WELCOME10 applied');\n> 32 |   await expect(page.getByTestId('discount')).toHaveText('-$4.58');\n     |                                              ^\n  33 |   await expect(page.getByTestId('total')).toHaveText('$41.17');\n  34 | });\n  35 |"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/work/ci-triage-agent/fixtures/tests/pricing.spec.ts",
+                        "column": 46,
+                        "line": 32
+                      },
+                      "message": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('discount')\nExpected: \"-$4.58\"\nReceived: \"-$4.00\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('discount')\n    9 × locator resolved to <dd data-testid=\"discount\">-$4.00</dd>\n      - unexpected value \"-$4.00\"\n\n\n  30 |   // 10% of the gross 45.75 is 4.58, not 10% of the 39.95 in goods.\n  31 |   await expect(page.getByTestId('discount-status')).toHaveText('Code WELCOME10 applied');\n> 32 |   await expect(page.getByTestId('discount')).toHaveText('-$4.58');\n     |                                              ^\n  33 |   await expect(page.getByTestId('total')).toHaveText('$41.17');\n  34 | });\n  35 |\n    at /work/ci-triage-agent/fixtures/tests/pricing.spec.ts:32:46"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-14T11:46:10.850Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-04/1/artifacts/pricing-a-promo-code-discounts-the-gross-amount-after-tax-chromium/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-04/1/artifacts/pricing-a-promo-code-discounts-the-gross-amount-after-tax-chromium/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-04/1/artifacts/pricing-a-promo-code-discounts-the-gross-amount-after-tax-chromium/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/work/ci-triage-agent/fixtures/tests/pricing.spec.ts",
+                    "column": 46,
+                    "line": 32
+                  }
+                },
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 5364,
+                  "error": {
+                    "message": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('discount')\nExpected: \"-$4.58\"\nReceived: \"-$4.00\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('discount')\n    9 × locator resolved to <dd data-testid=\"discount\">-$4.00</dd>\n      - unexpected value \"-$4.00\"\n",
+                    "stack": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('discount')\nExpected: \"-$4.58\"\nReceived: \"-$4.00\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('discount')\n    9 × locator resolved to <dd data-testid=\"discount\">-$4.00</dd>\n      - unexpected value \"-$4.00\"\n\n    at /work/ci-triage-agent/fixtures/tests/pricing.spec.ts:32:46",
+                    "location": {
+                      "file": "/work/ci-triage-agent/fixtures/tests/pricing.spec.ts",
+                      "column": 46,
+                      "line": 32
+                    },
+                    "snippet": "  30 |   // 10% of the gross 45.75 is 4.58, not 10% of the 39.95 in goods.\n  31 |   await expect(page.getByTestId('discount-status')).toHaveText('Code WELCOME10 applied');\n> 32 |   await expect(page.getByTestId('discount')).toHaveText('-$4.58');\n     |                                              ^\n  33 |   await expect(page.getByTestId('total')).toHaveText('$41.17');\n  34 | });\n  35 |"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/work/ci-triage-agent/fixtures/tests/pricing.spec.ts",
+                        "column": 46,
+                        "line": 32
+                      },
+                      "message": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('discount')\nExpected: \"-$4.58\"\nReceived: \"-$4.00\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('discount')\n    9 × locator resolved to <dd data-testid=\"discount\">-$4.00</dd>\n      - unexpected value \"-$4.00\"\n\n\n  30 |   // 10% of the gross 45.75 is 4.58, not 10% of the 39.95 in goods.\n  31 |   await expect(page.getByTestId('discount-status')).toHaveText('Code WELCOME10 applied');\n> 32 |   await expect(page.getByTestId('discount')).toHaveText('-$4.58');\n     |                                              ^\n  33 |   await expect(page.getByTestId('total')).toHaveText('$41.17');\n  34 | });\n  35 |\n    at /work/ci-triage-agent/fixtures/tests/pricing.spec.ts:32:46"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 1,
+                  "startTime": "2026-09-14T11:46:16.904Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-04/1/artifacts/pricing-a-promo-code-discounts-the-gross-amount-after-tax-chromium-retry1/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-04/1/artifacts/pricing-a-promo-code-discounts-the-gross-amount-after-tax-chromium-retry1/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-04/1/artifacts/pricing-a-promo-code-discounts-the-gross-amount-after-tax-chromium-retry1/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/work/ci-triage-agent/fixtures/tests/pricing.spec.ts",
+                    "column": 46,
+                    "line": 32
+                  }
+                },
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 5393,
+                  "error": {
+                    "message": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('discount')\nExpected: \"-$4.58\"\nReceived: \"-$4.00\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('discount')\n    9 × locator resolved to <dd data-testid=\"discount\">-$4.00</dd>\n      - unexpected value \"-$4.00\"\n",
+                    "stack": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('discount')\nExpected: \"-$4.58\"\nReceived: \"-$4.00\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('discount')\n    9 × locator resolved to <dd data-testid=\"discount\">-$4.00</dd>\n      - unexpected value \"-$4.00\"\n\n    at /work/ci-triage-agent/fixtures/tests/pricing.spec.ts:32:46",
+                    "location": {
+                      "file": "/work/ci-triage-agent/fixtures/tests/pricing.spec.ts",
+                      "column": 46,
+                      "line": 32
+                    },
+                    "snippet": "  30 |   // 10% of the gross 45.75 is 4.58, not 10% of the 39.95 in goods.\n  31 |   await expect(page.getByTestId('discount-status')).toHaveText('Code WELCOME10 applied');\n> 32 |   await expect(page.getByTestId('discount')).toHaveText('-$4.58');\n     |                                              ^\n  33 |   await expect(page.getByTestId('total')).toHaveText('$41.17');\n  34 | });\n  35 |"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/work/ci-triage-agent/fixtures/tests/pricing.spec.ts",
+                        "column": 46,
+                        "line": 32
+                      },
+                      "message": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('discount')\nExpected: \"-$4.58\"\nReceived: \"-$4.00\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('discount')\n    9 × locator resolved to <dd data-testid=\"discount\">-$4.00</dd>\n      - unexpected value \"-$4.00\"\n\n\n  30 |   // 10% of the gross 45.75 is 4.58, not 10% of the 39.95 in goods.\n  31 |   await expect(page.getByTestId('discount-status')).toHaveText('Code WELCOME10 applied');\n> 32 |   await expect(page.getByTestId('discount')).toHaveText('-$4.58');\n     |                                              ^\n  33 |   await expect(page.getByTestId('total')).toHaveText('$41.17');\n  34 | });\n  35 |\n    at /work/ci-triage-agent/fixtures/tests/pricing.spec.ts:32:46"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 2,
+                  "startTime": "2026-09-14T11:46:23.118Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-04/1/artifacts/pricing-a-promo-code-discounts-the-gross-amount-after-tax-chromium-retry2/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-04/1/artifacts/pricing-a-promo-code-discounts-the-gross-amount-after-tax-chromium-retry2/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-04/1/artifacts/pricing-a-promo-code-discounts-the-gross-amount-after-tax-chromium-retry2/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/work/ci-triage-agent/fixtures/tests/pricing.spec.ts",
+                    "column": 46,
+                    "line": 32
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "727e3f52dedb009881fb-ed923cd22924f2ac0eff",
+          "file": "pricing.spec.ts",
+          "line": 23,
+          "column": 5
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-09-14T11:46:08.555Z",
+    "duration": 20548.868000000002,
+    "expected": 19,
+    "skipped": 0,
+    "unexpected": 2,
+    "flaky": 0
+  }
+}

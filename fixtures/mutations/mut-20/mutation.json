@@ -11,5 +11,11 @@
       "suchen": "function renderBadge() {\n  const units = unitCount();",
       "ersetzen": "function renderBadge() {\n  const units = cartLines().length;"
     }
-  ]
+  ],
+  "beobachtet": {
+    "laeufe": 1,
+    "fehlschlaege": 1,
+    "versuche_gesamt": 6,
+    "versuche_fehlgeschlagen": 6
+  }
 }

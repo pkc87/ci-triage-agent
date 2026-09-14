@@ -1,39 +1,43 @@
-Before Hooks  (793ms)
-  beforeEach hook  (793ms)
-      Launch browser [timeout=180000]  (267ms)
-      Create context  (4ms)
-      Create page  (240ms)
-    Navigate to "/" [url=/]  (249ms)
+Before Hooks  (86ms)
+  beforeEach hook  (86ms)
+      Create context  (3ms)
+      Create page  (52ms)
+    Navigate to "/" [url=/]  (27ms)
 Click getByTestId('add-p1') [selector=internal:testid=[data-testid="add-p1"s]]  (52ms)
-Expect "toBeVisible"  (7ms)
-Expect "toBeHidden"  (4ms)
-Expect "toHaveText" [expected=$39.95]  (4ms)
-Expect "toHaveText" [expected=$39.95]  (5010ms)
+Fill "-3" getByTestId('qty-p1') [selector=internal:testid=[data-testid="qty-p1"s] value=-3]  (17ms)
+Blur getByTestId('qty-p1') [selector=internal:testid=[data-testid="qty-p1"s]]  (13ms)
+Expect "toHaveValue" [expected=1]  (5ms)
+Expect "toHaveText" [expected=$39.95]  (7ms)
+Expect "toHaveText" [expected=$45.75]  (5004ms)
   ! Error: expect(locator).toHaveText(expected) failed
   ! 
-  ! Locator: getByTestId('cart-subtotal-value')
-  ! Expected: "$39.95"
-  ! Timeout: 5000ms
-  ! Error: element(s) not found
+  ! Locator:  getByTestId('total')
+  ! Expected: "$45.75"
+  ! Received: "$45.74"
+  ! Timeout:  5000ms
   ! 
   ! Call log:
   !   - Expect "toHaveText" with timeout 5000ms
-  !   - waiting for getByTestId('cart-subtotal-value')
+  !   - waiting for getByTestId('total')
+  !     9 × locator resolved to <dd class="grand" data-testid="total">$45.74</dd>
+  !       - unexpected value "$45.74"
   ! 
-After Hooks  (392ms)
-    Close context  (27ms)
+After Hooks  (470ms)
+    Close context  (2ms)
 Attach "error-context"  (0ms)
-Worker Cleanup  (35347ms)
+Worker Cleanup  (211ms)
 
 --- test errors ---
 Error: expect(locator).toHaveText(expected) failed
 
-Locator: getByTestId('cart-subtotal-value')
-Expected: "$39.95"
-Timeout: 5000ms
-Error: element(s) not found
+Locator:  getByTestId('total')
+Expected: "$45.75"
+Received: "$45.74"
+Timeout:  5000ms
 
 Call log:
   - Expect "toHaveText" with timeout 5000ms
-  - waiting for getByTestId('cart-subtotal-value')
+  - waiting for getByTestId('total')
+    9 × locator resolved to <dd class="grand" data-testid="total">$45.74</dd>
+      - unexpected value "$45.74"
 

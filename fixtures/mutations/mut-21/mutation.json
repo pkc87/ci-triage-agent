@@ -11,5 +11,11 @@
       "suchen": "const BASE_URL = process.env.SHOP_BASE_URL ?? `http://127.0.0.1:${PORT}`;",
       "ersetzen": "const BASE_URL = process.env.SHOP_BASE_URL;"
     }
-  ]
+  ],
+  "beobachtet": {
+    "laeufe": 1,
+    "fehlschlaege": 1,
+    "versuche_gesamt": 63,
+    "versuche_fehlgeschlagen": 63
+  }
 }

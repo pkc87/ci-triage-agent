@@ -1,0 +1,35 @@
+{
+  "id": "syn-025",
+  "quelle": "synthetisch",
+  "repo": "fixtures/shop",
+  "test_titel": "the average rating ignores reviews that are not approved",
+  "test_datei": "tests/reviews.spec.ts",
+  "test_zeile": 23,
+  "fehlermeldung": "Error: expect(locator).not.toHaveText(expected) failed\n\nLocator:  getByTestId('average-rating')\nExpected: not \"Average rating: 3.6 out of 5\"\nReceived: \"Average rating: 3.6 out of 5\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"not toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('average-rating')\n    9 × locator resolved to <p class=\"average\" data-testid=\"average-rating\">Average rating: 3.6 out of 5</p>\n      - unexpected value \"Average rating: 3.6 out of 5\"\n",
+  "stack": "Error: expect(locator).not.toHaveText(expected) failed\n\nLocator:  getByTestId('average-rating')\nExpected: not \"Average rating: 3.6 out of 5\"\nReceived: \"Average rating: 3.6 out of 5\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"not toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('average-rating')\n    9 × locator resolved to <p class=\"average\" data-testid=\"average-rating\">Average rating: 3.6 out of 5</p>\n      - unexpected value \"Average rating: 3.6 out of 5\"\n\n    at /work/ci-triage-agent/fixtures/tests/reviews.spec.ts:29:56\n\n  27 |   const authors = await page.getByTestId('review-item').locator('.review-author').allTextContents();\n  28 |   expect(authors).not.toContain('unverified buyer');\n> 29 |   await expect(page.getByTestId('average-rating')).not.toHaveText('Average rating: 3.6 out of 5');\n     |                                                        ^\n  30 | });\n  31 |",
+  "dauer_ms": 5450,
+  "versuche": [
+    {
+      "nr": 1,
+      "status": "failed"
+    },
+    {
+      "nr": 2,
+      "status": "failed"
+    },
+    {
+      "nr": 3,
+      "status": "failed"
+    }
+  ],
+  "artefakte": {
+    "diff": "diff.patch",
+    "trace": "trace.txt",
+    "screenshot": "screenshot.png"
+  },
+  "kontext": {
+    "branch": "mr/mut-18",
+    "commit": "f15e8e5",
+    "ci_lauf": "lokal (fixtures/generate.mjs)"
+  }
+}

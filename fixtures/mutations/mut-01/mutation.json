@@ -11,5 +11,11 @@
       "suchen": "export function tax(goods) {\n  return round2(goods * TAX_RATE);\n}",
       "ersetzen": "export function tax(goods) {\n  // never charge a fraction of a cent\n  return Math.floor(goods * TAX_RATE * 100) / 100;\n}"
     }
-  ]
+  ],
+  "beobachtet": {
+    "laeufe": 1,
+    "fehlschlaege": 1,
+    "versuche_gesamt": 12,
+    "versuche_fehlgeschlagen": 12
+  }
 }
