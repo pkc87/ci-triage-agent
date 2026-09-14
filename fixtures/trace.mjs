@@ -11,7 +11,8 @@ import { inflateRawSync } from 'node:zlib';
 const EOCD_SIGNATURE = 0x06054b50;
 const CENTRAL_SIGNATURE = 0x02014b50;
 
-const ANSI = /[][[]()#;?]*(?:(?:(?:[a-zA-Zd]*(?:;[-a-zA-Zd/#&.:=?%@~_]*)*)?)|(?:(?:d{1,4}(?:;d{0,4})*)?[dA-PR-TZcf-nq-uy=><~]))/g;
+// CSI and OSC escape sequences: Playwright colours its error text even in a file.
+const ANSI = new RegExp('[\\u001B\\u009B][[\\]()#;?]*(?:(?:[a-zA-Z\\d]*(?:;[-a-zA-Z\\d/#&.:=?%@~_]*)*)?\\u0007|(?:\\d{1,4}(?:;\\d{0,4})*)?[\\dA-PR-TZcf-nq-uy=><~])', 'g');
 
 export function stripAnsi(text) {
   return String(text ?? '').replace(ANSI, '');

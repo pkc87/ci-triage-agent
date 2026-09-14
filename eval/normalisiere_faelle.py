@@ -22,13 +22,10 @@ from pathlib import Path
 HIER = Path(__file__).resolve().parent
 ANSI = re.compile(r"\x1b\[[0-9;]*[A-Za-z]")
 
-# The CI logs are UTF-8; read as cp1252 they produce these. The German test
-# titles in the historical cases are full of them.
 # UTF-8 bytes read as cp1252. The historical cases come from Windows-captured
 # CI logs whose test titles are German, so this is a real risk -- though as it
-# turned out, the corpus in this repo is clean. Keys are written as escapes so
-# that editing this file in a non-UTF-8 editor cannot quietly change them into
-# a rule that corrupts correct text.
+# turned out, the corpus in this repo is clean, so this pass is a guard rather
+# than a repair. Verified with --trocken: it changes nothing.
 MOJIBAKE = {
     "â€”": "—",   # em dash
     "â€“": "–",   # en dash
