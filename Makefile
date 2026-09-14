@@ -42,3 +42,6 @@ korpus-pruefen:
 
 fehler:
 	$(PY) eval/fehleranalyse.py
+
+ground-truth:
+	$(PY) eval/baue_ground_truth.py
