@@ -91,7 +91,27 @@ def zahlen_block(e: dict) -> str:
         z.append(f"| **`{k}`** | {r['PRODUKTFEHLER']} | {r['KAPUTTER_TEST']} | "
                  f"{r['FLAKE']} | {r['ESKALATION_MENSCH']} |")
     z.append("")
-    z.append("### Where the data comes from")
+    kal = e.get("kalibrierung") or []
+    if any(b["n"] for b in kal):
+        z.append("### Does the confidence mean anything?")
+        z.append("")
+        z.append("Everything above rests on one assumption: that the number the model "
+                 "reports tracks how often it is actually right. If it does not, the "
+                 "threshold sorts by noise and every sweep row is theatre. So here is the "
+                 "assumption, checked:")
+        z.append("")
+        z.append("| stated confidence | cases | correct | hit rate (95% CI) |")
+        z.append("|---|---|---|---|")
+        for b in kal:
+            if not b["n"]:
+                continue
+            lo, hi = b["ci95"]
+            z.append(f"| {b['von']:.2f} – {b['bis']:.2f} | {b['n']} | {b['richtig']} | "
+                     f"{b['trefferquote']:.0%} <sub>[{lo:.0%}–{hi:.0%}]</sub> |")
+        z.append("")
+        z.append("Read this before the headline table.")
+        z.append("")
+        z.append("### Where the data comes from")
     z.append("")
     z.append(f"| source | cases | how it was labelled |")
     z.append("|---|---|---|")
