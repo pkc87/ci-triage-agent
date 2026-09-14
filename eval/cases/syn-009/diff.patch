@@ -1,0 +1,26 @@
+diff --git a/fixtures/shop/app.js b/fixtures/shop/app.js
+index 08e65c0..c86e72d 100644
+--- a/fixtures/shop/app.js
++++ b/fixtures/shop/app.js
+@@ -55,7 +55,7 @@ function renderCatalog() {
+       <h3>${product.name}</h3>
+       <span class="price" data-testid="price-${product.id}">${formatMoney(product.price)}</span>
+       <p>${product.blurb}</p>
+-      <button type="button" data-testid="add-${product.id}">Add to cart</button>
++      <button type="button" data-testid="add-${product.id}">Add to bag</button>
+     `;
+     li.querySelector('button').addEventListener('click', () => {
+       cart.set(product.id, (cart.get(product.id) ?? 0) + 1);
+diff --git a/fixtures/shop/index.html b/fixtures/shop/index.html
+index 4434f2c..93cea87 100644
+--- a/fixtures/shop/index.html
++++ b/fixtures/shop/index.html
+@@ -80,7 +80,7 @@
+ 
+     <section class="reviews" aria-labelledby="reviews-heading">
+       <h2 id="reviews-heading">Customer reviews</h2>
+-      <button type="button" data-testid="load-reviews">Load reviews</button>
++      <button type="button" data-testid="load-reviews">Show reviews</button>
+       <p class="spinner" data-testid="reviews-spinner" hidden>Loading reviews…</p>
+       <p class="average" data-testid="average-rating" hidden></p>
+       <ul class="review-list" data-testid="reviews-list"></ul>

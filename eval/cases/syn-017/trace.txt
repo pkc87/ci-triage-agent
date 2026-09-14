@@ -1,0 +1,44 @@
+Before Hooks  (268ms)
+  beforeEach hook  (268ms)
+      Create context  (35ms)
+      Create page  (130ms)
+    Navigate to "/" [url=/]  (48ms)
+    Click getByTestId('add-p1') [selector=internal:testid=[data-testid="add-p1"s]]  (50ms)
+Fill "Dana Fisher" getByTestId('name') [selector=internal:testid=[data-testid="name"s] value=Dana Fisher]  (6ms)
+Fill "dana@example.com" getByTestId('email') [selector=internal:testid=[data-testid="email"s] value=dana@example.com]  (7ms)
+Fill "94110" getByTestId('zip') [selector=internal:testid=[data-testid="zip"s] value=94110]  (6ms)
+Click getByTestId('place-order') [selector=internal:testid=[data-testid="place-order"s]]  (36ms)
+Expect "toBeVisible"  (4ms)
+Expect "toHaveText" [expected=Object]  (5017ms)
+  ! Error: expect(locator).toHaveText(expected) failed
+  ! 
+  ! Locator: getByTestId('order-confirmation')
+  ! Expected pattern: /^Order #[A-Z0-9]{6} placed on \d{2}\.\d{2}\.\d{4}$/
+  ! Received string:  "Order #LDUG4H placed on September 14, 2026"
+  ! Timeout: 5000ms
+  ! 
+  ! Call log:
+  !   - Expect "toHaveText" with timeout 5000ms
+  !   - waiting for getByTestId('order-confirmation')
+  !     8 × locator resolved to <p class="confirmation" data-testid="order-confirmation">Order #LDUG4H placed on September 14, 2026</p>
+  !       - unexpected value "Order #LDUG4H placed on September 14, 2026"
+  ! 
+After Hooks  (799ms)
+    Close context  (16ms)
+Attach "error-context"  (0ms)
+Worker Cleanup  (2889ms)
+
+--- test errors ---
+Error: expect(locator).toHaveText(expected) failed
+
+Locator: getByTestId('order-confirmation')
+Expected pattern: /^Order #[A-Z0-9]{6} placed on \d{2}\.\d{2}\.\d{4}$/
+Received string:  "Order #LDUG4H placed on September 14, 2026"
+Timeout: 5000ms
+
+Call log:
+  - Expect "toHaveText" with timeout 5000ms
+  - waiting for getByTestId('order-confirmation')
+    8 × locator resolved to <p class="confirmation" data-testid="order-confirmation">Order #LDUG4H placed on September 14, 2026</p>
+      - unexpected value "Order #LDUG4H placed on September 14, 2026"
+

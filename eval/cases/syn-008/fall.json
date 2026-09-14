@@ -1,0 +1,35 @@
+{
+  "id": "syn-008",
+  "quelle": "synthetisch",
+  "repo": "fixtures/shop",
+  "test_titel": "every product card offers an add-to-cart button",
+  "test_datei": "tests/catalog.spec.ts",
+  "test_zeile": 17,
+  "fehlermeldung": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('add-p2')\nExpected: \"Add to cart\"\nReceived: \"Add to bag\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('add-p2')\n    9 × locator resolved to <button type=\"button\" data-testid=\"add-p2\">Add to bag</button>\n      - unexpected value \"Add to bag\"\n",
+  "stack": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('add-p2')\nExpected: \"Add to cart\"\nReceived: \"Add to bag\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('add-p2')\n    9 × locator resolved to <button type=\"button\" data-testid=\"add-p2\">Add to bag</button>\n      - unexpected value \"Add to bag\"\n\n    at /work/ci-triage-agent/fixtures/tests/catalog.spec.ts:20:24\n\n  18 |   const button = page.getByTestId('add-p2');\n  19 |   await expect(button).toBeVisible();\n> 20 |   await expect(button).toHaveText('Add to cart');\n     |                        ^\n  21 | });\n  22 |\n  23 | test('the recommendations strip shows three distinct products', async ({ page }) => {",
+  "dauer_ms": 5204,
+  "versuche": [
+    {
+      "nr": 1,
+      "status": "failed"
+    },
+    {
+      "nr": 2,
+      "status": "failed"
+    },
+    {
+      "nr": 3,
+      "status": "failed"
+    }
+  ],
+  "artefakte": {
+    "diff": "diff.patch",
+    "trace": "trace.txt",
+    "screenshot": "screenshot.png"
+  },
+  "kontext": {
+    "branch": "mr/mut-05",
+    "commit": "e300b56",
+    "ci_lauf": "lokal (fixtures/generate.mjs)"
+  }
+}

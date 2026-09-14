@@ -1,0 +1,35 @@
+{
+  "id": "syn-020",
+  "quelle": "synthetisch",
+  "repo": "fixtures/shop",
+  "test_titel": "a mixed cart adds up to subtotal, handling, tax and total",
+  "test_datei": "tests/pricing.spec.ts",
+  "test_zeile": 7,
+  "fehlermeldung": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('subtotal')\nExpected: \"104,65 €\"\nReceived: \"$104.65\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('subtotal')\n    9 × locator resolved to <dd data-testid=\"subtotal\">$104.65</dd>\n      - unexpected value \"$104.65\"\n",
+  "stack": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('subtotal')\nExpected: \"104,65 €\"\nReceived: \"$104.65\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('subtotal')\n    9 × locator resolved to <dd data-testid=\"subtotal\">$104.65</dd>\n      - unexpected value \"$104.65\"\n\n    at /work/ci-triage-agent/fixtures/tests/pricing.spec.ts:17:46\n\n  15 |   await page.getByTestId('qty-p4').blur();\n  16 |\n> 17 |   await expect(page.getByTestId('subtotal')).toHaveText('104,65 €');\n     |                                              ^\n  18 |   await expect(page.getByTestId('handling')).toHaveText('2,50 €');\n  19 |   await expect(page.getByTestId('tax')).toHaveText('$8.63');\n  20 |   await expect(page.getByTestId('total')).toHaveText('$115.78');",
+  "dauer_ms": 5980,
+  "versuche": [
+    {
+      "nr": 1,
+      "status": "failed"
+    },
+    {
+      "nr": 2,
+      "status": "failed"
+    },
+    {
+      "nr": 3,
+      "status": "failed"
+    }
+  ],
+  "artefakte": {
+    "diff": "diff.patch",
+    "trace": "trace.txt",
+    "screenshot": "screenshot.png"
+  },
+  "kontext": {
+    "branch": "mr/mut-14",
+    "commit": "e300b56",
+    "ci_lauf": "lokal (fixtures/generate.mjs)"
+  }
+}

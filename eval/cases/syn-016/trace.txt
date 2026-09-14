@@ -1,0 +1,47 @@
+Before Hooks  (704ms)
+  beforeEach hook  (703ms)
+      Create context  (9ms)
+      Create page  (455ms)
+    Navigate to "/" [url=/]  (40ms)
+    Click getByTestId('add-p1') [selector=internal:testid=[data-testid="add-p1"s]]  (150ms)
+Fill "Dana Fisher" getByTestId('name') [selector=internal:testid=[data-testid="name"s] value=Dana Fisher]  (6ms)
+Fill "dana@example.com" getByTestId('email') [selector=internal:testid=[data-testid="email"s] value=dana@example.com]  (7ms)
+Fill "94110" getByTestId('zip') [selector=internal:testid=[data-testid="zip"s] value=94110]  (5ms)
+Click getByTestId('place-order') [selector=internal:testid=[data-testid="place-order"s]]  (34ms)
+Expect "toBeVisible"  (3ms)
+Expect "toHaveText" [expected=Object]  (3ms)
+Expect "toBeHidden"  (3ms)
+Expect "toBeVisible"  (2ms)
+Expect "toHaveText" [expected=$0.00]  (5007ms)
+  ! Error: expect(locator).toHaveText(expected) failed
+  ! 
+  ! Locator:  getByTestId('total')
+  ! Expected: "$0.00"
+  ! Received: "$2.50"
+  ! Timeout:  5000ms
+  ! 
+  ! Call log:
+  !   - Expect "toHaveText" with timeout 5000ms
+  !   - waiting for getByTestId('total')
+  !     8 × locator resolved to <dd class="grand" data-testid="total">$2.50</dd>
+  !       - unexpected value "$2.50"
+  ! 
+After Hooks  (1095ms)
+    Close context  (3ms)
+Attach "error-context"  (0ms)
+Worker Cleanup  (862ms)
+
+--- test errors ---
+Error: expect(locator).toHaveText(expected) failed
+
+Locator:  getByTestId('total')
+Expected: "$0.00"
+Received: "$2.50"
+Timeout:  5000ms
+
+Call log:
+  - Expect "toHaveText" with timeout 5000ms
+  - waiting for getByTestId('total')
+    8 × locator resolved to <dd class="grand" data-testid="total">$2.50</dd>
+      - unexpected value "$2.50"
+

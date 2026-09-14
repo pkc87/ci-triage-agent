@@ -1,0 +1,31 @@
+{
+  "id": "syn-033",
+  "quelle": "synthetisch",
+  "repo": "fixtures/shop",
+  "test_titel": "saving the cart shows the in-flight status",
+  "test_datei": "tests/cart-sync-status.spec.ts",
+  "test_zeile": 4,
+  "fehlermeldung": "Error: expect(received).toBe(expected) // Object.is equality\n\nExpected: \"Saving...\"\nReceived: \"Cart saved\"",
+  "stack": "Error: expect(received).toBe(expected) // Object.is equality\n\nExpected: \"Saving...\"\nReceived: \"Cart saved\"\n    at /work/ci-triage-agent/fixtures/tests/cart-sync-status.spec.ts:9:68\n\n   7 |\n   8 |   await page.getByTestId('save-cart').click();\n>  9 |   expect(await page.getByTestId('cart-sync-status').textContent()).toBe('Saving...');\n     |                                                                    ^\n  10 | });\n  11 |",
+  "dauer_ms": 607,
+  "versuche": [
+    {
+      "nr": 1,
+      "status": "failed"
+    },
+    {
+      "nr": 2,
+      "status": "passed"
+    }
+  ],
+  "artefakte": {
+    "diff": "diff.patch",
+    "trace": "trace.txt",
+    "screenshot": "screenshot.png"
+  },
+  "kontext": {
+    "branch": "mr/mut-23",
+    "commit": "e300b56",
+    "ci_lauf": "lokal (fixtures/generate.mjs)"
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "id": "syn-009",
+  "quelle": "synthetisch",
+  "repo": "fixtures/shop",
+  "test_titel": "the reviews section offers a load action",
+  "test_datei": "tests/reviews.spec.ts",
+  "test_zeile": 7,
+  "fehlermeldung": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('load-reviews')\nExpected: \"Load reviews\"\nReceived: \"Show reviews\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('load-reviews')\n    9 × locator resolved to <button type=\"button\" data-testid=\"load-reviews\">Show reviews</button>\n      - unexpected value \"Show reviews\"\n",
+  "stack": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('load-reviews')\nExpected: \"Load reviews\"\nReceived: \"Show reviews\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('load-reviews')\n    9 × locator resolved to <button type=\"button\" data-testid=\"load-reviews\">Show reviews</button>\n      - unexpected value \"Show reviews\"\n\n    at /work/ci-triage-agent/fixtures/tests/reviews.spec.ts:10:24\n\n   8 |   const button = page.getByTestId('load-reviews');\n   9 |   await expect(button).toBeVisible();\n> 10 |   await expect(button).toHaveText('Load reviews');\n     |                        ^\n  11 |   await expect(page.getByTestId('reviews-list').locator('li')).toHaveCount(0);\n  12 | });\n  13 |",
+  "dauer_ms": 5180,
+  "versuche": [
+    {
+      "nr": 1,
+      "status": "failed"
+    },
+    {
+      "nr": 2,
+      "status": "failed"
+    },
+    {
+      "nr": 3,
+      "status": "failed"
+    }
+  ],
+  "artefakte": {
+    "diff": "diff.patch",
+    "trace": "trace.txt",
+    "screenshot": "screenshot.png"
+  },
+  "kontext": {
+    "branch": "mr/mut-05",
+    "commit": "e300b56",
+    "ci_lauf": "lokal (fixtures/generate.mjs)"
+  }
+}

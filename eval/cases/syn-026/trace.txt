@@ -1,0 +1,10 @@
+Before Hooks  (71ms)
+  ! Error: browserType.launch: Failed to launch chromium because executable doesn't exist at C:\ci-agents\browsers\chromium-1148\chrome-win\chrome.exe
+    Launch browser [timeout=180000]  (3ms)
+      ! Error: browserType.launch: Failed to launch chromium because executable doesn't exist at C:\ci-agents\browsers\chromium-1148\chrome-win\chrome.exe
+After Hooks  (11ms)
+Attach "error-context"  (0ms)
+Worker Cleanup  (3ms)
+
+--- test errors ---
+Error: browserType.launch: Failed to launch chromium because executable doesn't exist at C:\ci-agents\browsers\chromium-1148\chrome-win\chrome.exe

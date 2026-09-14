@@ -1,0 +1,23 @@
+Before Hooks  (430ms)
+    Launch browser [timeout=180000]  (198ms)
+    Create context  (4ms)
+    Create page  (214ms)
+Navigate to "/" [url=/]  (99ms)
+Click getByTestId('add-p1') [selector=internal:testid=[data-testid="add-p1"s]]  (75ms)
+Click getByTestId('save-cart') [selector=internal:testid=[data-testid="save-cart"s]]  (77ms)
+Get text content getByTestId('cart-sync-status') [selector=internal:testid=[data-testid="cart-sync-status"s]]  (3ms)
+Expect "toBe" [expected=Saving...]  (2ms)
+  ! Error: expect(received).toBe(expected) // Object.is equality
+  ! 
+  ! Expected: "Saving..."
+  ! Received: "Cart saved"
+After Hooks  (132ms)
+    Close context  (4ms)
+Attach "error-context"  (0ms)
+Worker Cleanup  (13806ms)
+
+--- test errors ---
+Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: "Saving..."
+Received: "Cart saved"

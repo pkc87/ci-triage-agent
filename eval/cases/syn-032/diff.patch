@@ -1,0 +1,21 @@
+diff --git a/fixtures/tests/banner-opacity.spec.ts b/fixtures/tests/banner-opacity.spec.ts
+new file mode 100644
+--- /dev/null
++++ b/fixtures/tests/banner-opacity.spec.ts
+@@ -0,0 +1,16 @@
++import { test, expect } from '@playwright/test';
++
++// The promo bar should read as a solid colour, not a washed out one.
++test('the promo banner stays fully opaque', async ({ page }) => {
++  await page.goto('/');
++
++  // Do a little shopping first, the way a real visit would.
++  await page.getByTestId('load-reviews').click();
++  await expect(page.getByTestId('average-rating')).toBeVisible();
++
++  const opacity = await page
++    .getByTestId('banner')
++    .evaluate((element) => Number(getComputedStyle(element).opacity));
++
++  expect(opacity).toBeGreaterThan(0.95);
++});

@@ -1,0 +1,35 @@
+{
+  "id": "syn-005",
+  "quelle": "synthetisch",
+  "repo": "fixtures/shop",
+  "test_titel": "loading reviews renders every approved review with the average",
+  "test_datei": "tests/reviews.spec.ts",
+  "test_zeile": 14,
+  "fehlermeldung": "Error: expect(received).toBe(expected) // Object.is equality\n\nExpected: 4\nReceived: 0",
+  "stack": "Error: expect(received).toBe(expected) // Object.is equality\n\nExpected: 4\nReceived: 0\n    at /work/ci-triage-agent/fixtures/tests/reviews.spec.ts:18:57\n\n  16 |   await page.waitForTimeout(200);\n  17 |\n> 18 |   expect(await page.getByTestId('review-item').count()).toBe(4);\n     |                                                         ^\n  19 |   expect(await page.getByTestId('average-rating').textContent()).toBe('Average rating: 4.3 out of 5');\n  20 | });\n  21 |",
+  "dauer_ms": 428,
+  "versuche": [
+    {
+      "nr": 1,
+      "status": "failed"
+    },
+    {
+      "nr": 2,
+      "status": "failed"
+    },
+    {
+      "nr": 3,
+      "status": "failed"
+    }
+  ],
+  "artefakte": {
+    "diff": "diff.patch",
+    "trace": "trace.txt",
+    "screenshot": "screenshot.png"
+  },
+  "kontext": {
+    "branch": "mr/mut-03",
+    "commit": "e300b56",
+    "ci_lauf": "lokal (fixtures/generate.mjs)"
+  }
+}

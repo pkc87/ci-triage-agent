@@ -1,0 +1,15 @@
+diff --git a/fixtures/tests/cart-sync-status.spec.ts b/fixtures/tests/cart-sync-status.spec.ts
+new file mode 100644
+--- /dev/null
++++ b/fixtures/tests/cart-sync-status.spec.ts
+@@ -0,0 +1,10 @@
++import { test, expect } from '@playwright/test';
++
++// Saving the cart should tell the shopper that something is happening.
++test('saving the cart shows the in-flight status', async ({ page }) => {
++  await page.goto('/');
++  await page.getByTestId('add-p1').click();
++
++  await page.getByTestId('save-cart').click();
++  expect(await page.getByTestId('cart-sync-status').textContent()).toBe('Saving...');
++});

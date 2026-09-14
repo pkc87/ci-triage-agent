@@ -1,0 +1,265 @@
+{
+  "config": {
+    "configFile": "/work/ci-triage-agent/fixtures/playwright.config.ts",
+    "rootDir": "/work/ci-triage-agent/fixtures/tests",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 4
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/work/ci-triage-agent/fixtures/runs/mut-16/1/artifacts",
+        "repeatEach": 1,
+        "retries": 2,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "/work/ci-triage-agent/fixtures/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json",
+        {
+          "outputFile": "/work/ci-triage-agent/fixtures/runs/mut-16/1/report.json"
+        }
+      ],
+      [
+        "list",
+        null
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.59.0",
+    "workers": 4,
+    "webServer": {
+      "command": "node serve.mjs",
+      "url": "http://127.0.0.1:4173",
+      "reuseExistingServer": false,
+      "stdout": "ignore",
+      "stderr": "pipe"
+    }
+  },
+  "suites": [
+    {
+      "title": "checkout.spec.ts",
+      "file": "checkout.spec.ts",
+      "line": 0,
+      "column": 0,
+      "specs": [
+        {
+          "title": "checkout rejects an empty email address",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "failed",
+                  "duration": 6244,
+                  "error": {
+                    "message": "Error: expect(locator).toBeVisible() failed\n\nLocator:  getByTestId('form-error')\nExpected: visible\nReceived: hidden\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toBeVisible\" with timeout 5000ms\n  - waiting for getByTestId('form-error')\n    9 × locator resolved to <ul hidden=\"\" class=\"form-errors\" data-testid=\"form-error\"></ul>\n      - unexpected value \"hidden\"\n",
+                    "stack": "Error: expect(locator).toBeVisible() failed\n\nLocator:  getByTestId('form-error')\nExpected: visible\nReceived: hidden\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toBeVisible\" with timeout 5000ms\n  - waiting for getByTestId('form-error')\n    9 × locator resolved to <ul hidden=\"\" class=\"form-errors\" data-testid=\"form-error\"></ul>\n      - unexpected value \"hidden\"\n\n    at /work/ci-triage-agent/fixtures/tests/checkout.spec.ts:14:48",
+                    "location": {
+                      "file": "/work/ci-triage-agent/fixtures/tests/checkout.spec.ts",
+                      "column": 48,
+                      "line": 14
+                    },
+                    "snippet": "  12 |   await page.getByTestId('place-order').click();\n  13 |\n> 14 |   await expect(page.getByTestId('form-error')).toBeVisible();\n     |                                                ^\n  15 |   await expect(page.getByTestId('form-error')).toContainText('Enter a valid email address');\n  16 |   await expect(page.getByTestId('order-confirmation')).toBeHidden();\n  17 | });"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/work/ci-triage-agent/fixtures/tests/checkout.spec.ts",
+                        "column": 48,
+                        "line": 14
+                      },
+                      "message": "Error: expect(locator).toBeVisible() failed\n\nLocator:  getByTestId('form-error')\nExpected: visible\nReceived: hidden\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toBeVisible\" with timeout 5000ms\n  - waiting for getByTestId('form-error')\n    9 × locator resolved to <ul hidden=\"\" class=\"form-errors\" data-testid=\"form-error\"></ul>\n      - unexpected value \"hidden\"\n\n\n  12 |   await page.getByTestId('place-order').click();\n  13 |\n> 14 |   await expect(page.getByTestId('form-error')).toBeVisible();\n     |                                                ^\n  15 |   await expect(page.getByTestId('form-error')).toContainText('Enter a valid email address');\n  16 |   await expect(page.getByTestId('order-confirmation')).toBeHidden();\n  17 | });\n    at /work/ci-triage-agent/fixtures/tests/checkout.spec.ts:14:48"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-14T12:14:42.454Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-16/1/artifacts/checkout-checkout-rejects-an-empty-email-address-chromium/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-16/1/artifacts/checkout-checkout-rejects-an-empty-email-address-chromium/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-16/1/artifacts/checkout-checkout-rejects-an-empty-email-address-chromium/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/work/ci-triage-agent/fixtures/tests/checkout.spec.ts",
+                    "column": 48,
+                    "line": 14
+                  }
+                },
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 5886,
+                  "error": {
+                    "message": "Error: expect(locator).toBeVisible() failed\n\nLocator:  getByTestId('form-error')\nExpected: visible\nReceived: hidden\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toBeVisible\" with timeout 5000ms\n  - waiting for getByTestId('form-error')\n    9 × locator resolved to <ul hidden=\"\" class=\"form-errors\" data-testid=\"form-error\"></ul>\n      - unexpected value \"hidden\"\n",
+                    "stack": "Error: expect(locator).toBeVisible() failed\n\nLocator:  getByTestId('form-error')\nExpected: visible\nReceived: hidden\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toBeVisible\" with timeout 5000ms\n  - waiting for getByTestId('form-error')\n    9 × locator resolved to <ul hidden=\"\" class=\"form-errors\" data-testid=\"form-error\"></ul>\n      - unexpected value \"hidden\"\n\n    at /work/ci-triage-agent/fixtures/tests/checkout.spec.ts:14:48",
+                    "location": {
+                      "file": "/work/ci-triage-agent/fixtures/tests/checkout.spec.ts",
+                      "column": 48,
+                      "line": 14
+                    },
+                    "snippet": "  12 |   await page.getByTestId('place-order').click();\n  13 |\n> 14 |   await expect(page.getByTestId('form-error')).toBeVisible();\n     |                                                ^\n  15 |   await expect(page.getByTestId('form-error')).toContainText('Enter a valid email address');\n  16 |   await expect(page.getByTestId('order-confirmation')).toBeHidden();\n  17 | });"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/work/ci-triage-agent/fixtures/tests/checkout.spec.ts",
+                        "column": 48,
+                        "line": 14
+                      },
+                      "message": "Error: expect(locator).toBeVisible() failed\n\nLocator:  getByTestId('form-error')\nExpected: visible\nReceived: hidden\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toBeVisible\" with timeout 5000ms\n  - waiting for getByTestId('form-error')\n    9 × locator resolved to <ul hidden=\"\" class=\"form-errors\" data-testid=\"form-error\"></ul>\n      - unexpected value \"hidden\"\n\n\n  12 |   await page.getByTestId('place-order').click();\n  13 |\n> 14 |   await expect(page.getByTestId('form-error')).toBeVisible();\n     |                                                ^\n  15 |   await expect(page.getByTestId('form-error')).toContainText('Enter a valid email address');\n  16 |   await expect(page.getByTestId('order-confirmation')).toBeHidden();\n  17 | });\n    at /work/ci-triage-agent/fixtures/tests/checkout.spec.ts:14:48"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 1,
+                  "startTime": "2026-09-14T12:14:50.969Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-16/1/artifacts/checkout-checkout-rejects-an-empty-email-address-chromium-retry1/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-16/1/artifacts/checkout-checkout-rejects-an-empty-email-address-chromium-retry1/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-16/1/artifacts/checkout-checkout-rejects-an-empty-email-address-chromium-retry1/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/work/ci-triage-agent/fixtures/tests/checkout.spec.ts",
+                    "column": 48,
+                    "line": 14
+                  }
+                },
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 5295,
+                  "error": {
+                    "message": "Error: expect(locator).toBeVisible() failed\n\nLocator:  getByTestId('form-error')\nExpected: visible\nReceived: hidden\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toBeVisible\" with timeout 5000ms\n  - waiting for getByTestId('form-error')\n    9 × locator resolved to <ul hidden=\"\" class=\"form-errors\" data-testid=\"form-error\"></ul>\n      - unexpected value \"hidden\"\n",
+                    "stack": "Error: expect(locator).toBeVisible() failed\n\nLocator:  getByTestId('form-error')\nExpected: visible\nReceived: hidden\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toBeVisible\" with timeout 5000ms\n  - waiting for getByTestId('form-error')\n    9 × locator resolved to <ul hidden=\"\" class=\"form-errors\" data-testid=\"form-error\"></ul>\n      - unexpected value \"hidden\"\n\n    at /work/ci-triage-agent/fixtures/tests/checkout.spec.ts:14:48",
+                    "location": {
+                      "file": "/work/ci-triage-agent/fixtures/tests/checkout.spec.ts",
+                      "column": 48,
+                      "line": 14
+                    },
+                    "snippet": "  12 |   await page.getByTestId('place-order').click();\n  13 |\n> 14 |   await expect(page.getByTestId('form-error')).toBeVisible();\n     |                                                ^\n  15 |   await expect(page.getByTestId('form-error')).toContainText('Enter a valid email address');\n  16 |   await expect(page.getByTestId('order-confirmation')).toBeHidden();\n  17 | });"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/work/ci-triage-agent/fixtures/tests/checkout.spec.ts",
+                        "column": 48,
+                        "line": 14
+                      },
+                      "message": "Error: expect(locator).toBeVisible() failed\n\nLocator:  getByTestId('form-error')\nExpected: visible\nReceived: hidden\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toBeVisible\" with timeout 5000ms\n  - waiting for getByTestId('form-error')\n    9 × locator resolved to <ul hidden=\"\" class=\"form-errors\" data-testid=\"form-error\"></ul>\n      - unexpected value \"hidden\"\n\n\n  12 |   await page.getByTestId('place-order').click();\n  13 |\n> 14 |   await expect(page.getByTestId('form-error')).toBeVisible();\n     |                                                ^\n  15 |   await expect(page.getByTestId('form-error')).toContainText('Enter a valid email address');\n  16 |   await expect(page.getByTestId('order-confirmation')).toBeHidden();\n  17 | });\n    at /work/ci-triage-agent/fixtures/tests/checkout.spec.ts:14:48"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 2,
+                  "startTime": "2026-09-14T12:14:58.481Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-16/1/artifacts/checkout-checkout-rejects-an-empty-email-address-chromium-retry2/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-16/1/artifacts/checkout-checkout-rejects-an-empty-email-address-chromium-retry2/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-16/1/artifacts/checkout-checkout-rejects-an-empty-email-address-chromium-retry2/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/work/ci-triage-agent/fixtures/tests/checkout.spec.ts",
+                    "column": 48,
+                    "line": 14
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "25ab1bfc84c57e3e3a45-0e0a470db7598b6925d6",
+          "file": "checkout.spec.ts",
+          "line": 8,
+          "column": 5
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-09-14T12:14:39.743Z",
+    "duration": 24348.935,
+    "expected": 20,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}

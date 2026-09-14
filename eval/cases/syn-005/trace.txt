@@ -1,0 +1,23 @@
+Before Hooks  (99ms)
+  beforeEach hook  (99ms)
+      Create context  (1ms)
+      Create page  (64ms)
+    Navigate to "/" [url=/]  (30ms)
+Click getByTestId('load-reviews') [selector=internal:testid=[data-testid="load-reviews"s]]  (54ms)
+Wait for timeout  (203ms)
+Query count getByTestId('review-item') [selector=internal:testid=[data-testid="review-item"s]]  (3ms)
+Expect "toBe" [expected=4]  (1ms)
+  ! Error: expect(received).toBe(expected) // Object.is equality
+  ! 
+  ! Expected: 4
+  ! Received: 0
+After Hooks  (85ms)
+    Close context  (4ms)
+Attach "error-context"  (0ms)
+Worker Cleanup  (726ms)
+
+--- test errors ---
+Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: 4
+Received: 0

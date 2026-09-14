@@ -1,0 +1,39 @@
+Before Hooks  (103ms)
+  beforeEach hook  (103ms)
+      Create context  (3ms)
+      Create page  (55ms)
+    Navigate to "/" [url=/]  (40ms)
+Expect "toHaveCount" [expected=3]  (16ms)
+Expect "toHaveText" [expected=Burr Grinder]  (5010ms)
+  ! Error: expect(locator).toHaveText(expected) failed
+  ! 
+  ! Locator:  getByTestId('rec-item').first()
+  ! Expected: "Burr Grinder"
+  ! Received: "Gooseneck Kettle"
+  ! Timeout:  5000ms
+  ! 
+  ! Call log:
+  !   - Expect "toHaveText" with timeout 5000ms
+  !   - waiting for getByTestId('rec-item').first()
+  !     9 × locator resolved to <li data-testid="rec-item">Gooseneck Kettle</li>
+  !       - unexpected value "Gooseneck Kettle"
+  ! 
+After Hooks  (320ms)
+    Close context  (3ms)
+Attach "error-context"  (0ms)
+Worker Cleanup  (102ms)
+
+--- test errors ---
+Error: expect(locator).toHaveText(expected) failed
+
+Locator:  getByTestId('rec-item').first()
+Expected: "Burr Grinder"
+Received: "Gooseneck Kettle"
+Timeout:  5000ms
+
+Call log:
+  - Expect "toHaveText" with timeout 5000ms
+  - waiting for getByTestId('rec-item').first()
+    9 × locator resolved to <li data-testid="rec-item">Gooseneck Kettle</li>
+      - unexpected value "Gooseneck Kettle"
+

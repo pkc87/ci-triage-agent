@@ -1,0 +1,41 @@
+Before Hooks  (287ms)
+  beforeEach hook  (286ms)
+      Create context  (2ms)
+      Create page  (148ms)
+    Navigate to "/" [url=/]  (101ms)
+Click getByTestId('load-reviews') [selector=internal:testid=[data-testid="load-reviews"s]]  (53ms)
+Expect "toHaveCount" [expected=4]  (400ms)
+Expect "toBeVisible"  (29ms)
+Expect "toHaveText" [expected=Average rating: 4.3 out of 5]  (5040ms)
+  ! Error: expect(locator).toHaveText(expected) failed
+  ! 
+  ! Locator:  getByTestId('average-rating')
+  ! Expected: "Average rating: 4.3 out of 5"
+  ! Received: "Average rating: 3.6 out of 5"
+  ! Timeout:  5000ms
+  ! 
+  ! Call log:
+  !   - Expect "toHaveText" with timeout 5000ms
+  !   - waiting for getByTestId('average-rating')
+  !     9 × locator resolved to <p class="average" data-testid="average-rating">Average rating: 3.6 out of 5</p>
+  !       - unexpected value "Average rating: 3.6 out of 5"
+  ! 
+After Hooks  (1201ms)
+    Close context  (12ms)
+Attach "error-context"  (0ms)
+Worker Cleanup  (12016ms)
+
+--- test errors ---
+Error: expect(locator).toHaveText(expected) failed
+
+Locator:  getByTestId('average-rating')
+Expected: "Average rating: 4.3 out of 5"
+Received: "Average rating: 3.6 out of 5"
+Timeout:  5000ms
+
+Call log:
+  - Expect "toHaveText" with timeout 5000ms
+  - waiting for getByTestId('average-rating')
+    9 × locator resolved to <p class="average" data-testid="average-rating">Average rating: 3.6 out of 5</p>
+      - unexpected value "Average rating: 3.6 out of 5"
+

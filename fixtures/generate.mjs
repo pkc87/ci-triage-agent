@@ -4,6 +4,13 @@
 //   node fixtures/generate.mjs                 full corpus (wipes eval/cases/syn-*)
 //   node fixtures/generate.mjs --only mut-03   run one mutation, write nothing
 //   node fixtures/generate.mjs --only mut-03,mut-06 --runs 8
+//   node fixtures/generate.mjs --only mut-24 --write --anhaengen
+//
+// --anhaengen ("append") extends the corpus that is already on disk instead of
+// rebuilding it: nothing is wiped, the case counter continues after the highest
+// syn-NNN present, and the new ground-truth lines are appended. That is how a
+// mutation added later gets its cases without renumbering every case that was
+// published before it. A plain run still rebuilds the whole synthetic half.
 //
 // For every mutation: apply it, run the real Playwright suite, keep the real
 // JSON report, cut one case per failing test, revert. Nothing here is written
@@ -11,6 +18,7 @@
 
 import { spawnSync } from 'node:child_process';
 import {
+  appendFileSync,
   copyFileSync,
   existsSync,
   lstatSync,
@@ -78,7 +86,7 @@ function scrubDeep(value) {
 }
 
 function parseArgs(argv) {
-  const args = { only: null, runs: null, probe: false };
+  const args = { only: null, runs: null, probe: false, anhaengen: false };
   for (let i = 0; i < argv.length; i += 1) {
     if (argv[i] === '--only') {
       args.only = argv[i + 1].split(',').map((value) => value.trim());
@@ -89,9 +97,22 @@ function parseArgs(argv) {
       i += 1;
     } else if (argv[i] === '--write') {
       args.probe = false;
+    } else if (argv[i] === '--anhaengen') {
+      args.anhaengen = true;
     }
   }
   return args;
+}
+
+/** Highest syn-NNN already on disk, so an appending run continues after it. */
+function hoechsteFallnummer() {
+  if (!existsSync(CASES_DIR)) return 0;
+  let hoechste = 0;
+  for (const name of readdirSync(CASES_DIR)) {
+    const treffer = /^syn-(\d+)$/.exec(name);
+    if (treffer) hoechste = Math.max(hoechste, Number(treffer[1]));
+  }
+  return hoechste;
 }
 
 function loadMutations(only) {
@@ -354,12 +375,15 @@ function main() {
     }
   }
 
-  if (!args.probe) wipeSynthetic();
+  if (args.anhaengen && !args.only) {
+    throw new Error('--anhaengen only makes sense together with --only');
+  }
+  if (!args.probe && !args.anhaengen) wipeSynthetic();
   mkdirSync(RUNS_DIR, { recursive: true });
 
   const gitCommit = gitShortHead();
   const groundTruth = [];
-  let counter = 0;
+  let counter = args.anhaengen ? hoechsteFallnummer() : 0;
 
   for (const mutation of mutations) {
     const laeufe = args.runs ?? mutation.laeufe ?? 1;
@@ -428,7 +452,9 @@ function main() {
   }
 
   if (!args.probe) {
-    writeFileSync(GROUND_TRUTH, groundTruth.map((line) => JSON.stringify(line)).join('\n') + '\n', 'utf8');
+    const zeilen = groundTruth.map((line) => JSON.stringify(line)).join('\n');
+    if (!args.anhaengen) writeFileSync(GROUND_TRUTH, `${zeilen}\n`, 'utf8');
+    else if (zeilen) appendFileSync(GROUND_TRUTH, `${zeilen}\n`, 'utf8');
     const perClass = groundTruth.reduce((acc, line) => ({ ...acc, [line.label]: (acc[line.label] ?? 0) + 1 }), {});
     process.stdout.write(`\n${groundTruth.length} cases: ${JSON.stringify(perClass)}\n`);
   }

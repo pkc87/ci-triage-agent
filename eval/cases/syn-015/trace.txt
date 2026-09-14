@@ -1,0 +1,44 @@
+Before Hooks  (1528ms)
+  beforeEach hook  (1527ms)
+      Launch browser [timeout=180000]  (896ms)
+      Create context  (93ms)
+      Create page  (360ms)
+    Navigate to "/" [url=/]  (161ms)
+Click getByTestId('add-p4') [selector=internal:testid=[data-testid="add-p4"s]]  (54ms)
+Expect "toHaveText" [expected=$11.43]  (173ms)
+Click getByTestId('remove-p4') [selector=internal:testid=[data-testid="remove-p4"s]]  (45ms)
+Expect "toBeVisible"  (8ms)
+Expect "toHaveText" [expected=$0.00]  (5ms)
+Expect "toHaveText" [expected=$0.00]  (5005ms)
+  ! Error: expect(locator).toHaveText(expected) failed
+  ! 
+  ! Locator:  getByTestId('handling')
+  ! Expected: "$0.00"
+  ! Received: "$2.50"
+  ! Timeout:  5000ms
+  ! 
+  ! Call log:
+  !   - Expect "toHaveText" with timeout 5000ms
+  !   - waiting for getByTestId('handling')
+  !     9 × locator resolved to <dd data-testid="handling">$2.50</dd>
+  !       - unexpected value "$2.50"
+  ! 
+After Hooks  (5469ms)
+    Close context  (9ms)
+Attach "error-context"  (0ms)
+Worker Cleanup  (2187ms)
+
+--- test errors ---
+Error: expect(locator).toHaveText(expected) failed
+
+Locator:  getByTestId('handling')
+Expected: "$0.00"
+Received: "$2.50"
+Timeout:  5000ms
+
+Call log:
+  - Expect "toHaveText" with timeout 5000ms
+  - waiting for getByTestId('handling')
+    9 × locator resolved to <dd data-testid="handling">$2.50</dd>
+      - unexpected value "$2.50"
+

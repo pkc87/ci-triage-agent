@@ -1,0 +1,39 @@
+Before Hooks  (222ms)
+    Create context  (22ms)
+    Create page  (196ms)
+Navigate to "/" [url=/]  (51ms)
+Click getByTestId('add-p2') [selector=internal:testid=[data-testid="add-p2"s]]  (459ms)
+Click getByTestId('add-p2') [selector=internal:testid=[data-testid="add-p2"s]]  (200ms)
+Expect "toHaveText" [expected=2 items]  (5026ms)
+  ! Error: expect(locator).toHaveText(expected) failed
+  ! 
+  ! Locator:  getByTestId('cart-badge')
+  ! Expected: "2 items"
+  ! Received: "1 item"
+  ! Timeout:  5000ms
+  ! 
+  ! Call log:
+  !   - Expect "toHaveText" with timeout 5000ms
+  !   - waiting for getByTestId('cart-badge')
+  !     9 × locator resolved to <div class="cart-badge" data-testid="cart-badge">1 item</div>
+  !       - unexpected value "1 item"
+  ! 
+After Hooks  (4832ms)
+    Close context  (4ms)
+Attach "error-context"  (0ms)
+Worker Cleanup  (4236ms)
+
+--- test errors ---
+Error: expect(locator).toHaveText(expected) failed
+
+Locator:  getByTestId('cart-badge')
+Expected: "2 items"
+Received: "1 item"
+Timeout:  5000ms
+
+Call log:
+  - Expect "toHaveText" with timeout 5000ms
+  - waiting for getByTestId('cart-badge')
+    9 × locator resolved to <div class="cart-badge" data-testid="cart-badge">1 item</div>
+      - unexpected value "1 item"
+

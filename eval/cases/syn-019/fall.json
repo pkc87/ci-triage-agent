@@ -1,0 +1,35 @@
+{
+  "id": "syn-019",
+  "quelle": "synthetisch",
+  "repo": "fixtures/shop",
+  "test_titel": "a negative quantity is clamped to one",
+  "test_datei": "tests/cart.spec.ts",
+  "test_zeile": 38,
+  "fehlermeldung": "Error: expect(locator).toHaveValue(expected) failed\n\nLocator:  getByTestId('qty-p1')\nExpected: \"1\"\nReceived: \"-3\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveValue\" with timeout 5000ms\n  - waiting for getByTestId('qty-p1')\n    9 × locator resolved to <input min=\"1\" value=\"-3\" type=\"number\" data-testid=\"qty-p1\"/>\n      - unexpected value \"-3\"\n",
+  "stack": "Error: expect(locator).toHaveValue(expected) failed\n\nLocator:  getByTestId('qty-p1')\nExpected: \"1\"\nReceived: \"-3\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveValue\" with timeout 5000ms\n  - waiting for getByTestId('qty-p1')\n    9 × locator resolved to <input min=\"1\" value=\"-3\" type=\"number\" data-testid=\"qty-p1\"/>\n      - unexpected value \"-3\"\n\n    at /work/ci-triage-agent/fixtures/tests/cart.spec.ts:43:44\n\n  41 |   await page.getByTestId('qty-p1').blur();\n  42 |\n> 43 |   await expect(page.getByTestId('qty-p1')).toHaveValue('1');\n     |                                            ^\n  44 |   await expect(page.getByTestId('line-total-p1')).toHaveText('$39.95');\n  45 |   await expect(page.getByTestId('total')).toHaveText('$45.75');\n  46 | });",
+  "dauer_ms": 5281,
+  "versuche": [
+    {
+      "nr": 1,
+      "status": "failed"
+    },
+    {
+      "nr": 2,
+      "status": "failed"
+    },
+    {
+      "nr": 3,
+      "status": "failed"
+    }
+  ],
+  "artefakte": {
+    "diff": "diff.patch",
+    "trace": "trace.txt",
+    "screenshot": "screenshot.png"
+  },
+  "kontext": {
+    "branch": "mr/mut-13",
+    "commit": "e300b56",
+    "ci_lauf": "lokal (fixtures/generate.mjs)"
+  }
+}

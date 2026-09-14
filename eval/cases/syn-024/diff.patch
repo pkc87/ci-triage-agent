@@ -1,0 +1,13 @@
+diff --git a/fixtures/shop/app.js b/fixtures/shop/app.js
+index 08e65c0..442880c 100644
+--- a/fixtures/shop/app.js
++++ b/fixtures/shop/app.js
+@@ -236,7 +236,7 @@ function wireReviews() {
+       list.append(li);
+     }
+ 
+-    average.textContent = `Average rating: ${averageRating(visible).toFixed(1)} out of 5`;
++    average.textContent = `Average rating: ${averageRating(payload.reviews).toFixed(1)} out of 5`;
+     average.hidden = false;
+     spinner.hidden = true;
+   });

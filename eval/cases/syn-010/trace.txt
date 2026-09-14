@@ -1,0 +1,22 @@
+Before Hooks  (318ms)
+    Launch browser [timeout=180000]  (102ms)
+    Create context  (4ms)
+    Create page  (179ms)
+Navigate to "/" [url=/]  (78ms)
+Expect "toBeVisible"  (15ms)
+Get text content getByTestId('banner') [selector=internal:testid=[data-testid="banner"s]]  (3ms)
+Expect "toBe" [expected=Free shipping on orders over $50]  (2ms)
+  ! Error: expect(received).toBe(expected) // Object.is equality
+  ! 
+  ! Expected: "Free shipping on orders over $50"
+  ! Received: "Roasted to order, shipped same day"
+After Hooks  (107ms)
+    Close context  (13ms)
+Attach "error-context"  (0ms)
+Worker Cleanup  (2804ms)
+
+--- test errors ---
+Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: "Free shipping on orders over $50"
+Received: "Roasted to order, shipped same day"

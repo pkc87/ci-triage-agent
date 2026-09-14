@@ -1,0 +1,39 @@
+Before Hooks  (83ms)
+  beforeEach hook  (83ms)
+      Create context  (2ms)
+      Create page  (40ms)
+    Navigate to "/" [url=/]  (37ms)
+Expect "toBeVisible"  (14ms)
+Expect "toHaveText" [expected=Add to cart]  (5003ms)
+  ! Error: expect(locator).toHaveText(expected) failed
+  ! 
+  ! Locator:  getByTestId('add-p2')
+  ! Expected: "Add to cart"
+  ! Received: "Add to bag"
+  ! Timeout:  5000ms
+  ! 
+  ! Call log:
+  !   - Expect "toHaveText" with timeout 5000ms
+  !   - waiting for getByTestId('add-p2')
+  !     9 × locator resolved to <button type="button" data-testid="add-p2">Add to bag</button>
+  !       - unexpected value "Add to bag"
+  ! 
+After Hooks  (111ms)
+    Close context  (4ms)
+Attach "error-context"  (0ms)
+Worker Cleanup  (26ms)
+
+--- test errors ---
+Error: expect(locator).toHaveText(expected) failed
+
+Locator:  getByTestId('add-p2')
+Expected: "Add to cart"
+Received: "Add to bag"
+Timeout:  5000ms
+
+Call log:
+  - Expect "toHaveText" with timeout 5000ms
+  - waiting for getByTestId('add-p2')
+    9 × locator resolved to <button type="button" data-testid="add-p2">Add to bag</button>
+      - unexpected value "Add to bag"
+

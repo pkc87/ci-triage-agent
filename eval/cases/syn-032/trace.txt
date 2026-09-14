@@ -1,0 +1,23 @@
+Before Hooks  (873ms)
+    Launch browser [timeout=180000]  (542ms)
+    Create context  (4ms)
+    Create page  (312ms)
+Navigate to "/" [url=/]  (313ms)
+Click getByTestId('load-reviews') [selector=internal:testid=[data-testid="load-reviews"s]]  (50ms)
+Expect "toBeVisible"  (399ms)
+Evaluate getByTestId('banner') [selector=internal:testid=[data-testid="banner"s]]  (311ms)
+Expect "toBeGreaterThan" [expected=0.95]  (1ms)
+  ! Error: expect(received).toBeGreaterThan(expected)
+  ! 
+  ! Expected: > 0.95
+  ! Received:   0.722123
+After Hooks  (324ms)
+    Close context  (37ms)
+Attach "error-context"  (0ms)
+Worker Cleanup  (18150ms)
+
+--- test errors ---
+Error: expect(received).toBeGreaterThan(expected)
+
+Expected: > 0.95
+Received:   0.722123

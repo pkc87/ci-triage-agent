@@ -13,10 +13,11 @@ test('the reviews section offers a load action', async ({ page }) => {
 
 test('loading reviews renders every approved review with the average', async ({ page }) => {
   await page.getByTestId('load-reviews').click();
-  await page.waitForTimeout(200);
 
-  expect(await page.getByTestId('review-item').count()).toBe(4);
-  expect(await page.getByTestId('average-rating').textContent()).toBe('Average rating: 4.3 out of 5');
+  await expect(page.getByTestId('review-item')).toHaveCount(4);
+  await expect(page.getByTestId('average-rating')).toBeVisible();
+  await expect(page.getByTestId('average-rating')).toHaveText('Average rating: 4.3 out of 5');
+  await expect(page.getByTestId('reviews-spinner')).toBeHidden();
 });
 
 test('the average rating ignores reviews that are not approved', async ({ page }) => {

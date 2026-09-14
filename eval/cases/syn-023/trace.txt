@@ -1,0 +1,38 @@
+Before Hooks  (143ms)
+  beforeEach hook  (143ms)
+      Create context  (14ms)
+      Create page  (74ms)
+    Navigate to "/" [url=/]  (51ms)
+Expect "toHaveCount" [expected=5]  (5010ms)
+  ! Error: expect(locator).toHaveCount(expected) failed
+  ! 
+  ! Locator:  getByTestId('product-grid').locator('li')
+  ! Expected: 5
+  ! Received: 4
+  ! Timeout:  5000ms
+  ! 
+  ! Call log:
+  !   - Expect "toHaveCount" with timeout 5000ms
+  !   - waiting for getByTestId('product-grid').locator('li')
+  !     9 × locator resolved to 4 elements
+  !       - unexpected value "4"
+  ! 
+After Hooks  (2734ms)
+    Close context  (37ms)
+Attach "error-context"  (0ms)
+Worker Cleanup  (1834ms)
+
+--- test errors ---
+Error: expect(locator).toHaveCount(expected) failed
+
+Locator:  getByTestId('product-grid').locator('li')
+Expected: 5
+Received: 4
+Timeout:  5000ms
+
+Call log:
+  - Expect "toHaveCount" with timeout 5000ms
+  - waiting for getByTestId('product-grid').locator('li')
+    9 × locator resolved to 4 elements
+      - unexpected value "4"
+

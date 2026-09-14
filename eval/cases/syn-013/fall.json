@@ -1,0 +1,35 @@
+{
+  "id": "syn-013",
+  "quelle": "synthetisch",
+  "repo": "fixtures/shop",
+  "test_titel": "the order summary panel matches the visual baseline",
+  "test_datei": "tests/visual.spec.ts",
+  "test_zeile": 3,
+  "fehlermeldung": "Error: expect(locator).toHaveScreenshot(expected) failed\n\nLocator: getByTestId('summary-panel')\n  Expected an image 340px by 212px, received 340px by 220px. 3123 pixels (ratio 0.05 of all image pixels) are different.\n\n  Snapshot: summary-panel.png\n\nCall log:\n  - Expect \"toHaveScreenshot(summary-panel.png)\" with timeout 5000ms\n    - verifying given screenshot expectation\n  - waiting for getByTestId('summary-panel')\n    - locator resolved to <section class=\"summary\" data-testid=\"summary-panel\" aria-labelledby=\"summary-heading\">…</section>\n  - taking element screenshot\n    - disabled all CSS animations\n  - waiting for fonts to load...\n  - fonts loaded\n  - attempting scroll into view action\n    - waiting for element to be stable\n  - Expected an image 340px by 212px, received 340px by 220px. 3123 pixels (ratio 0.05 of all image pixels) are different.\n  - waiting 100ms before taking screenshot\n  - waiting for getByTestId('summary-panel')\n    - locator resolved to <section class=\"summary\" data-testid=\"summary-panel\" aria-labelledby=\"summary-heading\">…</section>\n  - taking element screenshot\n    - disabled all CSS animations\n  - waiting for fonts to load...\n  - fonts loaded\n  - attempting scroll into view action\n    - waiting for element to be stable\n  - captured a stable screenshot\n  - Expected an image 340px by 212px, received 340px by 220px. 3123 pixels (ratio 0.05 of all image pixels) are different.\n",
+  "stack": "Error: expect(locator).toHaveScreenshot(expected) failed\n\nLocator: getByTestId('summary-panel')\n  Expected an image 340px by 212px, received 340px by 220px. 3123 pixels (ratio 0.05 of all image pixels) are different.\n\n  Snapshot: summary-panel.png\n\nCall log:\n  - Expect \"toHaveScreenshot(summary-panel.png)\" with timeout 5000ms\n    - verifying given screenshot expectation\n  - waiting for getByTestId('summary-panel')\n    - locator resolved to <section class=\"summary\" data-testid=\"summary-panel\" aria-labelledby=\"summary-heading\">…</section>\n  - taking element screenshot\n    - disabled all CSS animations\n  - waiting for fonts to load...\n  - fonts loaded\n  - attempting scroll into view action\n    - waiting for element to be stable\n  - Expected an image 340px by 212px, received 340px by 220px. 3123 pixels (ratio 0.05 of all image pixels) are different.\n  - waiting 100ms before taking screenshot\n  - waiting for getByTestId('summary-panel')\n    - locator resolved to <section class=\"summary\" data-testid=\"summary-panel\" aria-labelledby=\"summary-heading\">…</section>\n  - taking element screenshot\n    - disabled all CSS animations\n  - waiting for fonts to load...\n  - fonts loaded\n  - attempting scroll into view action\n    - waiting for element to be stable\n  - captured a stable screenshot\n  - Expected an image 340px by 212px, received 340px by 220px. 3123 pixels (ratio 0.05 of all image pixels) are different.\n\n    at /work/ci-triage-agent/fixtures/tests/visual.spec.ts:11:51\n\n   9 |   await expect(page.getByTestId('total')).toHaveText('$88.99');\n  10 |\n> 11 |   await expect(page.getByTestId('summary-panel')).toHaveScreenshot('summary-panel.png');\n     |                                                   ^\n  12 | });\n  13 |",
+  "dauer_ms": 6481,
+  "versuche": [
+    {
+      "nr": 1,
+      "status": "failed"
+    },
+    {
+      "nr": 2,
+      "status": "failed"
+    },
+    {
+      "nr": 3,
+      "status": "failed"
+    }
+  ],
+  "artefakte": {
+    "diff": "diff.patch",
+    "trace": "trace.txt",
+    "screenshot": "screenshot.png"
+  },
+  "kontext": {
+    "branch": "mr/mut-08",
+    "commit": "e300b56",
+    "ci_lauf": "lokal (fixtures/generate.mjs)"
+  }
+}

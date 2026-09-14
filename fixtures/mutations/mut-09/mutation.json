@@ -15,8 +15,8 @@
   ],
   "beobachtet": {
     "laeufe": 6,
-    "fehlschlaege": 5,
-    "versuche_gesamt": 14,
-    "versuche_fehlgeschlagen": 13
+    "fehlschlaege": 6,
+    "versuche_gesamt": 16,
+    "versuche_fehlgeschlagen": 14
   }
 }

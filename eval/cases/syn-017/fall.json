@@ -1,0 +1,35 @@
+{
+  "id": "syn-017",
+  "quelle": "synthetisch",
+  "repo": "fixtures/shop",
+  "test_titel": "a complete order shows a confirmation and empties the cart",
+  "test_datei": "tests/checkout.spec.ts",
+  "test_zeile": 29,
+  "fehlermeldung": "Error: expect(locator).toHaveText(expected) failed\n\nLocator: getByTestId('order-confirmation')\nExpected pattern: /^Order #[A-Z0-9]{6} placed on \\d{2}\\.\\d{2}\\.\\d{4}$/\nReceived string:  \"Order #LDUG4H placed on September 14, 2026\"\nTimeout: 5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('order-confirmation')\n    8 × locator resolved to <p class=\"confirmation\" data-testid=\"order-confirmation\">Order #LDUG4H placed on September 14, 2026</p>\n      - unexpected value \"Order #LDUG4H placed on September 14, 2026\"\n",
+  "stack": "Error: expect(locator).toHaveText(expected) failed\n\nLocator: getByTestId('order-confirmation')\nExpected pattern: /^Order #[A-Z0-9]{6} placed on \\d{2}\\.\\d{2}\\.\\d{4}$/\nReceived string:  \"Order #LDUG4H placed on September 14, 2026\"\nTimeout: 5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('order-confirmation')\n    8 × locator resolved to <p class=\"confirmation\" data-testid=\"order-confirmation\">Order #LDUG4H placed on September 14, 2026</p>\n      - unexpected value \"Order #LDUG4H placed on September 14, 2026\"\n\n    at /work/ci-triage-agent/fixtures/tests/checkout.spec.ts:37:30\n\n  35 |   const confirmation = page.getByTestId('order-confirmation');\n  36 |   await expect(confirmation).toBeVisible();\n> 37 |   await expect(confirmation).toHaveText(/^Order #[A-Z0-9]{6} placed on \\d{2}\\.\\d{2}\\.\\d{4}$/);\n     |                              ^\n  38 |\n  39 |   await expect(page.getByTestId('form-error')).toBeHidden();\n  40 |   await expect(page.getByTestId('cart-empty')).toBeVisible();",
+  "dauer_ms": 6130,
+  "versuche": [
+    {
+      "nr": 1,
+      "status": "failed"
+    },
+    {
+      "nr": 2,
+      "status": "failed"
+    },
+    {
+      "nr": 3,
+      "status": "failed"
+    }
+  ],
+  "artefakte": {
+    "diff": "diff.patch",
+    "trace": "trace.txt",
+    "screenshot": "screenshot.png"
+  },
+  "kontext": {
+    "branch": "mr/mut-11",
+    "commit": "e300b56",
+    "ci_lauf": "lokal (fixtures/generate.mjs)"
+  }
+}

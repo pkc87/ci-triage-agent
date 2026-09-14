@@ -1,0 +1,35 @@
+{
+  "id": "syn-023",
+  "quelle": "synthetisch",
+  "repo": "fixtures/shop",
+  "test_titel": "the catalog lists every product",
+  "test_datei": "tests/catalog.spec.ts",
+  "test_zeile": 9,
+  "fehlermeldung": "Error: expect(locator).toHaveCount(expected) failed\n\nLocator:  getByTestId('product-grid').locator('li')\nExpected: 5\nReceived: 4\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveCount\" with timeout 5000ms\n  - waiting for getByTestId('product-grid').locator('li')\n    9 × locator resolved to 4 elements\n      - unexpected value \"4\"\n",
+  "stack": "Error: expect(locator).toHaveCount(expected) failed\n\nLocator:  getByTestId('product-grid').locator('li')\nExpected: 5\nReceived: 4\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveCount\" with timeout 5000ms\n  - waiting for getByTestId('product-grid').locator('li')\n    9 × locator resolved to 4 elements\n      - unexpected value \"4\"\n\n    at /work/ci-triage-agent/fixtures/tests/catalog.spec.ts:11:23\n\n   9 | test('the catalog lists every product', async ({ page }) => {\n  10 |   const cards = page.getByTestId('product-grid').locator('li');\n> 11 |   await expect(cards).toHaveCount(5);\n     |                       ^\n  12 |   for (const name of PRODUCT_NAMES) {\n  13 |     await expect(page.getByRole('heading', { name, exact: true })).toBeVisible();\n  14 |   }",
+  "dauer_ms": 7823,
+  "versuche": [
+    {
+      "nr": 1,
+      "status": "failed"
+    },
+    {
+      "nr": 2,
+      "status": "failed"
+    },
+    {
+      "nr": 3,
+      "status": "failed"
+    }
+  ],
+  "artefakte": {
+    "diff": "diff.patch",
+    "trace": "trace.txt",
+    "screenshot": "screenshot.png"
+  },
+  "kontext": {
+    "branch": "mr/mut-17",
+    "commit": "e300b56",
+    "ci_lauf": "lokal (fixtures/generate.mjs)"
+  }
+}

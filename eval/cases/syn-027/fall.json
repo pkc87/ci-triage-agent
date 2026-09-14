@@ -1,0 +1,34 @@
+{
+  "id": "syn-027",
+  "quelle": "synthetisch",
+  "repo": "fixtures/shop",
+  "test_titel": "adding a product puts it in the cart",
+  "test_datei": "tests/cart.spec.ts",
+  "test_zeile": 7,
+  "fehlermeldung": "Error: browserType.launch: Failed to launch chromium because executable doesn't exist at C:\\ci-agents\\browsers\\chromium-1148\\chrome-win\\chrome.exe",
+  "stack": "Error: browserType.launch: Failed to launch chromium because executable doesn't exist at C:\\ci-agents\\browsers\\chromium-1148\\chrome-win\\chrome.exe",
+  "dauer_ms": 1,
+  "versuche": [
+    {
+      "nr": 1,
+      "status": "failed"
+    },
+    {
+      "nr": 2,
+      "status": "failed"
+    },
+    {
+      "nr": 3,
+      "status": "failed"
+    }
+  ],
+  "artefakte": {
+    "diff": "diff.patch",
+    "trace": "trace.txt"
+  },
+  "kontext": {
+    "branch": "mr/mut-19",
+    "commit": "e300b56",
+    "ci_lauf": "lokal (fixtures/generate.mjs)"
+  }
+}

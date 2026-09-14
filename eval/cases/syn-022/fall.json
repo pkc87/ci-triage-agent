@@ -1,0 +1,35 @@
+{
+  "id": "syn-022",
+  "quelle": "synthetisch",
+  "repo": "fixtures/shop",
+  "test_titel": "checkout rejects an empty email address",
+  "test_datei": "tests/checkout.spec.ts",
+  "test_zeile": 8,
+  "fehlermeldung": "Error: expect(locator).toBeVisible() failed\n\nLocator:  getByTestId('form-error')\nExpected: visible\nReceived: hidden\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toBeVisible\" with timeout 5000ms\n  - waiting for getByTestId('form-error')\n    9 × locator resolved to <ul hidden=\"\" class=\"form-errors\" data-testid=\"form-error\"></ul>\n      - unexpected value \"hidden\"\n",
+  "stack": "Error: expect(locator).toBeVisible() failed\n\nLocator:  getByTestId('form-error')\nExpected: visible\nReceived: hidden\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toBeVisible\" with timeout 5000ms\n  - waiting for getByTestId('form-error')\n    9 × locator resolved to <ul hidden=\"\" class=\"form-errors\" data-testid=\"form-error\"></ul>\n      - unexpected value \"hidden\"\n\n    at /work/ci-triage-agent/fixtures/tests/checkout.spec.ts:14:48\n\n  12 |   await page.getByTestId('place-order').click();\n  13 |\n> 14 |   await expect(page.getByTestId('form-error')).toBeVisible();\n     |                                                ^\n  15 |   await expect(page.getByTestId('form-error')).toContainText('Enter a valid email address');\n  16 |   await expect(page.getByTestId('order-confirmation')).toBeHidden();\n  17 | });",
+  "dauer_ms": 6244,
+  "versuche": [
+    {
+      "nr": 1,
+      "status": "failed"
+    },
+    {
+      "nr": 2,
+      "status": "failed"
+    },
+    {
+      "nr": 3,
+      "status": "failed"
+    }
+  ],
+  "artefakte": {
+    "diff": "diff.patch",
+    "trace": "trace.txt",
+    "screenshot": "screenshot.png"
+  },
+  "kontext": {
+    "branch": "mr/mut-16",
+    "commit": "e300b56",
+    "ci_lauf": "lokal (fixtures/generate.mjs)"
+  }
+}

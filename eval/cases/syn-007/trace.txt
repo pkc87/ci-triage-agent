@@ -1,0 +1,41 @@
+Before Hooks  (268ms)
+  beforeEach hook  (268ms)
+      Create context  (2ms)
+      Create page  (145ms)
+    Navigate to "/" [url=/]  (105ms)
+Click getByTestId('add-p1') [selector=internal:testid=[data-testid="add-p1"s]]  (47ms)
+Fill "SAVE20" getByTestId('discount-code') [selector=internal:testid=[data-testid="discount-code"s] value=SAVE20]  (6ms)
+Click getByTestId('apply-discount') [selector=internal:testid=[data-testid="apply-discount"s]]  (43ms)
+Expect "toHaveText" [expected=$36.60]  (5003ms)
+  ! Error: expect(locator).toHaveText(expected) failed
+  ! 
+  ! Locator:  getByTestId('total')
+  ! Expected: "$36.60"
+  ! Received: "$37.76"
+  ! Timeout:  5000ms
+  ! 
+  ! Call log:
+  !   - Expect "toHaveText" with timeout 5000ms
+  !   - waiting for getByTestId('total')
+  !     9 × locator resolved to <dd class="grand" data-testid="total">$37.76</dd>
+  !       - unexpected value "$37.76"
+  ! 
+After Hooks  (108ms)
+    Close context  (2ms)
+Attach "error-context"  (0ms)
+Worker Cleanup  (26ms)
+
+--- test errors ---
+Error: expect(locator).toHaveText(expected) failed
+
+Locator:  getByTestId('total')
+Expected: "$36.60"
+Received: "$37.76"
+Timeout:  5000ms
+
+Call log:
+  - Expect "toHaveText" with timeout 5000ms
+  - waiting for getByTestId('total')
+    9 × locator resolved to <dd class="grand" data-testid="total">$37.76</dd>
+      - unexpected value "$37.76"
+

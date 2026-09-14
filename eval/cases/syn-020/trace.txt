@@ -1,0 +1,44 @@
+Before Hooks  (102ms)
+  beforeEach hook  (102ms)
+      Create context  (4ms)
+      Create page  (48ms)
+    Navigate to "/" [url=/]  (46ms)
+Click getByTestId('add-p1') [selector=internal:testid=[data-testid="add-p1"s]]  (46ms)
+Fill "2" getByTestId('qty-p1') [selector=internal:testid=[data-testid="qty-p1"s] value=2]  (9ms)
+Blur getByTestId('qty-p1') [selector=internal:testid=[data-testid="qty-p1"s]]  (19ms)
+Click getByTestId('add-p4') [selector=internal:testid=[data-testid="add-p4"s]]  (37ms)
+Fill "3" getByTestId('qty-p4') [selector=internal:testid=[data-testid="qty-p4"s] value=3]  (5ms)
+Blur getByTestId('qty-p4') [selector=internal:testid=[data-testid="qty-p4"s]]  (9ms)
+Expect "toHaveText" [expected=104,65 €]  (5017ms)
+  ! Error: expect(locator).toHaveText(expected) failed
+  ! 
+  ! Locator:  getByTestId('subtotal')
+  ! Expected: "104,65 €"
+  ! Received: "$104.65"
+  ! Timeout:  5000ms
+  ! 
+  ! Call log:
+  !   - Expect "toHaveText" with timeout 5000ms
+  !   - waiting for getByTestId('subtotal')
+  !     9 × locator resolved to <dd data-testid="subtotal">$104.65</dd>
+  !       - unexpected value "$104.65"
+  ! 
+After Hooks  (743ms)
+    Close context  (7ms)
+Attach "error-context"  (0ms)
+Worker Cleanup  (116ms)
+
+--- test errors ---
+Error: expect(locator).toHaveText(expected) failed
+
+Locator:  getByTestId('subtotal')
+Expected: "104,65 €"
+Received: "$104.65"
+Timeout:  5000ms
+
+Call log:
+  - Expect "toHaveText" with timeout 5000ms
+  - waiting for getByTestId('subtotal')
+    9 × locator resolved to <dd data-testid="subtotal">$104.65</dd>
+      - unexpected value "$104.65"
+

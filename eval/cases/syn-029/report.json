@@ -1,0 +1,265 @@
+{
+  "config": {
+    "configFile": "/work/ci-triage-agent/fixtures/playwright.config.ts",
+    "rootDir": "/work/ci-triage-agent/fixtures/tests",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 4
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/work/ci-triage-agent/fixtures/runs/mut-20/1/artifacts",
+        "repeatEach": 1,
+        "retries": 2,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "/work/ci-triage-agent/fixtures/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json",
+        {
+          "outputFile": "/work/ci-triage-agent/fixtures/runs/mut-20/1/report.json"
+        }
+      ],
+      [
+        "list",
+        null
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.59.0",
+    "workers": 4,
+    "webServer": {
+      "command": "node serve.mjs",
+      "url": "http://127.0.0.1:4173",
+      "reuseExistingServer": false,
+      "stdout": "ignore",
+      "stderr": "pipe"
+    }
+  },
+  "suites": [
+    {
+      "title": "saved-cart.spec.ts",
+      "file": "saved-cart.spec.ts",
+      "line": 0,
+      "column": 0,
+      "specs": [
+        {
+          "title": "a saved cart can be restored after a reload",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 10781,
+                  "error": {
+                    "message": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('cart-badge')\nExpected: \"2 items\"\nReceived: \"1 item\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('cart-badge')\n    9 × locator resolved to <div class=\"cart-badge\" data-testid=\"cart-badge\">1 item</div>\n      - unexpected value \"1 item\"\n",
+                    "stack": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('cart-badge')\nExpected: \"2 items\"\nReceived: \"1 item\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('cart-badge')\n    9 × locator resolved to <div class=\"cart-badge\" data-testid=\"cart-badge\">1 item</div>\n      - unexpected value \"1 item\"\n\n    at /work/ci-triage-agent/fixtures/tests/saved-cart.spec.ts:8:48",
+                    "location": {
+                      "file": "/work/ci-triage-agent/fixtures/tests/saved-cart.spec.ts",
+                      "column": 48,
+                      "line": 8
+                    },
+                    "snippet": "   6 |   await page.getByTestId('add-p2').click();\n   7 |   await page.getByTestId('add-p2').click();\n>  8 |   await expect(page.getByTestId('cart-badge')).toHaveText('2 items');\n     |                                                ^\n   9 |\n  10 |   await page.getByTestId('save-cart').click();\n  11 |   await expect(page.getByTestId('cart-sync-status')).toHaveText('Cart saved');"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/work/ci-triage-agent/fixtures/tests/saved-cart.spec.ts",
+                        "column": 48,
+                        "line": 8
+                      },
+                      "message": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('cart-badge')\nExpected: \"2 items\"\nReceived: \"1 item\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('cart-badge')\n    9 × locator resolved to <div class=\"cart-badge\" data-testid=\"cart-badge\">1 item</div>\n      - unexpected value \"1 item\"\n\n\n   6 |   await page.getByTestId('add-p2').click();\n   7 |   await page.getByTestId('add-p2').click();\n>  8 |   await expect(page.getByTestId('cart-badge')).toHaveText('2 items');\n     |                                                ^\n   9 |\n  10 |   await page.getByTestId('save-cart').click();\n  11 |   await expect(page.getByTestId('cart-sync-status')).toHaveText('Cart saved');\n    at /work/ci-triage-agent/fixtures/tests/saved-cart.spec.ts:8:48"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-14T12:17:05.731Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-20/1/artifacts/saved-cart-a-saved-cart-can-be-restored-after-a-reload-chromium/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-20/1/artifacts/saved-cart-a-saved-cart-can-be-restored-after-a-reload-chromium/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-20/1/artifacts/saved-cart-a-saved-cart-can-be-restored-after-a-reload-chromium/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/work/ci-triage-agent/fixtures/tests/saved-cart.spec.ts",
+                    "column": 48,
+                    "line": 8
+                  }
+                },
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 8851,
+                  "error": {
+                    "message": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('cart-badge')\nExpected: \"2 items\"\nReceived: \"1 item\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('cart-badge')\n    9 × locator resolved to <div class=\"cart-badge\" data-testid=\"cart-badge\">1 item</div>\n      - unexpected value \"1 item\"\n",
+                    "stack": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('cart-badge')\nExpected: \"2 items\"\nReceived: \"1 item\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('cart-badge')\n    9 × locator resolved to <div class=\"cart-badge\" data-testid=\"cart-badge\">1 item</div>\n      - unexpected value \"1 item\"\n\n    at /work/ci-triage-agent/fixtures/tests/saved-cart.spec.ts:8:48",
+                    "location": {
+                      "file": "/work/ci-triage-agent/fixtures/tests/saved-cart.spec.ts",
+                      "column": 48,
+                      "line": 8
+                    },
+                    "snippet": "   6 |   await page.getByTestId('add-p2').click();\n   7 |   await page.getByTestId('add-p2').click();\n>  8 |   await expect(page.getByTestId('cart-badge')).toHaveText('2 items');\n     |                                                ^\n   9 |\n  10 |   await page.getByTestId('save-cart').click();\n  11 |   await expect(page.getByTestId('cart-sync-status')).toHaveText('Cart saved');"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/work/ci-triage-agent/fixtures/tests/saved-cart.spec.ts",
+                        "column": 48,
+                        "line": 8
+                      },
+                      "message": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('cart-badge')\nExpected: \"2 items\"\nReceived: \"1 item\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('cart-badge')\n    9 × locator resolved to <div class=\"cart-badge\" data-testid=\"cart-badge\">1 item</div>\n      - unexpected value \"1 item\"\n\n\n   6 |   await page.getByTestId('add-p2').click();\n   7 |   await page.getByTestId('add-p2').click();\n>  8 |   await expect(page.getByTestId('cart-badge')).toHaveText('2 items');\n     |                                                ^\n   9 |\n  10 |   await page.getByTestId('save-cart').click();\n  11 |   await expect(page.getByTestId('cart-sync-status')).toHaveText('Cart saved');\n    at /work/ci-triage-agent/fixtures/tests/saved-cart.spec.ts:8:48"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 1,
+                  "startTime": "2026-09-14T12:17:22.435Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-20/1/artifacts/saved-cart-a-saved-cart-can-be-restored-after-a-reload-chromium-retry1/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-20/1/artifacts/saved-cart-a-saved-cart-can-be-restored-after-a-reload-chromium-retry1/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-20/1/artifacts/saved-cart-a-saved-cart-can-be-restored-after-a-reload-chromium-retry1/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/work/ci-triage-agent/fixtures/tests/saved-cart.spec.ts",
+                    "column": 48,
+                    "line": 8
+                  }
+                },
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 5788,
+                  "error": {
+                    "message": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('cart-badge')\nExpected: \"2 items\"\nReceived: \"1 item\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('cart-badge')\n    9 × locator resolved to <div class=\"cart-badge\" data-testid=\"cart-badge\">1 item</div>\n      - unexpected value \"1 item\"\n",
+                    "stack": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('cart-badge')\nExpected: \"2 items\"\nReceived: \"1 item\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('cart-badge')\n    9 × locator resolved to <div class=\"cart-badge\" data-testid=\"cart-badge\">1 item</div>\n      - unexpected value \"1 item\"\n\n    at /work/ci-triage-agent/fixtures/tests/saved-cart.spec.ts:8:48",
+                    "location": {
+                      "file": "/work/ci-triage-agent/fixtures/tests/saved-cart.spec.ts",
+                      "column": 48,
+                      "line": 8
+                    },
+                    "snippet": "   6 |   await page.getByTestId('add-p2').click();\n   7 |   await page.getByTestId('add-p2').click();\n>  8 |   await expect(page.getByTestId('cart-badge')).toHaveText('2 items');\n     |                                                ^\n   9 |\n  10 |   await page.getByTestId('save-cart').click();\n  11 |   await expect(page.getByTestId('cart-sync-status')).toHaveText('Cart saved');"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/work/ci-triage-agent/fixtures/tests/saved-cart.spec.ts",
+                        "column": 48,
+                        "line": 8
+                      },
+                      "message": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('cart-badge')\nExpected: \"2 items\"\nReceived: \"1 item\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('cart-badge')\n    9 × locator resolved to <div class=\"cart-badge\" data-testid=\"cart-badge\">1 item</div>\n      - unexpected value \"1 item\"\n\n\n   6 |   await page.getByTestId('add-p2').click();\n   7 |   await page.getByTestId('add-p2').click();\n>  8 |   await expect(page.getByTestId('cart-badge')).toHaveText('2 items');\n     |                                                ^\n   9 |\n  10 |   await page.getByTestId('save-cart').click();\n  11 |   await expect(page.getByTestId('cart-sync-status')).toHaveText('Cart saved');\n    at /work/ci-triage-agent/fixtures/tests/saved-cart.spec.ts:8:48"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 2,
+                  "startTime": "2026-09-14T12:17:36.675Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-20/1/artifacts/saved-cart-a-saved-cart-can-be-restored-after-a-reload-chromium-retry2/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-20/1/artifacts/saved-cart-a-saved-cart-can-be-restored-after-a-reload-chromium-retry2/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/work/ci-triage-agent/fixtures/runs/mut-20/1/artifacts/saved-cart-a-saved-cart-can-be-restored-after-a-reload-chromium-retry2/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/work/ci-triage-agent/fixtures/tests/saved-cart.spec.ts",
+                    "column": 48,
+                    "line": 8
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "cb144872ed7571f721a0-9ba1a2f2ce60b510f2c8",
+          "file": "saved-cart.spec.ts",
+          "line": 3,
+          "column": 5
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-09-14T12:16:55.458Z",
+    "duration": 48694.971000000005,
+    "expected": 19,
+    "skipped": 0,
+    "unexpected": 2,
+    "flaky": 0
+  }
+}

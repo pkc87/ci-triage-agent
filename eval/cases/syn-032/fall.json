@@ -1,0 +1,35 @@
+{
+  "id": "syn-032",
+  "quelle": "synthetisch",
+  "repo": "fixtures/shop",
+  "test_titel": "the promo banner stays fully opaque",
+  "test_datei": "tests/banner-opacity.spec.ts",
+  "test_zeile": 4,
+  "fehlermeldung": "Error: expect(received).toBeGreaterThan(expected)\n\nExpected: > 0.95\nReceived:   0.722123",
+  "stack": "Error: expect(received).toBeGreaterThan(expected)\n\nExpected: > 0.95\nReceived:   0.722123\n    at /work/ci-triage-agent/fixtures/tests/banner-opacity.spec.ts:15:19\n\n  13 |     .evaluate((element) => Number(getComputedStyle(element).opacity));\n  14 |\n> 15 |   expect(opacity).toBeGreaterThan(0.95);\n     |                   ^\n  16 | });\n  17 |",
+  "dauer_ms": 1717,
+  "versuche": [
+    {
+      "nr": 1,
+      "status": "failed"
+    },
+    {
+      "nr": 2,
+      "status": "failed"
+    },
+    {
+      "nr": 3,
+      "status": "failed"
+    }
+  ],
+  "artefakte": {
+    "diff": "diff.patch",
+    "trace": "trace.txt",
+    "screenshot": "screenshot.png"
+  },
+  "kontext": {
+    "branch": "mr/mut-22",
+    "commit": "e300b56",
+    "ci_lauf": "lokal (fixtures/generate.mjs)"
+  }
+}

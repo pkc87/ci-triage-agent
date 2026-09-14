@@ -1,0 +1,35 @@
+{
+  "id": "syn-028",
+  "quelle": "synthetisch",
+  "repo": "fixtures/shop",
+  "test_titel": "the cart badge counts units, not lines",
+  "test_datei": "tests/cart.spec.ts",
+  "test_zeile": 48,
+  "fehlermeldung": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('cart-badge')\nExpected: \"3 items\"\nReceived: \"2 items\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('cart-badge')\n    9 × locator resolved to <div class=\"cart-badge\" data-testid=\"cart-badge\">2 items</div>\n      - unexpected value \"2 items\"\n",
+  "stack": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('cart-badge')\nExpected: \"3 items\"\nReceived: \"2 items\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 5000ms\n  - waiting for getByTestId('cart-badge')\n    9 × locator resolved to <div class=\"cart-badge\" data-testid=\"cart-badge\">2 items</div>\n      - unexpected value \"2 items\"\n\n    at /work/ci-triage-agent/fixtures/tests/cart.spec.ts:56:48\n\n  54 |   await page.getByTestId('add-p1').click();\n  55 |   await page.getByTestId('add-p4').click();\n> 56 |   await expect(page.getByTestId('cart-badge')).toHaveText('3 items');\n     |                                                ^\n  57 | });\n  58 |",
+  "dauer_ms": 11202,
+  "versuche": [
+    {
+      "nr": 1,
+      "status": "failed"
+    },
+    {
+      "nr": 2,
+      "status": "failed"
+    },
+    {
+      "nr": 3,
+      "status": "failed"
+    }
+  ],
+  "artefakte": {
+    "diff": "diff.patch",
+    "trace": "trace.txt",
+    "screenshot": "screenshot.png"
+  },
+  "kontext": {
+    "branch": "mr/mut-20",
+    "commit": "e300b56",
+    "ci_lauf": "lokal (fixtures/generate.mjs)"
+  }
+}
