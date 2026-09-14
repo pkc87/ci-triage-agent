@@ -2,6 +2,7 @@
   "id": "mut-14",
   "klasse": "KAPUTTER_TEST",
   "beschreibung": "The pricing test expects euro amounts in de-DE notation; the storefront is a US shop and prices in dollars.",
+  "begruendung": "test-only change: the spec expects euro amounts in de-DE notation from a US dollar storefront",
   "ziel": "fixtures/tests/pricing.spec.ts (a mixed cart adds up to subtotal, handling, tax and total)",
   "max_faelle": 2,
   "aenderungen": [

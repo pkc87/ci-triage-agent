@@ -91,11 +91,13 @@ three classes. Per-class numbers rest on a dozen or two each; the Wilson
 intervals in the table above are wide, and they are the honest version of the
 result.
 
-**Some labels were assigned by the same model family being scored.** Cases
-marked `gelabelt_von: "claude-opus-5"` are self-graded in a real sense. They are
-marked so they can be discounted, and the strongest labels —
-`gelabelt_von: "konstruktion"` — are immune, because the mutation defines the
-truth. But the weak ones are in there.
+**A model designed the failures it is being tested on.** No label here rests on
+model judgement — the historical labels cite the commit that fixed the failure,
+and the constructed ones follow from the mutation. But the mutations themselves
+were designed with heavy agent assistance, so the constructed half reflects a
+model's idea of how tests break. That is a narrower bias than self-grading, and
+it is not zero: a failure mode neither the mutation author nor the triage agent
+has thought of is absent from both sides of this evaluation.
 
 **Three classes is a simplification, and the seam shows at infrastructure
 failures.** A missing browser binary is filed as `KAPUTTER_TEST` because the

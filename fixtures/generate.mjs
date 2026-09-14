@@ -35,17 +35,18 @@ const PLAYWRIGHT_CLI = join(FIXTURES, 'node_modules', '@playwright', 'test', 'cl
 // The corpus is public: no absolute path from this machine belongs in it.
 const SCRUB_TARGET = '/work/ci-triage-agent';
 
+const SCRUBBED_PATH = new RegExp(`${SCRUB_TARGET}[\\\\/][^\\s"'\`)\\]]*`, 'g');
+
 function scrub(text) {
   if (text === undefined || text === null) return text;
-  const plain = stripAnsi(String(text));
-  return plain
+  return stripAnsi(String(text))
     .split(REPO.replace(/\\/g, '/'))
     .join(SCRUB_TARGET)
     .split(REPO)
     .join(SCRUB_TARGET)
     .split(REPO.replace(/\\/g, '\\\\'))
     .join(SCRUB_TARGET)
-    .replace(/\\/g, (match, offset, whole) => (whole.startsWith(SCRUB_TARGET) ? '/' : match));
+    .replace(SCRUBBED_PATH, (match) => match.replace(/\\/g, '/'));
 }
 
 function scrubDeep(value) {
@@ -349,7 +350,8 @@ function main() {
       versuche_gesamt: attempts.length,
       versuche_fehlgeschlagen: attempts.filter((status) => FAILED.has(status)).length,
     };
-    writeFileSync(mutation._pfad, `${JSON.stringify({ ...mutation, _pfad: undefined, beobachtet }, (k, v) => (k === '_pfad' ? undefined : v), 2)}\n`, 'utf8');
+    const { _pfad, ...gespeichert } = mutation;
+    writeFileSync(_pfad, `${JSON.stringify({ ...gespeichert, beobachtet }, null, 2)}\n`, 'utf8');
 
     const caseRun = runs.find((run) => (run.failures ?? []).length > 0);
     if (!caseRun) {

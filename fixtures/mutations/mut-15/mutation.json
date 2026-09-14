@@ -2,6 +2,7 @@
   "id": "mut-15",
   "klasse": "FLAKE",
   "beschreibung": "A second spec starts using the same process-wide saved cart on the fixture server; when the two land in parallel workers they overwrite each other.",
+  "begruendung": "test-only change: a second spec starts using the same process-wide saved cart, so the two specs overwrite each other whenever they land in parallel workers",
   "ziel": "fixtures/tests/saved-cart-sync.spec.ts (new spec racing saved-cart.spec.ts)",
   "max_faelle": 2,
   "laeufe": 6,

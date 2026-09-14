@@ -2,6 +2,7 @@
   "id": "mut-02",
   "klasse": "KAPUTTER_TEST",
   "beschreibung": "The cart test looks up data-testid=\"cart-subtotal-value\", which has never existed in the markup.",
+  "begruendung": "test-only change: the spec waits for data-testid=\"cart-subtotal-value\", a testid that has never existed in the markup; the storefront renders the subtotal as before",
   "ziel": "fixtures/tests/cart.spec.ts (adding a product puts it in the cart)",
   "max_faelle": 2,
   "aenderungen": [

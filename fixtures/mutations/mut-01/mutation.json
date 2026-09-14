@@ -2,6 +2,7 @@
   "id": "mut-01",
   "klasse": "PRODUKTFEHLER",
   "beschreibung": "tax() truncates the cent instead of rounding it, so every taxed order is a cent light.",
+  "begruendung": "app code only: tax() truncates the cent instead of rounding it, so the storefront charges less than the documented policy; no test was touched",
   "ziel": "fixtures/shop/pricing.js (tax)",
   "max_faelle": 4,
   "aenderungen": [

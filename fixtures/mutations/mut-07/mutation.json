@@ -2,6 +2,7 @@
   "id": "mut-07",
   "klasse": "PRODUKTFEHLER",
   "beschreibung": "The promo amount is subtracted twice: once while building the gross and once again in the total.",
+  "begruendung": "app code only: the promo amount is subtracted twice, once while building the gross and once again in the total",
   "ziel": "fixtures/shop/pricing.js (summarize)",
   "max_faelle": 3,
   "aenderungen": [

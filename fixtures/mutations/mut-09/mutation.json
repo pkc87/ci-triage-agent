@@ -2,6 +2,7 @@
   "id": "mut-09",
   "klasse": "FLAKE",
   "beschreibung": "The average-rating assertion gets a 220 ms timeout while the reviews endpoint answers in 80-340 ms.",
+  "begruendung": "test-only change: a 220 ms assertion timeout was put in front of a request that legitimately takes 80-340 ms",
   "ziel": "fixtures/tests/reviews.spec.ts (the average rating ignores reviews that are not approved)",
   "max_faelle": 2,
   "laeufe": 6,

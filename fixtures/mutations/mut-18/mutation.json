@@ -2,6 +2,7 @@
   "id": "mut-18",
   "klasse": "PRODUKTFEHLER",
   "beschreibung": "The average rating is computed over the raw payload, so reviews still held for moderation drag the public score down.",
+  "begruendung": "app code only: the public average rating is computed over the raw payload, including reviews still held for moderation",
   "ziel": "fixtures/shop/app.js (wireReviews)",
   "max_faelle": 3,
   "aenderungen": [

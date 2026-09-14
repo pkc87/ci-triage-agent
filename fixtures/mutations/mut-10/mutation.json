@@ -2,6 +2,7 @@
   "id": "mut-10",
   "klasse": "PRODUKTFEHLER",
   "beschreibung": "The handling fee is no longer waived for an empty cart, so an emptied cart still shows money owed.",
+  "begruendung": "app code only: handling() no longer waives the fee for an empty cart, so an emptied cart still shows money owed",
   "ziel": "fixtures/shop/pricing.js (handling)",
   "max_faelle": 3,
   "aenderungen": [

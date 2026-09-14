@@ -2,6 +2,7 @@
   "id": "mut-08",
   "klasse": "KAPUTTER_TEST",
   "beschreibung": "Intentional sidebar redesign (rounder corners, roomier padding); the checked-in screenshot baseline still shows the old geometry.",
+  "begruendung": "the diff is an intentional sidebar redesign (corner radius and padding); the failure is the checked-in screenshot baseline still showing the old geometry",
   "ziel": "fixtures/shop/styles.css (.sidebar section)",
   "max_faelle": 2,
   "aenderungen": [

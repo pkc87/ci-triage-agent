@@ -2,6 +2,7 @@
   "id": "mut-03",
   "klasse": "FLAKE",
   "beschreibung": "The reviews test drops the auto-retrying assertions for a fixed 200 ms wait, racing the variable review latency (80-340 ms).",
+  "begruendung": "test-only change: the auto-retrying assertions were replaced by a fixed 200 ms wait against an 80-340 ms latency window, so the same build passes and fails",
   "ziel": "fixtures/tests/reviews.spec.ts (loading reviews renders every approved review with the average)",
   "max_faelle": 2,
   "laeufe": 6,

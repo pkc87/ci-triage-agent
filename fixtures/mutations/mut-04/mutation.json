@@ -2,6 +2,7 @@
   "id": "mut-04",
   "klasse": "PRODUKTFEHLER",
   "beschreibung": "The promo code is taken off the net goods instead of the gross, so every discounted order is undercharged against store policy.",
+  "begruendung": "app code only: summarize() takes the promo off the net goods instead of the gross, against the pricing policy documented in the same file",
   "ziel": "fixtures/shop/pricing.js (summarize)",
   "max_faelle": 3,
   "aenderungen": [

@@ -2,6 +2,7 @@
   "id": "mut-16",
   "klasse": "PRODUKTFEHLER",
   "beschreibung": "Checkout validation skips the email rule when the field is empty, so an order can be placed without any address.",
+  "begruendung": "app code only: validateOrder() skips the email rule for an empty field, so an order can be placed without any address",
   "ziel": "fixtures/shop/validate.js (validateOrder)",
   "max_faelle": 3,
   "aenderungen": [

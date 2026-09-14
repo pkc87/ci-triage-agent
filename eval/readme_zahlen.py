@@ -99,17 +99,26 @@ def zahlen_block(e: dict) -> str:
              "not the weakest.")
     z.append("- `historie` — the label follows from external repo evidence: the commit "
              "that later fixed it.")
-    z.append("- `claude-opus-5` — assigned by a model reading the artefact. The weakest "
-             "labels in the corpus, and the same model family that is being scored. "
-             "Marked so you can discount them.")
+    z.append("- `claude-opus-5` — assigned by a model reading the artefact. **No case in "
+             "this corpus carries this label.** The value exists in the schema because it "
+             "was the expected fallback; it turned out not to be needed, and that is worth "
+             "more than the fallback would have been.")
     z.append("")
-    z.append("The synthetic half is not a shortcut, it is a necessity, and the reason is "
-             "worth stating plainly: real CI failures cluster. The nine failed runs this "
-             "corpus draws on contain 596 individual failing tests that collapse into "
-             "**three** root causes — one misconfigured runner produces 120 identical "
-             "failures, and rerunning it five times produces 600. Three root causes cannot "
-             "support a per-class precision claim, so the historical half is a capped "
-             "sample and the rest is built by breaking a fixture app on purpose.")
+    z.append("The constructed half is not a shortcut, it is a necessity, and the reason "
+             "is worth stating plainly: **real CI failures cluster, hard.** The nine "
+             "failed runs behind the historical cases contain **656** individual failing "
+             "tests that collapse into exactly **two** root causes — one misconfigured "
+             "runner produced 120 identical failures, and it survived five successive "
+             "commits before anyone fixed it, for 600 failures with a single distinct "
+             "error body between them. Two root causes cannot support a per-class "
+             "precision claim, so the historical half is capped at seven cases per cause "
+             "and the rest of the corpus is built by breaking a fixture app on purpose.")
+    z.append("")
+    z.append("They were also all one class. Every red build in that history was a broken "
+             "test or a broken runner: **no product bugs and no flakes at all**. Which is "
+             "its own small argument for the tool — the humans triaging those builds spent "
+             "their attention on failures that never reached a user — but it means the "
+             "`PRODUKTFEHLER` and `FLAKE` rows above rest entirely on constructed cases.")
     z.append("")
     z.append("Every synthetic case is a real Playwright run against a really-mutated app. "
              "No report in this repo was written by hand. `eval/cases/HERKUNFT.md` records "

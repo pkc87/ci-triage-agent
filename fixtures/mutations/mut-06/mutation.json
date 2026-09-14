@@ -2,6 +2,7 @@
   "id": "mut-06",
   "klasse": "FLAKE",
   "beschreibung": "The banner test reads the text once and expects the first promo message, but the banner starts on a random one of three and rotates every 400 ms.",
+  "begruendung": "test-only change: a single textContent read expects the first of three promo messages, but the banner starts on a random one and rotates every 400 ms",
   "ziel": "fixtures/tests/banner.spec.ts",
   "max_faelle": 2,
   "laeufe": 6,

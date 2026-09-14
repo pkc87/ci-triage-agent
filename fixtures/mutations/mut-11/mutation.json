@@ -2,6 +2,7 @@
   "id": "mut-11",
   "klasse": "KAPUTTER_TEST",
   "beschreibung": "The checkout test expects a day-first 14.09.2026 date; the storefront renders en-US long dates and always has.",
+  "begruendung": "test-only change: the spec expects a day-first 14.09.2026 date; the US storefront has always rendered en-US long dates",
   "ziel": "fixtures/tests/checkout.spec.ts (a complete order shows a confirmation and empties the cart)",
   "max_faelle": 2,
   "aenderungen": [
