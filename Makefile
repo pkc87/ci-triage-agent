@@ -45,3 +45,20 @@ fehler:
 
 ground-truth:
 	$(PY) eval/baue_ground_truth.py
+
+# The whole chain, in the order it has to happen. What `make eval` alone will
+# not do is rebuild the ground truth or refresh the README, and both of those
+# going stale is how a repo ends up publishing a number for a corpus it no
+# longer has.
+alles:
+	$(PY) eval/baue_ground_truth.py
+	$(PY) eval/normalisiere_faelle.py
+	$(PY) eval/pruefe_korpus.py || true
+	$(PY) -m pytest tests/ -q
+	$(PY) eval/run_eval.py --backend $(BACKEND) --parallel 6
+	$(PY) eval/run_eval.py --backend stub --ausgabe eval/ergebnis_stub.json
+	$(PY) eval/readme_zahlen.py
+	$(PY) eval/pruefe_korpus.py
+	$(PY) eval/fehleranalyse.py
+
+BACKEND ?= api
