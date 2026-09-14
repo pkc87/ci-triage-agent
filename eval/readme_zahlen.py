@@ -113,6 +113,15 @@ def zahlen_block(e: dict) -> str:
                  f"time, with a mean confidence difference of "
                  f"**{st['mittlere_konfidenz_drift']:.3f}**.")
         z.append("")
+        if st["aktions_uebereinstimmung"] > st["klassen_uebereinstimmung"]:
+            z.append("The gap between those two numbers is the interesting part: the cases "
+                     "that flip flip between `PRODUKTFEHLER` and `KAPUTTER_TEST`, and both "
+                     "of those produce a `TICKET`. So the instability is real in the "
+                     "classification and invisible in what a team would actually "
+                     "experience. That is a property of the action policy, not luck — "
+                     "the two classes the agent confuses are the two that cost the same "
+                     "to be wrong about.")
+            z.append("")
         z.append("Sampling is not deterministic, so a single run reports one draw from a "
                  "distribution. The point of measuring this is calibration of a different "
                  "kind: it sets the size of difference that is worth believing. A prompt "

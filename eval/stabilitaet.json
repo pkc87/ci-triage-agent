@@ -2,16 +2,9 @@
   "faelle": 47,
   "von_beiden_beantwortet": 47,
   "ausgefallen": [],
-  "klassen_uebereinstimmung": 0.9574,
-  "mittlere_konfidenz_drift": 0.0196,
-  "aktions_uebereinstimmung": 0.9787,
+  "klassen_uebereinstimmung": 0.8936,
+  "mittlere_konfidenz_drift": 0.0285,
+  "aktions_uebereinstimmung": 1.0,
   "schwelle": 0.7,
-  "abweichler": [
-    {
-      "fall_id": "syn-007",
-      "label": "PRODUKTFEHLER",
-      "a": "KAPUTTER_TEST 0.68 -> ESKALATION_MENSCH",
-      "b": "PRODUKTFEHLER 0.78 -> TICKET"
-    }
-  ]
+  "abweichler": []
 }
