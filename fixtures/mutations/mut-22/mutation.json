@@ -1,0 +1,15 @@
+{
+  "id": "mut-22",
+  "klasse": "FLAKE",
+  "beschreibung": "A new spec reads the banner opacity while the CSS pulse animation is running, after a step whose duration varies, so the value depends on the phase the read lands in.",
+  "begruendung": "test-only change: the new spec samples a running CSS animation without disabling animations, so the same build passes and fails depending on the phase the read lands in",
+  "ziel": "fixtures/tests/banner-opacity.spec.ts (new spec)",
+  "max_faelle": 2,
+  "laeufe": 6,
+  "aenderungen": [
+    {
+      "datei": "tests/banner-opacity.spec.ts",
+      "inhalt": "import { test, expect } from '@playwright/test';\n\n// The promo bar should read as a solid colour, not a washed out one.\ntest('the promo banner stays fully opaque', async ({ page }) => {\n  await page.goto('/');\n\n  // Do a little shopping first, the way a real visit would.\n  await page.getByTestId('load-reviews').click();\n  await expect(page.getByTestId('average-rating')).toBeVisible();\n\n  const opacity = await page\n    .getByTestId('banner')\n    .evaluate((element) => Number(getComputedStyle(element).opacity));\n\n  expect(opacity).toBeGreaterThan(0.95);\n});\n"
+    }
+  ]
+}

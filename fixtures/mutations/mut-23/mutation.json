@@ -1,0 +1,21 @@
+{
+  "id": "mut-23",
+  "klasse": "FLAKE",
+  "beschreibung": "A new spec reads the cart-sync status right after the click and expects the in-flight text, racing the PUT that replaces it.",
+  "begruendung": "test-only change: the new spec reads a transient status string without waiting for it, so whether the read beats the request decides the outcome",
+  "ziel": "fixtures/tests/cart-sync-status.spec.ts (new spec)",
+  "max_faelle": 2,
+  "laeufe": 6,
+  "aenderungen": [
+    {
+      "datei": "tests/cart-sync-status.spec.ts",
+      "inhalt": "import { test, expect } from '@playwright/test';\n\n// Saving the cart should tell the shopper that something is happening.\ntest('saving the cart shows the in-flight status', async ({ page }) => {\n  await page.goto('/');\n  await page.getByTestId('add-p1').click();\n\n  await page.getByTestId('save-cart').click();\n  expect(await page.getByTestId('cart-sync-status').textContent()).toBe('Saving...');\n});\n"
+    }
+  ],
+  "beobachtet": {
+    "laeufe": 6,
+    "fehlschlaege": 1,
+    "versuche_gesamt": 2,
+    "versuche_fehlgeschlagen": 1
+  }
+}

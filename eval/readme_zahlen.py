@@ -152,16 +152,31 @@ def zahlen_block(e: dict) -> str:
 def sweep_block(e: dict) -> str:
     b = e["betriebspunkt"]
     z: list[str] = []
-    z.append("| threshold | macro P | macro R | `PRODUKTFEHLER` recall | coverage | escalated | **buried bugs** |")
-    z.append("|---|---|---|---|---|---|---|")
+    z.append("| threshold | macro P | macro R | classes in macro | `PRODUKTFEHLER` recall | coverage | escalated | **buried bugs** |")
+    z.append("|---|---|---|---|---|---|---|---|")
+    unvollstaendig = False
     for r in e["sweep"]:
         hier = r["schwelle"] == b["schwelle"]
         markierung = " **<- shipped**" if hier else ""
+        n_basis = len(r.get("macro_basis", KLASSEN))
+        if n_basis < len(KLASSEN):
+            unvollstaendig = True
+        basis = f"{n_basis}/3" + ("" if n_basis == len(KLASSEN) else " ⚠")
         z.append(f"| {r['schwelle']:.2f}{markierung} | {r['macro_precision']:.2f} | "
-                 f"{r['macro_recall']:.2f} | {r['produktfehler_recall']:.2f} | "
+                 f"{r['macro_recall']:.2f} | {basis} | {r['produktfehler_recall']:.2f} | "
                  f"{r['abdeckung']:.0%} | {r['eskalationsquote']:.0%} | "
                  f"{r['versenkte_produktfehler']} |")
     z.append("")
+    if unvollstaendig:
+        z.append("**Read the 'classes in macro' column before the macro column.** Once a "
+                 "class is escalated in its entirety it drops out of the macro average "
+                 "rather than being scored as zero — so a row marked ⚠ is averaging fewer "
+                 "classes than the rows above it, and its macro is *not* comparable to "
+                 "them. The perfect scores at the high end are real, but they are perfect "
+                 "scores on two classes and a shrinking share of the corpus, not a better "
+                 "agent. This is the exact trap the coverage column exists to expose, and "
+                 "it is left in the table rather than tuned away.")
+        z.append("")
     ohne = e.get("ablation_ohne_flake_aufschlag")
     if ohne:
         z.append(f"**Ablation — drop the `FLAKE` surcharge** (same predictions, same "

@@ -135,6 +135,11 @@ def sweep(vorhersagen: list[dict]) -> list[dict]:
             "genauigkeit_entschieden": k["genauigkeit_entschieden"],
             "versenkte_produktfehler": k["versenkte_produktfehler"],
             "produktfehler_recall": k["je_klasse"]["PRODUKTFEHLER"]["recall"],
+            # How many classes the macro actually averaged. Once a class is
+            # fully escalated it drops out of the basis, and the macro stops
+            # being comparable to the rows above it -- which looks like a jump
+            # in quality and is not one.
+            "macro_basis": k["macro_basis"],
         })
     return zeilen
 
@@ -186,12 +191,14 @@ def als_markdown(ergebnis: dict) -> str:
     z.append("")
     z.append("**Threshold sweep**")
     z.append("")
-    z.append("| threshold | macro P | macro R | PRODUKTFEHLER recall | coverage | escalated | buried bugs |")
-    z.append("|---|---|---|---|---|---|---|")
+    z.append("| threshold | macro P | macro R | classes averaged | PRODUKTFEHLER recall | coverage | escalated | buried bugs |")
+    z.append("|---|---|---|---|---|---|---|---|")
     for r in ergebnis["sweep"]:
         stern = " <-" if r["schwelle"] == b["schwelle"] else ""
+        n_basis = len(r.get("macro_basis", KLASSEN))
+        basis = f"{n_basis}/3" + ("" if n_basis == 3 else " !")
         z.append(f"| {r['schwelle']:.2f}{stern} | {r['macro_precision']:.2f} | "
-                 f"{r['macro_recall']:.2f} | {r['produktfehler_recall']:.2f} | "
+                 f"{r['macro_recall']:.2f} | {basis} | {r['produktfehler_recall']:.2f} | "
                  f"{r['abdeckung']:.0%} | {r['eskalationsquote']:.0%} | "
                  f"{r['versenkte_produktfehler']} |")
     return "\n".join(z)
