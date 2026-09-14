@@ -39,3 +39,6 @@ readme:
 
 korpus-pruefen:
 	$(PY) eval/pruefe_korpus.py
+
+fehler:
+	$(PY) eval/fehleranalyse.py

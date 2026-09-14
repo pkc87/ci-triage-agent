@@ -34,20 +34,3 @@
       43 |         animations: 'disabled',
       44 |         // Enger als die 2 % aus playwright.config: eine ganzseitige Aufnahme ist
         at /home/runner/work/apps/apps/apps/kc-web/tests/visual/layout.spec.ts:41:26
-##[notice]  12 failed
-    [visual] › tests/visual/layout.spec.ts:33:5 › /es sieht aus wie abgenommen (desktop) ───────────
-    [visual] › tests/visual/layout.spec.ts:33:5 › /es sieht aus wie abgenommen (mobil) ─────────────
-    [visual] › tests/visual/layout.spec.ts:33:5 › /es/servicios sieht aus wie abgenommen (desktop) ─
-    [visual] › tests/visual/layout.spec.ts:33:5 › /es/servicios sieht aus wie abgenommen (mobil) ───
-    [visual] › tests/visual/layout.spec.ts:33:5 › /es/proyectos sieht aus wie abgenommen (desktop) ─
-    [visual] › tests/visual/layout.spec.ts:33:5 › /es/proyectos sieht aus wie abgenommen (mobil) ───
-    [visual] › tests/visual/layout.spec.ts:33:5 › /es/empresa sieht aus wie abgenommen (desktop) ───
-    [visual] › tests/visual/layout.spec.ts:33:5 › /es/empresa sieht aus wie abgenommen (mobil) ─────
-    [visual] › tests/visual/layout.spec.ts:33:5 › /es/contacto sieht aus wie abgenommen (desktop) ──
-    [visual] › tests/visual/layout.spec.ts:33:5 › /es/contacto sieht aus wie abgenommen (mobil) ────
-    [visual] › tests/visual/layout.spec.ts:33:5 › /datenschutz sieht aus wie abgenommen (desktop) ──
-    [visual] › tests/visual/layout.spec.ts:33:5 › /datenschutz sieht aus wie abgenommen (mobil) ────
-  150 passed (2.9m)
-/home/runner/work/apps/apps/apps/kc-web:
- ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  kc-web@0.0.1 test:e2e: `playwright test`
-Exit status 1
