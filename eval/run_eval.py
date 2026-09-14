@@ -32,7 +32,8 @@ from agent.backends import baue_backend                        # noqa: E402
 from agent.evidence import lade_fall                           # noqa: E402
 from agent.schema import FLAKE_AUFSCHLAG, KLASSEN, entscheide  # noqa: E402
 from agent.triage import triagiere                             # noqa: E402
-from eval.metrics import ESKALIERT, kennzahlen, versenkte_produktfehler  # noqa: E402
+from eval.metrics import (ESKALIERT, kalibrierung, kennzahlen,  # noqa: E402
+                          versenkte_produktfehler)
 
 SCHWELLEN = [0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95]
 
@@ -260,6 +261,10 @@ def main(argv: list[str] | None = None) -> int:
         "sweep": sweep(vorhersagen),
         "ablation_ohne_flake_aufschlag": werte_aus(vorhersagen, args.schwelle,
                                                    flake_aufschlag=0.0),
+        # Independent of any threshold: does the stated confidence track being
+        # right? If this column does not rise, the threshold sorts by noise.
+        "kalibrierung": kalibrierung([(v["konfidenz"], v["klasse"] == v["label"])
+                                      for v in vorhersagen if v["klasse"] is not None]),
     }
     ausgabe_pfad.write_text(json.dumps(ergebnis, ensure_ascii=False, indent=2) + "\n",
                             encoding="utf-8")

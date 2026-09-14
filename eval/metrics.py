@@ -137,3 +137,38 @@ def wilson(treffer: int, versuche: int, z: float = 1.96) -> tuple[float, float]:
     mitte = (p + z * z / (2 * versuche)) / nenner
     spanne = z * math.sqrt(p * (1 - p) / versuche + z * z / (4 * versuche * versuche)) / nenner
     return (round(max(0.0, mitte - spanne), 4), round(min(1.0, mitte + spanne), 4))
+
+
+def kalibrierung(paare: Sequence[tuple[float, bool]],
+                 kanten: Sequence[float] = (0.0, 0.6, 0.75, 0.9, 1.01)) -> list[dict]:
+    """Does a stated confidence mean anything?
+
+    The whole design rests on one assumption: that the number the model reports
+    tracks how often it is actually right. If it does not, the threshold is
+    theatre -- it would be sorting by a quantity unrelated to correctness, and
+    every sweep row would be meaningless.
+
+    So this bins predictions by stated confidence and reports the observed hit
+    rate in each bin. A calibrated agent produces a rising column. Published
+    next to the headline numbers, because a reader is entitled to check the
+    assumption rather than take it.
+    """
+    ausgabe = []
+    for unten, oben in zip(kanten, kanten[1:]):
+        drin = [(k, ok) for k, ok in paare if unten <= k < oben]
+        if not drin:
+            ausgabe.append({"von": unten, "bis": min(oben, 1.0), "n": 0,
+                            "richtig": 0, "trefferquote": None,
+                            "mittlere_konfidenz": None, "ci95": (0.0, 0.0)})
+            continue
+        richtig = sum(1 for _, ok in drin if ok)
+        ausgabe.append({
+            "von": unten,
+            "bis": min(oben, 1.0),
+            "n": len(drin),
+            "richtig": richtig,
+            "trefferquote": round(richtig / len(drin), 4),
+            "mittlere_konfidenz": round(sum(k for k, _ in drin) / len(drin), 4),
+            "ci95": wilson(richtig, len(drin)),
+        })
+    return ausgabe

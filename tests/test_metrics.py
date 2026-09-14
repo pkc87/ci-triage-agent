@@ -91,3 +91,21 @@ def test_wilson_bleibt_in_den_grenzen_bei_perfekt_und_null():
     assert wilson(5, 5)[1] == 1.0 and wilson(5, 5)[0] < 1.0
     assert wilson(0, 5)[0] == 0.0 and wilson(0, 5)[1] > 0.0
     assert wilson(0, 0) == (0.0, 0.0)
+
+
+def test_kalibrierung_bildet_eine_steigende_spalte_ab():
+    from eval.metrics import kalibrierung
+    paare = ([(0.55, False)] * 4 + [(0.55, True)] * 1      # low bin: 20% right
+             + [(0.80, True)] * 3 + [(0.80, False)] * 1    # mid bin: 75% right
+             + [(0.95, True)] * 5)                         # high bin: 100% right
+    b = kalibrierung(paare)
+    quoten = [z["trefferquote"] for z in b if z["n"]]
+    assert quoten == [0.2, 0.75, 1.0]
+    assert quoten == sorted(quoten)
+
+
+def test_kalibrierung_meldet_leere_koerbe_als_none_statt_null():
+    from eval.metrics import kalibrierung
+    b = kalibrierung([(0.95, True)])
+    leer = [z for z in b if z["n"] == 0]
+    assert leer and all(z["trefferquote"] is None for z in leer)
