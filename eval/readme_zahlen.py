@@ -153,12 +153,22 @@ def zahlen_block(e: dict) -> str:
                      "the two classes the agent confuses are the two that cost the same "
                      "to be wrong about.")
             z.append("")
+        lauf2 = HIER / "ergebnis_lauf2.json"
+        if lauf2.exists():
+            z2 = json.loads(lauf2.read_text(encoding="utf-8"))["betriebspunkt"]
+            z.append(f"Concretely: the same corpus, the same prompt, the same model gave "
+                     f"macro precision **{b['macro_precision']:.2f}** in the published run "
+                     f"and **{z2['macro_precision']:.2f}** in the second, and macro recall "
+                     f"**{b['macro_recall']:.2f}** against **{z2['macro_recall']:.2f}**. "
+                     f"Buried product bugs were {b['versenkte_produktfehler']} in both.")
+            z.append("")
         z.append("Sampling is not deterministic, so a single run reports one draw from a "
-                 "distribution. The point of measuring this is calibration of a different "
-                 "kind: it sets the size of difference that is worth believing. A prompt "
-                 "change that moves macro precision by less than this is noise, and this "
-                 "repository is not going to claim otherwise. `eval/stabilitaet.json` has "
-                 "the per-case detail.")
+                 "distribution. The point of measuring it is to fix the size of difference "
+                 "that is worth believing: a prompt change that moves macro precision by "
+                 "less than the spread above has demonstrated nothing, and this repository "
+                 "is not going to claim otherwise. It is also why the numbers here are not "
+                 "tuned — at this corpus size, tuning is indistinguishable from drawing "
+                 "again. `eval/stabilitaet.json` has the per-case detail.")
         z.append("")
         z.append("### Does the confidence mean anything?")
         z.append("")

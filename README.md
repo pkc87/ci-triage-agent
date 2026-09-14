@@ -35,13 +35,13 @@ aktion:      RERUN | TICKET | ESKALATION_MENSCH
 ```
 
 <!-- BEISPIEL:START -->
-A real verdict from the run below (case `syn-019`, ground truth `PRODUKTFEHLER`):
+A real verdict from the run below (case `syn-015`, ground truth `PRODUKTFEHLER`):
 
 ```
 klasse:      PRODUKTFEHLER
-konfidenz:   0.95
-begruendung: The diff shows clampQuantity was changed from `return Math.max(1, parsed)` to `return parsed`, removing the clamping logic entirely, so a quantity of -3 is now passed straight through instead of being floored to 1. The test's assertion is exactly about this clamping behavior, and a function named clampQuantity that no longer clamps is a regression a real user would hit, not a stale test.
-beleg:       -  return Math.max(1, parsed); +  return parsed;
+konfidenz:   0.97
+begruendung: The diff removed the empty-cart exemption from the handling() function, so handling now always returns the flat fee even when the cart is empty. The test correctly asserts the fee should be waived for an empty cart, matching the pre-existing behaviour and docstring, so this is a real regression in application logic, not a stale test.
+beleg:       -  return lines.length === 0 ? 0 : HANDLING_FEE; +  return HANDLING_FEE;
 aktion:      TICKET
 ```
 
@@ -68,18 +68,18 @@ confidence, `begruendung` = rationale, `beleg` = citation, `aktion` = action.
 ## The numbers
 
 <!-- ZAHLEN:START -->
-**47 labelled failures** — 14 pulled from real CI history, 33 produced by deliberately breaking a fixture app. Scored with `cli` backend, model `claude-sonnet-5`, at threshold **0.7**.
+**55 labelled failures** — 14 pulled from real CI history, 41 produced by deliberately breaking a fixture app. Scored with `cli` backend, model `claude-sonnet-5`, at threshold **0.7**.
 
 | Class | Precision (95% CI) | Recall (95% CI) | F1 | Cases | Decided | Escalated |
 |---|---|---|---|---|---|---|
-| `PRODUKTFEHLER` | 1.00 <sub>[0.68-1.00]</sub> | 0.53 <sub>[0.30-0.75]</sub> | 0.70 | 15 | 15 | 0 |
+| `PRODUKTFEHLER` | 0.90 <sub>[0.60-0.98]</sub> | 0.64 <sub>[0.39-0.84]</sub> | 0.75 | 15 | 14 | 1 |
 | `KAPUTTER_TEST` | 0.67 <sub>[0.50-0.80]</sub> | 1.00 <sub>[0.85-1.00]</sub> | 0.80 | 25 | 22 | 3 |
-| `FLAKE` | 1.00 <sub>[0.34-1.00]</sub> | 0.33 <sub>[0.10-0.70]</sub> | 0.50 | 7 | 6 | 1 |
-| **macro** | **0.89** | **0.62** | **0.67** | 47 | 43 | 4 |
+| `FLAKE` | 1.00 <sub>[0.57-1.00]</sub> | 0.42 <sub>[0.19-0.68]</sub> | 0.59 | 15 | 12 | 3 |
+| **macro** | **0.86** | **0.69** | **0.71** | 55 | 48 | 7 |
 
 The intervals are Wilson score intervals, and they are wide because the corpus is small. That is the honest shape of this result: the point estimates are real measurements, and a per-class number resting on a dozen cases cannot be quoted to two decimals as though it were stable. If you only take one number from this table, take the interval.
 
-Coverage **91%** (the agent decided that share of cases and escalated the rest) · accuracy on decided cases **74%** · unparseable verdicts: 0
+Coverage **87%** (the agent decided that share of cases and escalated the rest) · accuracy on decided cases **75%** · unparseable verdicts: 0
 
 **Product bugs silently auto-rerun: 0.** That is the number this system is tuned around; see the threshold section.
 
@@ -91,9 +91,9 @@ Rows are the true label, columns are what the agent actually did.
 
 | truth \ agent | `PRODUKTFEHLER` | `KAPUTTER_TEST` | `FLAKE` | escalated |
 |---|---|---|---|---|
-| **`PRODUKTFEHLER`** | 8 | 7 | 0 | 0 |
+| **`PRODUKTFEHLER`** | 9 | 5 | 0 | 1 |
 | **`KAPUTTER_TEST`** | 0 | 22 | 0 | 3 |
-| **`FLAKE`** | 0 | 4 | 2 | 1 |
+| **`FLAKE`** | 1 | 6 | 5 | 3 |
 
 ### The `FLAKE` row, taken apart
 
@@ -103,18 +103,18 @@ Split by the signal, that freedom disappears:
 
 | the case's own artefacts | cases | called `FLAKE` | rate (95% CI) |
 |---|---|---|---|
-| show a pass on retry | 2 | 2 | 100% <sub>[34%–100%]</sub> |
-| show every attempt failing | 5 | 0 | 0% <sub>[0%–43%]</sub> |
+| show a pass on retry | 6 | 5 | 83% <sub>[44%–97%]</sub> |
+| show every attempt failing | 9 | 0 | 0% <sub>[0%–30%]</sub> |
 
 Those two rows are the actual finding, and they hold whatever the mix is. Flake detection in this system is a lookup of one field rather than an act of reasoning — and a person handed the same bundle could not do better on the second row, because the run's artefacts genuinely do not contain the answer. What would fix it is cross-run history for that test, which this agent does not have.
 
 ### How much of this is the dice?
 
-The same corpus was run through the same model twice. Across the 47 cases both runs answered, they agreed on the class **89%** of the time and on the resulting action **100%** of the time, with a mean confidence difference of **0.029**.
+The same corpus was run through the same model twice. Across the 55 cases both runs answered, they agreed on the class **91%** of the time and on the resulting action **91%** of the time, with a mean confidence difference of **0.035**.
 
-The gap between those two numbers is the interesting part: the cases that flip flip between `PRODUKTFEHLER` and `KAPUTTER_TEST`, and both of those produce a `TICKET`. So the instability is real in the classification and invisible in what a team would actually experience. That is a property of the action policy, not luck — the two classes the agent confuses are the two that cost the same to be wrong about.
+Concretely: the same corpus, the same prompt, the same model gave macro precision **0.86** in the published run and **0.90** in the second, and macro recall **0.69** against **0.74**. Buried product bugs were 0 in both.
 
-Sampling is not deterministic, so a single run reports one draw from a distribution. The point of measuring this is calibration of a different kind: it sets the size of difference that is worth believing. A prompt change that moves macro precision by less than this is noise, and this repository is not going to claim otherwise. `eval/stabilitaet.json` has the per-case detail.
+Sampling is not deterministic, so a single run reports one draw from a distribution. The point of measuring it is to fix the size of difference that is worth believing: a prompt change that moves macro precision by less than the spread above has demonstrated nothing, and this repository is not going to claim otherwise. It is also why the numbers here are not tuned — at this corpus size, tuning is indistinguishable from drawing again. `eval/stabilitaet.json` has the per-case detail.
 
 ### Does the confidence mean anything?
 
@@ -122,16 +122,16 @@ Everything above rests on one assumption: that the number the model reports trac
 
 | stated confidence | cases | correct | hit rate (95% CI) |
 |---|---|---|---|
-| 0.00 – 0.60 | 4 | 2 | 50% <sub>[15%–85%]</sub> |
-| 0.60 – 0.75 | 1 | 0 | 0% <sub>[0%–79%]</sub> |
-| 0.75 – 0.90 | 11 | 6 | 55% <sub>[28%–79%]</sub> |
-| 0.90 – 1.00 | 31 | 26 | 84% <sub>[67%–93%]</sub> |
+| 0.00 – 0.60 | 5 | 2 | 40% <sub>[12%–77%]</sub> |
+| 0.60 – 0.75 | 2 | 1 | 50% <sub>[9%–91%]</sub> |
+| 0.75 – 0.90 | 14 | 6 | 43% <sub>[21%–67%]</sub> |
+| 0.90 – 1.00 | 34 | 30 | 88% <sub>[73%–95%]</sub> |
 
 Read this before the headline table.
 
 ### Where the data comes from
 
-Class balance: `FLAKE` 7, `KAPUTTER_TEST` 25, `PRODUKTFEHLER` 15. Label provenance: `historie` 14, `konstruktion` 33.
+Class balance: `FLAKE` 15, `KAPUTTER_TEST` 25, `PRODUKTFEHLER` 15. Label provenance: `historie` 14, `konstruktion` 41.
 
 - `konstruktion` — the label follows from the mutation that produced the failure. We know what we broke, so this is the strongest ground truth here, not the weakest.
 - `historie` — the label follows from external repo evidence: the commit that later fixed it.
@@ -151,13 +151,13 @@ Which looks like it beats the model. It does not, and the reason is the whole ar
 
 | | regex stub | the agent |
 |---|---|---|
-| macro precision | 1.00 | 0.89 |
-| coverage | 40% | 91% |
+| macro precision | 1.00 | 0.86 |
+| coverage | 42% | 87% |
 | classes it ever decides | 2/3 | 3/3 |
-| `PRODUKTFEHLER` cases decided | 0/15 | 15/15 |
-| **failures correctly triaged, out of 47** | **19** | **32** |
+| `PRODUKTFEHLER` cases decided | 0/15 | 14/15 |
+| **failures correctly triaged, out of 55** | **23** | **36** |
 
-The stub never classifies a product bug at all — it escalates all 15 of them — so its perfect score is a perfect score on the easy two-thirds. Judged on the only question a team actually cares about, how many of the 47 red builds got triaged correctly, it does 19 and the agent does 32.
+The stub never classifies a product bug at all — it escalates all 15 of them — so its perfect score is a perfect score on the easy two-thirds. Judged on the only question a team actually cares about, how many of the 55 red builds got triaged correctly, it does 23 and the agent does 36.
 
 This is exactly the trap described further up, and it is left standing in the repo rather than tuned away, because it is the clearest possible demonstration that a precision number without a coverage number next to it is not a result.
 
@@ -193,20 +193,20 @@ this page is a tradeoff. That number is a floor.
 <!-- SWEEP:START -->
 | threshold | macro P | macro R | classes in macro P | `PRODUKTFEHLER` recall | coverage | escalated | **buried bugs** |
 |---|---|---|---|---|---|---|---|
-| 0.50 | 0.89 | 0.61 | 3/3 | 0.53 | 98% | 2% | 0 |
-| 0.55 | 0.89 | 0.61 | 3/3 | 0.53 | 96% | 4% | 0 |
-| 0.60 | 0.89 | 0.62 | 3/3 | 0.53 | 91% | 9% | 0 |
-| 0.65 | 0.89 | 0.62 | 3/3 | 0.53 | 91% | 9% | 0 |
-| 0.70 **<- shipped** | 0.89 | 0.62 | 3/3 | 0.53 | 91% | 9% | 0 |
-| 0.75 | 0.90 | 0.63 | 3/3 | 0.57 | 89% | 11% | 0 |
-| 0.80 | 0.90 | 0.64 | 3/3 | 0.58 | 83% | 17% | 0 |
-| 0.85 | 0.91 | 0.63 | 3/3 | 0.64 | 74% | 26% | 0 |
-| 0.90 | 0.89 | 0.57 | 2/3 ⚠ | 0.70 | 62% | 38% | 0 |
-| 0.95 | 1.00 | 1.00 | 2/3 ⚠ | 1.00 | 34% | 66% | 0 |
+| 0.50 | 0.83 | 0.67 | 3/3 | 0.67 | 98% | 2% | 0 |
+| 0.55 | 0.83 | 0.67 | 3/3 | 0.67 | 96% | 4% | 0 |
+| 0.60 | 0.85 | 0.68 | 3/3 | 0.67 | 91% | 9% | 0 |
+| 0.65 | 0.85 | 0.68 | 3/3 | 0.67 | 91% | 9% | 0 |
+| 0.70 **<- shipped** | 0.86 | 0.69 | 3/3 | 0.64 | 87% | 13% | 0 |
+| 0.75 | 0.86 | 0.69 | 3/3 | 0.64 | 87% | 13% | 0 |
+| 0.80 | 0.89 | 0.71 | 3/3 | 0.64 | 82% | 18% | 0 |
+| 0.85 | 0.89 | 0.64 | 3/3 | 0.64 | 76% | 24% | 0 |
+| 0.90 | 0.90 | 0.63 | 2/3 ⚠ | 0.89 | 53% | 47% | 0 |
+| 0.95 | 0.91 | 0.60 | 2/3 ⚠ | 0.80 | 38% | 62% | 0 |
 
 **Read the 'classes in macro P' column before the macro column.** Once a class stops being predicted at all, its precision is undefined rather than zero, so it leaves the average — a row marked ⚠ is averaging fewer classes than the rows above it, and its macro is *not* comparable to them. The perfect scores at the high end are real, but they are perfect scores on two classes and a shrinking share of the corpus, not a better agent. This is the exact trap the coverage column exists to expose, and it is left in the table rather than tuned away.
 
-**Ablation — drop the `FLAKE` surcharge** (same predictions, same 0.7 threshold, `FLAKE` no longer held to the extra +0.1): **no change at all** — coverage stays at 91% and buried bugs stay at 0.
+**Ablation — drop the `FLAKE` surcharge** (same predictions, same 0.7 threshold, `FLAKE` no longer held to the extra +0.1): **no change at all** — coverage stays at 87% and buried bugs stay at 0.
 
 Which is worth saying plainly rather than quietly dropping: on this corpus the surcharge did nothing. It could not, because the agent never once predicted `FLAKE` wrongly — the class it over-uses is `KAPUTTER_TEST`, and that one has no surcharge. The guard is insurance that did not have to pay out here. It stays in because the cost it insures against (a product bug auto-rerun into silence) is the one unbounded cost in the system, and a corpus of 47 cases is not evidence that it never happens — only that it did not happen here.
 <!-- SWEEP:ENDE -->
@@ -230,64 +230,65 @@ token.
 <!-- FEHLER:START -->
 | truth | agent said | cases |
 |---|---|---|
-| `PRODUKTFEHLER` | `KAPUTTER_TEST` | 7 |
-| `FLAKE` | `KAPUTTER_TEST` | 4 |
+| `FLAKE` | `KAPUTTER_TEST` | 6 |
+| `PRODUKTFEHLER` | `KAPUTTER_TEST` | 5 |
+| `FLAKE` | `PRODUKTFEHLER` | 1 |
 
-**Every one of the 11 mistakes lands in the same place: `KAPUTTER_TEST`.** It is the class the agent falls into when the evidence runs out, which is why its recall is the highest of the three and its precision the lowest — it absorbs the uncertainty of the other two.
 <!-- FEHLER:ENDE -->
 
-`KAPUTTER_TEST` is where the agent goes when it is not sure. It reaches that
-conclusion by two different routes, and the citations it produced make both
-visible.
+`KAPUTTER_TEST` is where the agent goes when it is not sure — nearly every
+mistake above lands there. It arrives by two different routes, and the citations
+it produced make both visible.
 
-**Route one: intent read out of a diff that does not contain it.** Seven real
-product bugs were filed as stale tests. In several the mutation shipped the bug
-under a plausible comment — `// never charge a fraction of a cent` above a
-rounding change that *was* the bug — and the agent quoted that comment back as
-its evidence that the change was a considered pricing decision, concluding the
-test must be the thing that had not kept up.
+**Route one: intent read out of a diff that does not contain it.** Real product
+bugs get filed as stale tests. In several the mutation shipped the bug under a
+plausible comment — `// never charge a fraction of a cent`, sitting directly
+above the rounding change that *was* the bug — and the agent quoted that comment
+back as its evidence that the change was a considered pricing decision,
+concluding the test must be the thing that had failed to keep up.
 
 The prompt asks it to read the diff for intent, because that genuinely is how
 you separate a stale test from a regression. The catch is that **a patch does
-not record intent.** A careless change and a considered one are identical in a
+not record intent.** A careless change and a deliberate one are identical in a
 diff, and a confident comment above a bug looks exactly like a confident comment
 above a feature. The agent is not reasoning badly; it is leaning on a signal
 that does not carry the information it needs.
 
-**Route two: missing evidence, not bad reasoning.** Four of the seven flakes
-were called broken tests, and the corpus separates cause from symptom cleanly.
-Where the retry log showed a pass on the same commit, the agent said `FLAKE` and
-was right — twice out of twice. Where every attempt in the run failed, it never
-once said `FLAKE` — five out of five. A perfect split on a single field. Flake
-detection here is, in effect, a lookup of that field, and a human handed the
-same bundle could not do better, because the run's artefacts genuinely do not
-contain the answer. Fixing it needs cross-run history for that test, which this
-agent does not have and which is the obvious next thing to build.
+**Route two: missing evidence, not bad reasoning.** This is the larger group,
+and the conditional table above is the whole story: with a retry-pass in the
+bundle the agent gets flakes right most of the time; without one it has never
+got a single one right. Not once, across every such case in the corpus. Flake
+detection here is a lookup of one field rather than an act of reasoning — and a
+person handed the same bundle could not do better, because the run's artefacts
+genuinely do not contain the answer. What would fix it is cross-run history for
+that test, which this agent does not have and which is the obvious next thing to
+build.
 
 **The errors are cheap, and that is by construction.** Both routes end in a
 `TICKET`, so a human still sees every one of these failures. Zero product bugs
-were auto-rerun into silence, at every threshold in the sweep. The agent
-misfiles; it does not bury. That asymmetry is the whole design, and it is the
-reason `PRODUKTFEHLER` recall of 0.53 is a disappointing number rather than a
-dangerous one.
+were auto-rerun into silence — at every threshold in the sweep, in both runs.
+The agent misfiles; it does not bury. That asymmetry is the entire design, and
+it is why a `PRODUKTFEHLER` recall in the sixties is a disappointing number
+rather than a dangerous one.
 
 **What was deliberately not fixed.** Flake recall could be lifted immediately by
 relaxing the prompt's demand for positive evidence of nondeterminism, and
-product-bug recall by telling the model to distrust comments. Both are one-line
-prompt edits, both would very likely improve the table above, and both were
-refused. On 47 cases, with run-to-run class agreement at 89%, a one-line edit
-that moves a number by a few points is indistinguishable from noise — and a
-false `FLAKE` is the only error in this system with unbounded cost, because
-`RERUN` is the only action that removes a failure without a human seeing it.
-Tuning against a corpus this size until the numbers look better is exactly what
-this repository exists to argue against.
+product-bug recall by telling the model to distrust comments in diffs. Both are
+one-line prompt edits and both would probably move the table. Both were refused,
+for a reason the stability section makes concrete: two identical runs of this
+corpus already differ by several points of macro precision. An edit that moves a
+number by less than that has demonstrated nothing, and a false `FLAKE` is the
+only error in this system with unbounded cost, because `RERUN` is the only
+action that removes a failure without a human seeing it. Tuning against 55 cases
+until the numbers look better is exactly what this repository exists to argue
+against.
 
 **A note on the prediction.** This failure mode was written down before the
-corpus was scored — see [`docs/entscheidungen.md`](docs/entscheidungen.md) §11,
+corpus was scored — [`docs/entscheidungen.md`](docs/entscheidungen.md) §11,
 committed ahead of the first scored run: *product bugs misread as broken tests
-whenever the change under test looks purposeful.* It is now the largest single
-error group in the table. Predicting your agent's failure mode in advance and
-then measuring it is worth more than a better score you cannot explain.
+whenever the change under test looks purposeful.* It is still there in the
+table. Predicting your agent's failure mode in advance and then measuring it is
+worth more than a better score you cannot explain.
 
 ---
 

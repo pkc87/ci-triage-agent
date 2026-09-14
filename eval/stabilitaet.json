@@ -1,10 +1,41 @@
 {
-  "faelle": 47,
-  "von_beiden_beantwortet": 47,
+  "faelle": 55,
+  "von_beiden_beantwortet": 55,
   "ausgefallen": [],
-  "klassen_uebereinstimmung": 0.8936,
-  "mittlere_konfidenz_drift": 0.0285,
-  "aktions_uebereinstimmung": 1.0,
+  "klassen_uebereinstimmung": 0.9091,
+  "mittlere_konfidenz_drift": 0.0347,
+  "aktions_uebereinstimmung": 0.9091,
   "schwelle": 0.7,
-  "abweichler": []
+  "abweichler": [
+    {
+      "fall_id": "syn-005",
+      "label": "FLAKE",
+      "a": "KAPUTTER_TEST 0.68 -> ESKALATION_MENSCH",
+      "b": "KAPUTTER_TEST 0.85 -> TICKET"
+    },
+    {
+      "fall_id": "syn-007",
+      "label": "PRODUKTFEHLER",
+      "a": "PRODUKTFEHLER 0.68 -> ESKALATION_MENSCH",
+      "b": "KAPUTTER_TEST 0.74 -> TICKET"
+    },
+    {
+      "fall_id": "syn-035",
+      "label": "FLAKE",
+      "a": "KAPUTTER_TEST 0.85 -> TICKET",
+      "b": "FLAKE 0.92 -> RERUN"
+    },
+    {
+      "fall_id": "syn-037",
+      "label": "FLAKE",
+      "a": "KAPUTTER_TEST 0.78 -> TICKET",
+      "b": "KAPUTTER_TEST 0.62 -> ESKALATION_MENSCH"
+    },
+    {
+      "fall_id": "syn-039",
+      "label": "FLAKE",
+      "a": "PRODUKTFEHLER 0.78 -> TICKET",
+      "b": "PRODUKTFEHLER 0.68 -> ESKALATION_MENSCH"
+    }
+  ]
 }

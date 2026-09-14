@@ -1,30 +1,30 @@
 {
-  "erzeugt_am": "2026-09-14T21:47:10Z",
+  "erzeugt_am": "2026-09-14T23:23:07Z",
   "backend": "stub",
   "modell": "keyword-rules",
   "mit_screenshot": false,
   "herkunft": {
-    "gesamt": 47,
+    "gesamt": 55,
     "nach_quelle": {
       "historisch": 14,
-      "synthetisch": 33
+      "synthetisch": 41
     },
     "nach_label": {
-      "FLAKE": 7,
+      "FLAKE": 15,
       "KAPUTTER_TEST": 25,
       "PRODUKTFEHLER": 15
     },
     "nach_labelquelle": {
       "historie": 14,
-      "konstruktion": 33
+      "konstruktion": 41
     }
   },
   "betriebspunkt": {
-    "faelle_gesamt": 47,
-    "faelle_entschieden": 19,
-    "faelle_eskaliert": 28,
-    "abdeckung": 0.4043,
-    "eskalationsquote": 0.5957,
+    "faelle_gesamt": 55,
+    "faelle_entschieden": 23,
+    "faelle_eskaliert": 32,
+    "abdeckung": 0.4182,
+    "eskalationsquote": 0.5818,
     "genauigkeit_entschieden": 1.0,
     "macro_precision": 1.0,
     "macro_recall": 1.0,
@@ -77,19 +77,19 @@
       "FLAKE": {
         "precision": 1.0,
         "precision_ci95": [
-          0.3424,
+          0.6097,
           1.0
         ],
         "recall": 1.0,
         "recall_ci95": [
-          0.3424,
+          0.6097,
           1.0
         ],
         "f1": 1.0,
-        "support_gesamt": 7,
-        "support_entschieden": 2,
-        "eskaliert": 5,
-        "tp": 2,
+        "support_gesamt": 15,
+        "support_entschieden": 6,
+        "eskaliert": 9,
+        "tp": 6,
         "fp": 0,
         "fn": 0
       }
@@ -110,8 +110,8 @@
       "FLAKE": {
         "PRODUKTFEHLER": 0,
         "KAPUTTER_TEST": 0,
-        "FLAKE": 2,
-        "ESKALATION_MENSCH": 5
+        "FLAKE": 6,
+        "ESKALATION_MENSCH": 9
       }
     },
     "schwelle": 0.7,
@@ -122,12 +122,12 @@
   "sweep": [
     {
       "schwelle": 0.5,
-      "macro_precision": 0.7728,
-      "macro_recall": 0.4286,
-      "macro_f1": 0.5752,
-      "abdeckung": 0.9787,
-      "eskalationsquote": 0.0213,
-      "genauigkeit_entschieden": 0.5652,
+      "macro_precision": 0.75,
+      "macro_recall": 0.4667,
+      "macro_f1": 0.619,
+      "abdeckung": 0.9818,
+      "eskalationsquote": 0.0182,
+      "genauigkeit_entschieden": 0.5556,
       "versenkte_produktfehler": 0,
       "produktfehler_recall": 0.0,
       "macro_basis": [
@@ -147,12 +147,12 @@
     },
     {
       "schwelle": 0.55,
-      "macro_precision": 0.7728,
-      "macro_recall": 0.4286,
-      "macro_f1": 0.5752,
-      "abdeckung": 0.9787,
-      "eskalationsquote": 0.0213,
-      "genauigkeit_entschieden": 0.5652,
+      "macro_precision": 0.75,
+      "macro_recall": 0.4667,
+      "macro_f1": 0.619,
+      "abdeckung": 0.9818,
+      "eskalationsquote": 0.0182,
+      "genauigkeit_entschieden": 0.5556,
       "versenkte_produktfehler": 0,
       "produktfehler_recall": 0.0,
       "macro_basis": [
@@ -172,12 +172,12 @@
     },
     {
       "schwelle": 0.6,
-      "macro_precision": 0.7728,
-      "macro_recall": 0.4286,
-      "macro_f1": 0.5752,
-      "abdeckung": 0.9787,
-      "eskalationsquote": 0.0213,
-      "genauigkeit_entschieden": 0.5652,
+      "macro_precision": 0.75,
+      "macro_recall": 0.4667,
+      "macro_f1": 0.619,
+      "abdeckung": 0.9818,
+      "eskalationsquote": 0.0182,
+      "genauigkeit_entschieden": 0.5556,
       "versenkte_produktfehler": 0,
       "produktfehler_recall": 0.0,
       "macro_basis": [
@@ -200,8 +200,8 @@
       "macro_precision": 1.0,
       "macro_recall": 1.0,
       "macro_f1": 1.0,
-      "abdeckung": 0.4043,
-      "eskalationsquote": 0.5957,
+      "abdeckung": 0.4182,
+      "eskalationsquote": 0.5818,
       "genauigkeit_entschieden": 1.0,
       "versenkte_produktfehler": 0,
       "produktfehler_recall": null,
@@ -223,8 +223,8 @@
       "macro_precision": 1.0,
       "macro_recall": 1.0,
       "macro_f1": 1.0,
-      "abdeckung": 0.4043,
-      "eskalationsquote": 0.5957,
+      "abdeckung": 0.4182,
+      "eskalationsquote": 0.5818,
       "genauigkeit_entschieden": 1.0,
       "versenkte_produktfehler": 0,
       "produktfehler_recall": null,
@@ -246,8 +246,8 @@
       "macro_precision": 1.0,
       "macro_recall": 1.0,
       "macro_f1": 1.0,
-      "abdeckung": 0.234,
-      "eskalationsquote": 0.766,
+      "abdeckung": 0.2727,
+      "eskalationsquote": 0.7273,
       "genauigkeit_entschieden": 1.0,
       "versenkte_produktfehler": 0,
       "produktfehler_recall": null,
@@ -269,8 +269,8 @@
       "macro_precision": 1.0,
       "macro_recall": 1.0,
       "macro_f1": 1.0,
-      "abdeckung": 0.234,
-      "eskalationsquote": 0.766,
+      "abdeckung": 0.2727,
+      "eskalationsquote": 0.7273,
       "genauigkeit_entschieden": 1.0,
       "versenkte_produktfehler": 0,
       "produktfehler_recall": null,
@@ -292,8 +292,8 @@
       "macro_precision": 1.0,
       "macro_recall": 1.0,
       "macro_f1": 1.0,
-      "abdeckung": 0.234,
-      "eskalationsquote": 0.766,
+      "abdeckung": 0.2727,
+      "eskalationsquote": 0.7273,
       "genauigkeit_entschieden": 1.0,
       "versenkte_produktfehler": 0,
       "produktfehler_recall": null,
@@ -315,8 +315,8 @@
       "macro_precision": 1.0,
       "macro_recall": 1.0,
       "macro_f1": 1.0,
-      "abdeckung": 0.1915,
-      "eskalationsquote": 0.8085,
+      "abdeckung": 0.1636,
+      "eskalationsquote": 0.8364,
       "genauigkeit_entschieden": 1.0,
       "versenkte_produktfehler": 0,
       "produktfehler_recall": null,
@@ -346,11 +346,11 @@
     }
   ],
   "ablation_ohne_flake_aufschlag": {
-    "faelle_gesamt": 47,
-    "faelle_entschieden": 19,
-    "faelle_eskaliert": 28,
-    "abdeckung": 0.4043,
-    "eskalationsquote": 0.5957,
+    "faelle_gesamt": 55,
+    "faelle_entschieden": 23,
+    "faelle_eskaliert": 32,
+    "abdeckung": 0.4182,
+    "eskalationsquote": 0.5818,
     "genauigkeit_entschieden": 1.0,
     "macro_precision": 1.0,
     "macro_recall": 1.0,
@@ -403,19 +403,19 @@
       "FLAKE": {
         "precision": 1.0,
         "precision_ci95": [
-          0.3424,
+          0.6097,
           1.0
         ],
         "recall": 1.0,
         "recall_ci95": [
-          0.3424,
+          0.6097,
           1.0
         ],
         "f1": 1.0,
-        "support_gesamt": 7,
-        "support_entschieden": 2,
-        "eskaliert": 5,
-        "tp": 2,
+        "support_gesamt": 15,
+        "support_entschieden": 6,
+        "eskaliert": 9,
+        "tp": 6,
         "fp": 0,
         "fn": 0
       }
@@ -436,8 +436,8 @@
       "FLAKE": {
         "PRODUKTFEHLER": 0,
         "KAPUTTER_TEST": 0,
-        "FLAKE": 2,
-        "ESKALATION_MENSCH": 5
+        "FLAKE": 6,
+        "ESKALATION_MENSCH": 9
       }
     },
     "schwelle": 0.7,
@@ -461,13 +461,13 @@
     {
       "von": 0.6,
       "bis": 0.75,
-      "n": 35,
+      "n": 39,
       "richtig": 15,
-      "trefferquote": 0.4286,
-      "mittlere_konfidenz": 0.6429,
+      "trefferquote": 0.3846,
+      "mittlere_konfidenz": 0.6405,
       "ci95": [
-        0.2798,
-        0.5914
+        0.2489,
+        0.541
       ]
     },
     {
@@ -485,14 +485,34 @@
     {
       "von": 0.9,
       "bis": 1.0,
-      "n": 11,
-      "richtig": 11,
+      "n": 15,
+      "richtig": 15,
       "trefferquote": 1.0,
-      "mittlere_konfidenz": 0.9255,
+      "mittlere_konfidenz": 0.932,
       "ci95": [
-        0.7412,
+        0.7961,
         1.0
       ]
     }
-  ]
+  ],
+  "flake_nach_retry_signal": {
+    "mit_signal": {
+      "n": 6,
+      "erkannt": 6,
+      "quote": 1.0,
+      "ci95": [
+        0.6097,
+        1.0
+      ]
+    },
+    "ohne_signal": {
+      "n": 9,
+      "erkannt": 0,
+      "quote": 0.0,
+      "ci95": [
+        0.0,
+        0.2992
+      ]
+    }
+  }
 }
