@@ -1,0 +1,40 @@
+{
+  "product": "Bean & Brew store",
+  "reviews": [
+    {
+      "id": "r1",
+      "author": "Marta L.",
+      "rating": 5,
+      "approved": true,
+      "body": "The kettle holds temperature better than my old one. Shipping took two days."
+    },
+    {
+      "id": "r2",
+      "author": "Dev P.",
+      "rating": 4,
+      "approved": true,
+      "body": "Grinder is quiet enough for a small flat. Wish the hopper were bigger."
+    },
+    {
+      "id": "r3",
+      "author": "Priya S.",
+      "rating": 5,
+      "approved": true,
+      "body": "Filter papers arrived flattened but usable. Great price per pack."
+    },
+    {
+      "id": "r4",
+      "author": "Tom R.",
+      "rating": 3,
+      "approved": true,
+      "body": "Travel press works, the carry cap scratches easily."
+    },
+    {
+      "id": "r5",
+      "author": "unverified buyer",
+      "rating": 1,
+      "approved": false,
+      "body": "held for moderation - unverified purchase, flagged by the review queue"
+    }
+  ]
+}
