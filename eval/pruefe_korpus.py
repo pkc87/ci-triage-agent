@@ -93,6 +93,20 @@ def main() -> int:
         if d.name not in gesehen:
             fehler.append(f"{d.name}: case directory has no ground-truth line")
 
+    # The README's numbers are generated between markers. An empty block means
+    # someone edited the corpus and shipped without re-running the generator --
+    # i.e. a README making claims about a corpus that no longer exists.
+    readme = HIER.parent / "README.md"
+    if readme.exists():
+        text = readme.read_text(encoding="utf-8")
+        for name in ("ZAHLEN", "BEISPIEL", "SWEEP"):
+            start, ende = f"<!-- {name}:START -->", f"<!-- {name}:ENDE -->"
+            if start not in text or ende not in text:
+                fehler.append(f"README.md: {name} markers missing")
+            elif len(text.split(start)[1].split(ende)[0].strip()) < 40:
+                fehler.append(f"README.md: {name} block is empty -- "
+                              "run `python eval/readme_zahlen.py`")
+
     print(f"cases in ground truth: {len(gesehen)}")
     verteilung: dict[str, int] = {}
     quellen: dict[str, int] = {}
