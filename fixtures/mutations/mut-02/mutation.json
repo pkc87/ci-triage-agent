@@ -1,0 +1,14 @@
+{
+  "id": "mut-02",
+  "klasse": "KAPUTTER_TEST",
+  "beschreibung": "The cart test looks up data-testid=\"cart-subtotal-value\", which has never existed in the markup.",
+  "ziel": "fixtures/tests/cart.spec.ts (adding a product puts it in the cart)",
+  "max_faelle": 2,
+  "aenderungen": [
+    {
+      "datei": "tests/cart.spec.ts",
+      "suchen": "  await expect(page.getByTestId('subtotal')).toHaveText('$39.95');",
+      "ersetzen": "  await expect(page.getByTestId('cart-subtotal-value')).toHaveText('$39.95');"
+    }
+  ]
+}

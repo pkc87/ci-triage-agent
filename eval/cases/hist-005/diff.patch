@@ -1,0 +1,401 @@
+diff --git a/.claude/launch.json b/.claude/launch.json
+index 6f1a6a3..14e1e94 100644
+--- a/.claude/launch.json
++++ b/.claude/launch.json
+@@ -4,38 +4,89 @@
+     {
+       "name": "flylee-sites",
+       "runtimeExecutable": "corepack",
+-      "runtimeArgs": ["pnpm", "--filter", "flylee-sites", "dev", "--", "--port", "4321"],
++      "runtimeArgs": [
++        "pnpm",
++        "--filter",
++        "flylee-sites",
++        "dev",
++        "--",
++        "--port",
++        "4321"
++      ],
+       "port": 4321
+     },
+     {
+       "name": "flylee-web",
+       "runtimeExecutable": "corepack",
+-      "runtimeArgs": ["pnpm", "--filter", "flylee-web", "dev", "--", "--port", "4322"],
++      "runtimeArgs": [
++        "pnpm",
++        "--filter",
++        "flylee-web",
++        "dev",
++        "--",
++        "--port",
++        "4322"
++      ],
+       "port": 4322
+     },
+     {
+       "name": "mockups",
+       "runtimeExecutable": "python",
+-      "runtimeArgs": ["-m", "http.server", "8099", "--directory", "docs/flylee/mockups"],
++      "runtimeArgs": [
++        "-m",
++        "http.server",
++        "8099",
++        "--directory",
++        "docs/flylee/mockups"
++      ],
+       "port": 8099
+     },
+     {
+       "name": "ai-samples",
+       "runtimeExecutable": "python",
+-      "runtimeArgs": ["-m", "http.server", "8123", "--directory", "docs/flylee/ai-samples"],
++      "runtimeArgs": [
++        "-m",
++        "http.server",
++        "8123",
++        "--directory",
++        "docs/flylee/ai-samples"
++      ],
+       "port": 8123
+     },
+     {
+       "name": "flylee-ops",
+       "runtimeExecutable": "corepack",
+-      "runtimeArgs": ["pnpm", "--filter", "flylee-ops", "dev"],
++      "runtimeArgs": [
++        "pnpm",
++        "--filter",
++        "flylee-ops",
++        "dev"
++      ],
+       "port": 4323
+     },
+     {
+       "name": "snaxolotl",
+       "runtimeExecutable": "corepack",
+-      "runtimeArgs": ["pnpm", "--filter", "snaxolotl", "dev"],
++      "runtimeArgs": [
++        "pnpm",
++        "--filter",
++        "snaxolotl",
++        "dev"
++      ],
+       "port": 5173
++    },
++    {
++      "name": "kc-web",
++      "runtimeExecutable": "corepack",
++      "runtimeArgs": [
++        "pnpm",
++        "--filter",
++        "kc-web",
++        "dev",
++        "--port",
++        "4324"
++      ],
++      "port": 4324
+     }
+   ]
+ }
+diff --git a/apps/kc-web/.claude/app.json b/apps/kc-web/.claude/app.json
+new file mode 100644
+index 0000000..fc9168b
+--- /dev/null
++++ b/apps/kc-web/.claude/app.json
+@@ -0,0 +1,5 @@
++{
++  "name": "kc-web",
++  "prefix": "KC",
++  "description": "Firmenwebsite kornmueller-consulting.de — Astro 5, statisch, Cloudflare Pages"
++}
+diff --git a/apps/kc-web/.gitignore b/apps/kc-web/.gitignore
+new file mode 100644
+index 0000000..d4d6ff8
+--- /dev/null
++++ b/apps/kc-web/.gitignore
+@@ -0,0 +1,6 @@
++dist/
++.astro/
++node_modules/
++test-results/
++playwright-report/
++.turbo/
+diff --git a/apps/kc-web/CLAUDE.md b/apps/kc-web/CLAUDE.md
+new file mode 100644
+index 0000000..fd0ebbf
+--- /dev/null
++++ b/apps/kc-web/CLAUDE.md
+@@ -0,0 +1,127 @@
++# kc-web — Firmenwebsite kornmueller-consulting.de
++
++Astro 5, statischer Output, Cloudflare Pages. Ersetzt die WordPress-/Elementor-Seite.
++Ticket-Präfix **KC**.
++
++## Die vier Regeln, aus denen alles folgt
++
++1. **Kein Scrape.** Kein Elementor-CSS, kein `dangerouslySetInnerHTML`, kein jQuery,
++   keine WordPress-Mediathek. Der Vorgänger (`origin/kc-website/init`) hat das
++   versucht: 1,13 MB fremdes HTML, 69 Stylesheets, 48,6 MB Assets — und 14 von 18
++   Bildern rendern dort unsichtbar. Diese App ist der Gegenentwurf.
++2. **Jede Aussage kommt aus `src/content/`.** Keine Zahlen, Preise oder Referenzen
++   im Fließtext einer Komponente. Was keine Quelle im Kommentar hat, kommt nicht
++   auf die Seite.
++3. **Vor-Ort-Aussagen leben ausschließlich in `content/delivery.ts`.** Ein Test
++   erzwingt das. Beim Umzug schaltet `deliveryMode` die gesamte Website um — in
++   allen drei Sprachen, weil `SiteContent` beide Modi je Sprache erzwingt.
++4. **Zahlen im Text werden abgeleitet, nicht getippt.** „dreizehn Referenzkunden"
++   kommt aus `proof.ts`, „acht Projekte" aus `cases.ts`. In der freigegebenen
++   Textvorlage standen „Sieben Projekte" über acht Projekten und „Zwölf
++   Referenzkunden" bei dreizehn Namen — genau das kann so nicht mehr passieren.
++
++## Aufbau
++
++```
++src/content/
++  schema.ts    Die Form, die jede Sprachfassung erfüllen MUSS. astro check
++               bricht ab, wenn en.ts oder es.ts ein Feld von de.ts fehlt.
++  de.ts        Ausgangsfassung. EN und ES sind daraus abgeleitet.
++  en.ts es.ts  Sprachfassungen. Glossar im Dateikopf ist verbindlich.
++  i18n.ts      Routentabelle — EINE Quelle für Navigation, Sprachumschalter,
++               hreflang, Screenshots und die Routenliste des Gates.
++  brand.ts     Marke, Stammdaten, Impressumsangaben, Terminlink, Personen.
++  proof.ts     Kundenreihe und Kundenstimmen (sprachneutrale Fakten).
++  cases.ts     Projekte und Mandate (sprachneutrale Fakten).
++  delivery.ts  Der Umzugsschalter. Genau eine Entscheidung.
++  media.ts     ERZEUGT von scripts/prepare-assets.mjs. Nicht von Hand ändern.
++
++src/components/pages/   Eine Komponente je Seite, nimmt `lang` als Prop.
++src/pages/              17 Routendateien, drei Zeilen je Datei.
++```
++
++Eine neue Seite braucht: Eintrag in `i18n.ts`, Felder im `schema.ts`, Text in
++allen drei Sprachdateien, eine Seitenkomponente, drei Routendateien. Das Gate
++nimmt sie danach automatisch mit.
++
++## Befehle
++
++```bash
++corepack pnpm --filter kc-web dev            # Dev-Server (Port 4324 via .claude/launch.json)
++corepack pnpm --filter kc-web build
++corepack pnpm --filter kc-web typecheck      # astro check — prüft auch Übersetzungsvollständigkeit
++corepack pnpm --filter kc-web lint
++corepack pnpm --filter kc-web test           # Qualitäts-Gate, 128 Tests
++corepack pnpm --filter kc-web test:e2e       # zusätzlich 34 visuelle Baselines
++node scripts/prepare-assets.mjs              # Logos, Favicons, Portraits → public/img + media.ts
++MSYS_NO_PATHCONV=1 node scripts/shoot.mjs http://127.0.0.1:4325   # Screenshots aller Routen
++```
++
++Zwei Windows-Fallen: ohne `corepack enable` liegt kein `pnpm` auf dem PATH und
++`turbo` bricht bei jedem Task ab. Und in Git Bash schreibt MSYS ein führendes `/`
++in einen Windows-Pfad um — deshalb `MSYS_NO_PATHCONV=1` vor `shoot.mjs --routes`.
++
++## Das Qualitäts-Gate (`tests/quality/pages.spec.ts`)
++
++Läuft über **alle 17 Routen** aus `content/i18n.ts`. Eine Seite, die dort nicht
++steht, gilt als nicht gebaut.
++
++| Prüfung | Warum es sie gibt |
++|---|---|
++| Kein Bild mit `naturalWidth === 0` oder 0 px Breite | Der Fehler, an dem die Portierung gestorben ist: `loading="lazy"` + `width:auto` ⇒ 0 px ⇒ `srcset` wird nie aufgelöst. Sah aus wie ein 404 und war keiner |
++| Keine Konsolenfehler | — |
++| Kein horizontaler Überlauf bei 375 / 768 / 1440 | — |
++| Transfergewicht unter 500 KB | Die alte Startseite lädt 69 Stylesheets plus jQuery |
++| Genau eine `h1` | — |
++| Keine Fremd-Hosts, kein jQuery | Cookiefrei ⇒ kein Consent-Banner nötig. Sichert zugleich die zentrale Aussage der Datenschutzerklärung ab |
++| Keine Vor-Ort-Aussage außerhalb von `delivery.ts` | Hält den Umzugs-Schalter funktionsfähig |
++| **Keine Formulierung von der Verbotsliste** | Alter Claim, BWI, Endkundennamen Dritter, Preise, die zwei Falschaussagen zu Fanatec und BSH, unbelegte Prozentzahlen. Jeder Eintrag trägt seine Begründung im Test |
++| **Glossartreue in EN und ES** | `acceptance testing` und `pruebas de aceptación` stellen die Firma wieder als Testdienstleister hin — also als das, was die neue Ausrichtung verlässt |
++| **Arbeitssprachen auf jeder ES-Seite** | Ohne den Hinweis erzeugt die spanische Fassung Anfragen, die im Haus niemand bedienen kann |
++| **Kein toter interner Verweis** | Jeder `href="/…"` wird tatsächlich abgerufen |
++| **hreflang vollständig und symmetrisch** | Auf der alten Seite stand `/es/` in keiner Sitemap und lieferte trotzdem HTTP 200 |
++| **Impressum und Datenschutz von jeder Seite erreichbar** | Pflichtangabe |
++
++Gegenprobe, dass das Gate greift: eine verbotene Formulierung in eine
++Sprachdatei schreiben — der Test muss Route, Fundstelle und Grund melden.
++Am 07.09.2026 mit „BWI", „Festpreis" und „4900 €" gemacht, alle drei gefangen.
++
++`reuseExistingServer` steht bewusst auf `false`: ein noch laufender
++Vorschau-Server liefert ein altes `dist/`, und weil ein Teil der Prüfungen den
++gebauten HTML-Text liest, meldet das Gate dann Fehler, die es nicht gibt — oder
++schlimmer, keine, die es gibt. Lieber ein lauter Portkonflikt.
++
++## Bilder
++
++- Jedes `<img>` trägt `width` und `height` als **Attribut**, mit den echten
++  Intrinsic-Maßen aus `content/media.ts` (mit `sharp` gemessen, nicht geschätzt).
++- `loading="lazy"` nur unterhalb des ersten Bildschirms. Alles im Hero: `eager`.
++- Portraits liegen als 900 × 1200 Quelle unter `assets/portraits/` im Repo, damit
++  der Build ohne OneDrive reproduzierbar bleibt. Es sind dieselben Aufnahmen wie
++  im CV — die Zielgruppe ist laut Handoff unter anderem „jemand mit dem CV in
++  der Hand".
++- Die Logo-Marke (`components/Swoosh.astro`) ist inline, nicht `<img>`: so kommt
++  die Farbe über `currentColor` aus dem Band und es entsteht kein Abruf.
++
++## Visuelle Baselines
++
++`tests/visual/layout.spec.ts` nimmt jede Route bei 1440 und 390 Pixeln ganzseitig auf
++und vergleicht sie mit dem letzten abgenommenen Stand. Das Qualitäts-Gate merkt, wenn
++etwas kaputt ist; die Baselines merken, wenn sich etwas *verschiebt* — ein doppelter
++Abstand, eine gekippte Farbe, eine umgebrochene Spalte.
++
++Die Toleranz steht hier bei 0,1 % statt der 2 % aus `playwright.config.ts`. Grund:
++eine ganzseitige Aufnahme ist bis zu fünf Millionen Pixel groß, und ein Knopf, der die
++Farbe wechselt, fällt darin unter 2 %. Am 07.09.2026 nachgemessen — mit 2 % schlugen
++bei einem auf Rot gedrehten Markenton nur 3 von 34 Aufnahmen an, mit 0,1 % alle 34.
++
++Neue Baselines nur setzen, wenn die Abweichung beabsichtigt UND angesehen ist:
++`corepack pnpm --filter kc-web test:visual:update`. Ein blindes `--update-snapshots`
++macht aus der Prüfung eine Zeremonie.
++
++## Offen
++
++Siehe `BLOCKERS.md`. Kurz: spanische Fassung gegenlesen lassen, `noindex` raus,
++neun 301-Weiterleitungen, AV-Vertrag Cloudflare prüfen. Und ein Befund an der
++**alten** Seite, der jetzt gilt: der Hinweis auf die EU-Streitbeilegungsplattform
++muss dort raus, die Plattform ist seit 20.07.2025 abgeschaltet.
+diff --git a/apps/kc-web/README.md b/apps/kc-web/README.md
+new file mode 100644
+index 0000000..6663ad3
+--- /dev/null
++++ b/apps/kc-web/README.md
+@@ -0,0 +1,9 @@
++# kc-web
++
++Firmenwebsite **kornmueller-consulting.de** — Astro 5, statisch, cookiefrei.
++
++Konventionen, Befehle und das Qualitäts-Gate stehen in [CLAUDE.md](./CLAUDE.md).
++Entscheidungen in [DECISIONS.md](./DECISIONS.md).
++
++Stand: Startseite und `/ki-sprint` gebaut, 16 Qualitätstests grün.
++Die Live-Seite läuft weiterhin auf WordPress und wird davon nicht berührt.
+diff --git a/apps/kc-web/assets/portraits/justin-quelle.jpg b/apps/kc-web/assets/portraits/justin-quelle.jpg
+new file mode 100644
+index 0000000..268b231
+Binary files /dev/null and b/apps/kc-web/assets/portraits/justin-quelle.jpg differ
+diff --git a/apps/kc-web/assets/portraits/patrick-quelle.jpg b/apps/kc-web/assets/portraits/patrick-quelle.jpg
+new file mode 100644
+index 0000000..2e0dc51
+Binary files /dev/null and b/apps/kc-web/assets/portraits/patrick-quelle.jpg differ
+diff --git a/apps/kc-web/astro.config.mjs b/apps/kc-web/astro.config.mjs
+new file mode 100644
+index 0000000..991e450
+--- /dev/null
++++ b/apps/kc-web/astro.config.mjs
+@@ -0,0 +1,13 @@
++import { defineConfig } from 'astro/config';
++
++// Firmenwebsite Kornmüller Consulting — statischer Output, Cloudflare Pages
++// (kein Adapter, kein SSR). Kein Tracking, keine Cookies, keine Fremd-CDNs:
++// Schriften liegen selbst gehostet in node_modules/@fontsource und werden
++// mitgebaut. Deshalb braucht die Seite kein Consent-Banner.
++export default defineConfig({
++  output: 'static',
++  trailingSlash: 'ignore',
++  site: 'https://kornmueller-consulting.de',
++  build: { format: 'directory' },
++  devToolbar: { enabled: false },
++});
+diff --git a/apps/kc-web/eslint.config.mjs b/apps/kc-web/eslint.config.mjs
+new file mode 100644
+index 0000000..e28fbdf
+--- /dev/null
++++ b/apps/kc-web/eslint.config.mjs
+@@ -0,0 +1,6 @@
++import eslintPluginAstro from 'eslint-plugin-astro';
++
++export default [
++  ...eslintPluginAstro.configs.recommended,
++  { ignores: ['dist/**', '.astro/**', 'test-results/**', 'playwright-report/**'] },
++];
+diff --git a/apps/kc-web/package.json b/apps/kc-web/package.json
+new file mode 100644
+index 0000000..59d0115
+--- /dev/null
++++ b/apps/kc-web/package.json
+@@ -0,0 +1,31 @@
++{
++  "name": "kc-web",
++  "version": "0.0.1",
++  "private": true,
++  "type": "module",
++  "scripts": {
++    "dev": "astro dev",
++    "build": "astro build",
++    "preview": "astro preview",
++    "typecheck": "astro check",
++    "lint": "eslint . --max-warnings=0",
++    "test": "playwright test --project=quality",
++    "test:e2e": "playwright test",
++    "test:visual:update": "playwright test --project=visual --update-snapshots",
++    "clean": "rm -rf dist .astro .turbo test-results playwright-report"
++  },
++  "dependencies": {
++    "@fontsource/ibm-plex-mono": "^5.0.0",
++    "@fontsource/lato": "^5.0.0",
++    "astro": "^5.0.0"
++  },
++  "devDependencies": {
++    "@astrojs/check": "^0.9.0",
++    "@playwright/test": "^1.48.0",
++    "@typescript-eslint/parser": "^8.0.0",
++    "eslint": "^9.10.0",
++    "eslint-plugin-astro": "^1.2.0",
++    "sharp": "^0.34.5",
++    "typescript": "^5.6.0"
++  }
++}
+diff --git a/apps/kc-web/playwright.config.ts b/apps/kc-web/playwright.config.ts
+new file mode 100644
+index 0000000..f311596
+--- /dev/null
++++ b/apps/kc-web/playwright.config.ts
+@@ -0,0 +1,46 @@
++/**
++ * Zwei Projekte:
++ *   quality  — harte Zusicherungen, die jeder Commit halten muss
++ *              (Bilder sichtbar, keine Konsolenfehler, kein Querlauf, Gewicht).
++ *   visual   — Baseline-Screenshots, erst ab Phase 04 sinnvoll.
++ *
++ * Iteration:  corepack pnpm --filter kc-web test
++ * Alles:      corepack pnpm --filter kc-web test:e2e
++ * Baselines:  corepack pnpm --filter kc-web test:visual:update
++ */
++import { defineConfig } from '@playwright/test';
++
++export default defineConfig({
++  testDir: './tests',
++  fullyParallel: false,
++  forbidOnly: !!process.env.CI,
++  retries: 0,
++  reporter: process.env.CI ? 'github' : 'list',
++  use: {
++    baseURL: 'http://127.0.0.1:4325',
++    trace: 'retain-on-failure',
++  },
++  expect: {
++    toHaveScreenshot: { maxDiffPixelRatio: 0.02, animations: 'disabled' },
++  },
++  projects: [
++    { name: 'quality', testDir: './tests/quality' },
++    { name: 'visual', testDir: './tests/visual' },
++  ],
++  webServer: {
++    command:
++      'corepack pnpm exec astro build && corepack pnpm exec astro preview --host 127.0.0.1 --port 4325',
++    url: 'http://127.0.0.1:4325/',
++    /**
++     * Bewusst NICHT wiederverwenden. Ein noch laufender Vorschau-Server liefert
++     * ein altes dist/, und weil ein Teil der Prüfungen den gebauten HTML-Text
++     * liest, meldet das Gate dann Fehler, die es nicht gibt — oder schlimmer:
++     * es meldet keine, die es gibt. Am 07.09.2026 genau so passiert.
++     * Lieber ein lauter Portkonflikt als ein stilles Falschergebnis.
++     */
++    reuseExistingServer: false,
++    timeout: 120_000,
++    stdout: 'pipe',
++    stderr: 'pipe',
++  },
++});
+[... truncated 7477 lines / 98 further files of 7876 total; full diff = git diff fed35e0d1a..ea499944ed in KornmuellerConsulting/apps ...]
+[redacted before publication: apps/kc-web/BLOCKERS.md and apps/kc-web/DECISIONS.md are excluded from this patch via git pathspec -- they name a third-party reference customer whose written approval was still pending. Nothing else was altered.]

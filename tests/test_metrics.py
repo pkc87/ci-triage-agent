@@ -77,3 +77,17 @@ def test_unbekannte_klasse_fliegt_auf():
     import pytest
     with pytest.raises(ValueError):
         konfusionsmatrix([("QUATSCH", "FLAKE")])
+
+
+def test_wilson_ist_bei_kleinem_n_ehrlich_breit():
+    from eval.metrics import wilson
+    lo, hi = wilson(12, 15)          # recall 0.80 over 15 cases
+    assert lo < 0.60 and hi > 0.90, (lo, hi)
+    assert 0.0 <= lo <= hi <= 1.0
+
+
+def test_wilson_bleibt_in_den_grenzen_bei_perfekt_und_null():
+    from eval.metrics import wilson
+    assert wilson(5, 5)[1] == 1.0 and wilson(5, 5)[0] < 1.0
+    assert wilson(0, 5)[0] == 0.0 and wilson(0, 5)[1] > 0.0
+    assert wilson(0, 0) == (0.0, 0.0)

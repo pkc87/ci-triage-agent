@@ -19,6 +19,7 @@ Both, always, side by side.
 
 from __future__ import annotations
 
+import math
 from typing import Iterable, Sequence
 
 KLASSEN = ("PRODUKTFEHLER", "KAPUTTER_TEST", "FLAKE")
@@ -67,7 +68,9 @@ def kennzahlen(paare: Sequence[tuple[str, str]],
         precision, recall, f1 = _prf(tp, fp, fn)
         je_klasse[k] = {
             "precision": round(precision, 4),
+            "precision_ci95": wilson(tp, tp + fp),
             "recall": round(recall, 4),
+            "recall_ci95": wilson(tp, tp + fn),
             "f1": round(f1, 4),
             "support_gesamt": sum(1 for w, _ in paare if w == k),
             "support_entschieden": sum(1 for w, _ in entschieden if w == k),
@@ -112,3 +115,25 @@ def versenkte_produktfehler(paare_mit_aktion: Iterable[tuple[str, str]]) -> int:
     """
     return sum(1 for wahr, aktion in paare_mit_aktion
                if wahr == "PRODUKTFEHLER" and aktion == "RERUN")
+
+
+def wilson(treffer: int, versuche: int, z: float = 1.96) -> tuple[float, float]:
+    """95% Wilson score interval for a proportion.
+
+    Present because of the honest answer to "how good is it really": with a
+    corpus this size, a per-class recall of 0.80 over 15 cases is compatible
+    with anything from roughly 0.55 to 0.93. Reporting the point estimate alone
+    would be the most misleading thing in this repo -- more misleading than a
+    low score, because it looks precise.
+
+    Wilson rather than the normal approximation: it does not produce intervals
+    that run below 0 or above 1, and it stays sane at small n and at p near the
+    edges, which is exactly the regime this corpus lives in.
+    """
+    if versuche == 0:
+        return (0.0, 0.0)
+    p = treffer / versuche
+    nenner = 1 + z * z / versuche
+    mitte = (p + z * z / (2 * versuche)) / nenner
+    spanne = z * math.sqrt(p * (1 - p) / versuche + z * z / (4 * versuche * versuche)) / nenner
+    return (round(max(0.0, mitte - spanne), 4), round(min(1.0, mitte + spanne), 4))

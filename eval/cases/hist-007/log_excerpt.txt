@@ -1,0 +1,59 @@
+# Verbatim aus dem ci-test-Log, Lauf 34142330079, Job 'test (kc-web)'.
+# Zeilenpraefix (job<TAB>step<TAB>ISO-Zeitstempel) entfernt, ANSI-Sequenzen entfernt.
+# Sonst unveraendert.
+
+##[error]120) [quality] › tests/quality/pages.spec.ts:105:1 › kein Fremd-CDN, kein Tracker, kein jQuery
+    Error: browserType.launch: Executable doesn't exist at /home/runner/.cache/ms-playwright/chromium_headless_shell-1217/chrome-headless-shell-linux64/chrome-headless-shell
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+##[notice]  120 failed
+    [quality] › tests/quality/pages.spec.ts:43:3 › / — jedes Bild rendert mit echter Breite ────────
+    [quality] › tests/quality/pages.spec.ts:68:3 › / — keine Konsolenfehler ────────────────────────
+    [quality] › tests/quality/pages.spec.ts:79:5 › / — kein Querlauf (mobil) ───────────────────────
+    [quality] › tests/quality/pages.spec.ts:79:5 › / — kein Querlauf (tablet) ──────────────────────
+    [quality] › tests/quality/pages.spec.ts:79:5 › / — kein Querlauf (desktop) ─────────────────────
+    [quality] › tests/quality/pages.spec.ts:89:3 › / — Seite bleibt unter 500 KB ───────────────────
+    [quality] › tests/quality/pages.spec.ts:99:3 › / — genau eine H1 ───────────────────────────────
+    [quality] › tests/quality/pages.spec.ts:43:3 › /leistungen — jedes Bild rendert mit echter Breite 
+    [quality] › tests/quality/pages.spec.ts:68:3 › /leistungen — keine Konsolenfehler ──────────────
+    [quality] › tests/quality/pages.spec.ts:79:5 › /leistungen — kein Querlauf (mobil) ─────────────
+    [quality] › tests/quality/pages.spec.ts:79:5 › /leistungen — kein Querlauf (tablet) ────────────
+    [quality] › tests/quality/pages.spec.ts:79:5 › /leistungen — kein Querlauf (desktop) ───────────
+    [quality] › tests/quality/pages.spec.ts:89:3 › /leistungen — Seite bleibt unter 500 KB ─────────
+    [quality] › tests/quality/pages.spec.ts:99:3 › /leistungen — genau eine H1 ─────────────────────
+    [quality] › tests/quality/pages.spec.ts:43:3 › /projekte — jedes Bild rendert mit echter Breite 
+    [quality] › tests/quality/pages.spec.ts:68:3 › /projekte — keine Konsolenfehler ────────────────
+    [quality] › tests/quality/pages.spec.ts:79:5 › /projekte — kein Querlauf (mobil) ───────────────
+    [quality] › tests/quality/pages.spec.ts:79:5 › /projekte — kein Querlauf (tablet) ──────────────
+    [quality] › tests/quality/pages.spec.ts:79:5 › /projekte — kein Querlauf (desktop) ─────────────
+    [quality] › tests/quality/pages.spec.ts:89:3 › /projekte — Seite bleibt unter 500 KB ───────────
+    [quality] › tests/quality/pages.spec.ts:99:3 › /projekte — genau eine H1 ───────────────────────
+    [quality] › tests/quality/pages.spec.ts:43:3 › /unternehmen — jedes Bild rendert mit echter Breite 
+    [quality] › tests/quality/pages.spec.ts:68:3 › /unternehmen — keine Konsolenfehler ─────────────
+    [quality] › tests/quality/pages.spec.ts:79:5 › /unternehmen — kein Querlauf (mobil) ────────────
+    [quality] › tests/quality/pages.spec.ts:79:5 › /unternehmen — kein Querlauf (tablet) ───────────
+    [quality] › tests/quality/pages.spec.ts:79:5 › /unternehmen — kein Querlauf (desktop) ──────────
+    [quality] › tests/quality/pages.spec.ts:89:3 › /unternehmen — Seite bleibt unter 500 KB ────────
+    [quality] › tests/quality/pages.spec.ts:99:3 › /unternehmen — genau eine H1 ────────────────────
+    [quality] › tests/quality/pages.spec.ts:43:3 › /kontakt — jedes Bild rendert mit echter Breite ─
+    [quality] › tests/quality/pages.spec.ts:68:3 › /kontakt — keine Konsolenfehler ─────────────────
+    [quality] › tests/quality/pages.spec.ts:79:5 › /kontakt — kein Querlauf (mobil) ────────────────
+    [quality] › tests/quality/pages.spec.ts:79:5 › /kontakt — kein Querlauf (tablet) ───────────────
+    [quality] › tests/quality/pages.spec.ts:79:5 › /kontakt — kein Querlauf (desktop) ──────────────
+    [quality] › tests/quality/pages.spec.ts:89:3 › /kontakt — Seite bleibt unter 500 KB ────────────
+    [quality] › tests/quality/pages.spec.ts:99:3 › /kontakt — genau eine H1 ────────────────────────
+    [quality] › tests/quality/pages.spec.ts:43:3 › /en — jedes Bild rendert mit echter Breite ──────
+    [quality] › tests/quality/pages.spec.ts:68:3 › /en — keine Konsolenfehler ──────────────────────
+    [quality] › tests/quality/pages.spec.ts:79:5 › /en — kein Querlauf (mobil) ─────────────────────
+    [quality] › tests/quality/pages.spec.ts:79:5 › /en — kein Querlauf (tablet) ────────────────────
+    [quality] › tests/quality/pages.spec.ts:79:5 › /en — kein Querlauf (desktop) ───────────────────
+    [quality] › tests/quality/pages.sp
+/home/runner/work/apps/apps/apps/kc-web:
+ ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  kc-web@0.0.1 test: `playwright test --project=quality`
+Exit status 1

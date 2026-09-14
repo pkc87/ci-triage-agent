@@ -1,0 +1,19 @@
+{
+  "id": "mut-05",
+  "klasse": "KAPUTTER_TEST",
+  "beschreibung": "Intentional copy change shipped by product (\"Add to cart\" -> \"Add to bag\", \"Load reviews\" -> \"Show reviews\"); two tests still assert the old wording.",
+  "ziel": "fixtures/shop/app.js, fixtures/shop/index.html (button copy)",
+  "max_faelle": 3,
+  "aenderungen": [
+    {
+      "datei": "shop/app.js",
+      "suchen": "      <button type=\"button\" data-testid=\"add-${product.id}\">Add to cart</button>",
+      "ersetzen": "      <button type=\"button\" data-testid=\"add-${product.id}\">Add to bag</button>"
+    },
+    {
+      "datei": "shop/index.html",
+      "suchen": "      <button type=\"button\" data-testid=\"load-reviews\">Load reviews</button>",
+      "ersetzen": "      <button type=\"button\" data-testid=\"load-reviews\">Show reviews</button>"
+    }
+  ]
+}

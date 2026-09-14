@@ -1,0 +1,15 @@
+{
+  "id": "mut-09",
+  "klasse": "FLAKE",
+  "beschreibung": "The average-rating assertion gets a 220 ms timeout while the reviews endpoint answers in 80-340 ms.",
+  "ziel": "fixtures/tests/reviews.spec.ts (the average rating ignores reviews that are not approved)",
+  "max_faelle": 2,
+  "laeufe": 6,
+  "aenderungen": [
+    {
+      "datei": "tests/reviews.spec.ts",
+      "suchen": "  await page.getByTestId('load-reviews').click();\n  await expect(page.getByTestId('average-rating')).toBeVisible();\n\n  const authors",
+      "ersetzen": "  await page.getByTestId('load-reviews').click();\n  await expect(page.getByTestId('average-rating')).toBeVisible({ timeout: 220 });\n\n  const authors"
+    }
+  ]
+}

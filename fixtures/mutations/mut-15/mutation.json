@@ -1,0 +1,14 @@
+{
+  "id": "mut-15",
+  "klasse": "FLAKE",
+  "beschreibung": "A second spec starts using the same process-wide saved cart on the fixture server; when the two land in parallel workers they overwrite each other.",
+  "ziel": "fixtures/tests/saved-cart-sync.spec.ts (new spec racing saved-cart.spec.ts)",
+  "max_faelle": 2,
+  "laeufe": 6,
+  "aenderungen": [
+    {
+      "datei": "tests/saved-cart-sync.spec.ts",
+      "inhalt": "import { test, expect } from '@playwright/test';\n\n// A second shopper journey that also parks its cart on the server.\ntest('a second shopper saves and restores their own cart', async ({ page }) => {\n  await page.goto('/');\n\n  await page.getByTestId('add-p4').click();\n  await expect(page.getByTestId('cart-badge')).toHaveText('1 item');\n\n  await page.getByTestId('save-cart').click();\n  await expect(page.getByTestId('cart-sync-status')).toHaveText('Cart saved');\n\n  await page.waitForTimeout(250);\n  await page.reload();\n\n  await page.getByTestId('restore-cart').click();\n  await expect(page.getByTestId('cart-sync-status')).toHaveText('Cart restored');\n  await expect(page.getByTestId('cart-row-p4')).toBeVisible();\n  await expect(page.getByTestId('cart-badge')).toHaveText('1 item');\n});\n"
+    }
+  ]
+}

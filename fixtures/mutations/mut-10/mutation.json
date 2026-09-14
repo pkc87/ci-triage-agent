@@ -1,0 +1,14 @@
+{
+  "id": "mut-10",
+  "klasse": "PRODUKTFEHLER",
+  "beschreibung": "The handling fee is no longer waived for an empty cart, so an emptied cart still shows money owed.",
+  "ziel": "fixtures/shop/pricing.js (handling)",
+  "max_faelle": 3,
+  "aenderungen": [
+    {
+      "datei": "shop/pricing.js",
+      "suchen": "export function handling(lines) {\n  return lines.length === 0 ? 0 : HANDLING_FEE;\n}",
+      "ersetzen": "export function handling(lines) {\n  return HANDLING_FEE;\n}"
+    }
+  ]
+}

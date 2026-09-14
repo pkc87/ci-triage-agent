@@ -1,0 +1,36 @@
+# Verbatim aus dem ci-test-Log, Lauf 34207139258, Job 'test (kc-web)'.
+# Zeilenpraefix (job<TAB>step<TAB>ISO-Zeitstempel) entfernt, ANSI-Sequenzen entfernt.
+# Sonst unveraendert.
+
+##[error]1) [visual] › tests/visual/layout.spec.ts:33:5 › /es sieht aus wie abgenommen (desktop)
+    Error: expect(page).toHaveScreenshot(expected) failed
+
+      Expected an image 1440px by 3760px, received 1440px by 3782px. 55043 pixels (ratio 0.02 of all image pixels) are different.
+
+      Snapshot: es-desktop.png
+
+    Call log:
+      - Expect "toHaveScreenshot(es-desktop.png)" with timeout 5000ms
+        - verifying given screenshot expectation
+      - taking page screenshot
+        - disabled all CSS animations
+      - waiting for fonts to load...
+      - fonts loaded
+      - Expected an image 1440px by 3760px, received 1440px by 3782px. 55043 pixels (ratio 0.02 of all image pixels) are different.
+      - waiting 100ms before taking screenshot
+      - taking page screenshot
+        - disabled all CSS animations
+      - waiting for fonts to load...
+      - fonts loaded
+      - captured a stable screenshot
+      - Expected an image 1440px by 3760px, received 1440px by 3782px. 55043 pixels (ratio 0.02 of all image pixels) are different.
+
+
+      39 |       await page.waitForTimeout(300);
+      40 |
+    > 41 |       await expect(page).toHaveScreenshot(`${dateiname(route)}-${b.name}.png`, {
+         |                          ^
+      42 |         fullPage: true,
+      43 |         animations: 'disabled',
+      44 |         // Enger als die 2 % aus playwright.config: eine ganzseitige Aufnahme ist
+        at /home/runner/work/apps/apps/apps/kc-web/tests/visual/layout.spec.ts:41:26

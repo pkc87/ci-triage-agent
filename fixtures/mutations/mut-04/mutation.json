@@ -1,0 +1,14 @@
+{
+  "id": "mut-04",
+  "klasse": "PRODUKTFEHLER",
+  "beschreibung": "The promo code is taken off the net goods instead of the gross, so every discounted order is undercharged against store policy.",
+  "ziel": "fixtures/shop/pricing.js (summarize)",
+  "max_faelle": 3,
+  "aenderungen": [
+    {
+      "datei": "shop/pricing.js",
+      "suchen": "  const gross = round2(goods + fee + taxDue);\n  const discount = discountAmount(gross, code);",
+      "ersetzen": "  const discount = discountAmount(goods, code);\n  const gross = round2(goods + fee + taxDue);"
+    }
+  ]
+}

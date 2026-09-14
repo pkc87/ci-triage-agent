@@ -1,0 +1,14 @@
+{
+  "id": "mut-19",
+  "klasse": "KAPUTTER_TEST",
+  "beschreibung": "CI environment failure: the runner pins a chromium executablePath that is not installed on the machine, so no browser launches at all.",
+  "ziel": "fixtures/playwright.config.ts (use.launchOptions)",
+  "max_faelle": 3,
+  "aenderungen": [
+    {
+      "datei": "playwright.config.ts",
+      "suchen": "  use: {\n    baseURL: BASE_URL,",
+      "ersetzen": "  use: {\n    launchOptions: {\n      executablePath:\n        process.env.CHROMIUM_PATH ?? String.raw`C:\\ci-agents\\browsers\\chromium-1148\\chrome-win\\chrome.exe`,\n    },\n    baseURL: BASE_URL,"
+    }
+  ]
+}

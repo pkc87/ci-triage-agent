@@ -1,0 +1,14 @@
+{
+  "id": "mut-08",
+  "klasse": "KAPUTTER_TEST",
+  "beschreibung": "Intentional sidebar redesign (rounder corners, roomier padding); the checked-in screenshot baseline still shows the old geometry.",
+  "ziel": "fixtures/shop/styles.css (.sidebar section)",
+  "max_faelle": 2,
+  "aenderungen": [
+    {
+      "datei": "shop/styles.css",
+      "suchen": ".sidebar section {\n  background: var(--paper);\n  border: 1px solid var(--line);\n  border-radius: 6px;\n  padding: 16px;\n}",
+      "ersetzen": ".sidebar section {\n  background: var(--paper);\n  border: 1px solid var(--line);\n  border-radius: 10px;\n  padding: 20px 18px;\n}"
+    }
+  ]
+}

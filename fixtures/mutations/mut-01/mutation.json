@@ -1,0 +1,14 @@
+{
+  "id": "mut-01",
+  "klasse": "PRODUKTFEHLER",
+  "beschreibung": "tax() truncates the cent instead of rounding it, so every taxed order is a cent light.",
+  "ziel": "fixtures/shop/pricing.js (tax)",
+  "max_faelle": 4,
+  "aenderungen": [
+    {
+      "datei": "shop/pricing.js",
+      "suchen": "export function tax(goods) {\n  return round2(goods * TAX_RATE);\n}",
+      "ersetzen": "export function tax(goods) {\n  // never charge a fraction of a cent\n  return Math.floor(goods * TAX_RATE * 100) / 100;\n}"
+    }
+  ]
+}

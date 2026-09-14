@@ -1,0 +1,14 @@
+# Verbatim aus dem ci-test-Log, Lauf 34144406466, Job 'test (kc-web)'.
+# Zeilenpraefix (job<TAB>step<TAB>ISO-Zeitstempel) entfernt, ANSI-Sequenzen entfernt.
+# Sonst unveraendert.
+
+##[error]17) [quality] › tests/quality/pages.spec.ts:79:5 › /projekte — kein Querlauf (mobil)
+    Error: browserType.launch: Executable doesn't exist at /home/runner/.cache/ms-playwright/chromium_headless_shell-1217/chrome-headless-shell-linux64/chrome-headless-shell
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝

@@ -43,15 +43,23 @@ def zahlen_block(e: dict) -> str:
              f"Scored with `{e['backend']}` backend, model `{e['modell']}`, "
              f"at threshold **{b['schwelle']}**.")
     z.append("")
-    z.append("| Class | Precision | Recall | F1 | Cases | Decided | Escalated |")
+    z.append("| Class | Precision (95% CI) | Recall (95% CI) | F1 | Cases | Decided | Escalated |")
     z.append("|---|---|---|---|---|---|---|")
     for k in KLASSEN:
         j = b["je_klasse"][k]
-        z.append(f"| `{k}` | {j['precision']:.2f} | {j['recall']:.2f} | {j['f1']:.2f} | "
+        pci, rci = j["precision_ci95"], j["recall_ci95"]
+        z.append(f"| `{k}` | {j['precision']:.2f} <sub>[{pci[0]:.2f}-{pci[1]:.2f}]</sub> | "
+                 f"{j['recall']:.2f} <sub>[{rci[0]:.2f}-{rci[1]:.2f}]</sub> | {j['f1']:.2f} | "
                  f"{j['support_gesamt']} | {j['support_entschieden']} | {j['eskaliert']} |")
     z.append(f"| **macro** | **{b['macro_precision']:.2f}** | **{b['macro_recall']:.2f}** | "
              f"**{b['macro_f1']:.2f}** | {b['faelle_gesamt']} | {b['faelle_entschieden']} | "
              f"{b['faelle_eskaliert']} |")
+    z.append("")
+    z.append("The intervals are Wilson score intervals, and they are wide because the "
+             "corpus is small. That is the honest shape of this result: the point "
+             "estimates are real measurements, and a per-class number resting on a "
+             "dozen cases cannot be quoted to two decimals as though it were stable. "
+             "If you only take one number from this table, take the interval.")
     z.append("")
     z.append(f"Coverage **{b['abdeckung']:.0%}** (the agent decided that share of cases and "
              f"escalated the rest) · accuracy on decided cases **{b['genauigkeit_entschieden']:.0%}** "

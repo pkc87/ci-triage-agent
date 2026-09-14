@@ -1,0 +1,14 @@
+{
+  "id": "mut-17",
+  "klasse": "KAPUTTER_TEST",
+  "beschreibung": "The catalog test counts five product cards; the catalog has four and the test lists exactly those four by name.",
+  "ziel": "fixtures/tests/catalog.spec.ts (the catalog lists every product)",
+  "max_faelle": 2,
+  "aenderungen": [
+    {
+      "datei": "tests/catalog.spec.ts",
+      "suchen": "  await expect(cards).toHaveCount(4);",
+      "ersetzen": "  await expect(cards).toHaveCount(5);"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "id": "mut-03",
+  "klasse": "FLAKE",
+  "beschreibung": "The reviews test drops the auto-retrying assertions for a fixed 200 ms wait, racing the variable review latency (80-340 ms).",
+  "ziel": "fixtures/tests/reviews.spec.ts (loading reviews renders every approved review with the average)",
+  "max_faelle": 2,
+  "laeufe": 6,
+  "aenderungen": [
+    {
+      "datei": "tests/reviews.spec.ts",
+      "suchen": "  await page.getByTestId('load-reviews').click();\n\n  await expect(page.getByTestId('review-item')).toHaveCount(4);\n  await expect(page.getByTestId('average-rating')).toBeVisible();\n  await expect(page.getByTestId('average-rating')).toHaveText('Average rating: 4.3 out of 5');\n  await expect(page.getByTestId('reviews-spinner')).toBeHidden();",
+      "ersetzen": "  await page.getByTestId('load-reviews').click();\n  await page.waitForTimeout(200);\n\n  expect(await page.getByTestId('review-item').count()).toBe(4);\n  expect(await page.getByTestId('average-rating').textContent()).toBe('Average rating: 4.3 out of 5');"
+    }
+  ]
+}

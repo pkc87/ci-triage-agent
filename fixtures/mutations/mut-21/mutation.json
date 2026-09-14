@@ -1,0 +1,14 @@
+{
+  "id": "mut-21",
+  "klasse": "KAPUTTER_TEST",
+  "beschreibung": "CI environment failure: the SHOP_BASE_URL fallback is dropped from the config, so an unset variable leaves every navigation without a base URL.",
+  "ziel": "fixtures/playwright.config.ts (BASE_URL)",
+  "max_faelle": 3,
+  "aenderungen": [
+    {
+      "datei": "playwright.config.ts",
+      "suchen": "const BASE_URL = process.env.SHOP_BASE_URL ?? `http://127.0.0.1:${PORT}`;",
+      "ersetzen": "const BASE_URL = process.env.SHOP_BASE_URL;"
+    }
+  ]
+}

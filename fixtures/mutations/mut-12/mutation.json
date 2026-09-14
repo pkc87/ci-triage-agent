@@ -1,0 +1,15 @@
+{
+  "id": "mut-12",
+  "klasse": "FLAKE",
+  "beschreibung": "The recommendations test asserts a fixed product in slot one, but the strip is shuffled on every load.",
+  "ziel": "fixtures/tests/catalog.spec.ts (the recommendations strip shows three distinct products)",
+  "max_faelle": 2,
+  "laeufe": 6,
+  "aenderungen": [
+    {
+      "datei": "tests/catalog.spec.ts",
+      "suchen": "  const names = await items.allTextContents();\n  expect(new Set(names).size).toBe(3);\n  for (const name of names) {\n    expect(PRODUCT_NAMES).toContain(name);\n  }",
+      "ersetzen": "  await expect(items.nth(0)).toHaveText('Burr Grinder');"
+    }
+  ]
+}

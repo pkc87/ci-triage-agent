@@ -1,0 +1,26 @@
+{
+  "id": "hist-013",
+  "quelle": "historisch",
+  "repo": "KornmuellerConsulting/apps",
+  "test_titel": "/unternehmen sieht aus wie abgenommen (desktop)",
+  "test_datei": "apps/kc-web/tests/visual/layout.spec.ts",
+  "test_zeile": 33,
+  "fehlermeldung": "    Error: expect(page).toHaveScreenshot(expected) failed\n\n      Expected an image 1440px by 3404px, received 1440px by 3439px. 460404 pixels (ratio 0.10 of all image pixels) are different.\n\n      Snapshot: unternehmen-desktop.png\n\n    Call log:\n      - Expect \"toHaveScreenshot(unternehmen-desktop.png)\" with timeout 5000ms\n        - verifying given screenshot expectation\n      - taking page screenshot\n        - disabled all CSS animations\n      - waiting for fonts to load...\n      - fonts loaded\n      - Expected an image 1440px by 3404px, received 1440px by 3439px. 460404 pixels (ratio 0.10 of all image pixels) are different.\n      - waiting 100ms before taking screenshot\n      - taking page screenshot\n        - disabled all CSS animations\n      - waiting for fonts to load...\n      - fonts loaded\n      - captured a stable screenshot\n      - Expected an image 1440px by 3404px, received 1440px by 3439px. 460404 pixels (ratio 0.10 of all image pixels) are different.",
+  "stack": "      39 |       await page.waitForTimeout(300);\n      40 |\n    > 41 |       await expect(page).toHaveScreenshot(`${dateiname(route)}-${b.name}.png`, {\n         |                          ^\n      42 |         fullPage: true,\n      43 |         animations: 'disabled',\n      44 |         // Enger als die 2 % aus playwright.config: eine ganzseitige Aufnahme ist\n        at /home/runner/work/apps/apps/apps/kc-web/tests/visual/layout.spec.ts:41:26",
+  "dauer_ms": null,
+  "versuche": [
+    {
+      "nr": 1,
+      "status": "failed"
+    }
+  ],
+  "artefakte": {
+    "diff": "diff.patch",
+    "ci_log": "log_excerpt.txt"
+  },
+  "kontext": {
+    "branch": "fix/KC-016-cloudflare-dmarc",
+    "commit": "4c6e53a10fe9cad2b7b11794d12a9d2134e97d20",
+    "ci_lauf": "https://github.com/KornmuellerConsulting/apps/actions/runs/34213646399"
+  }
+}

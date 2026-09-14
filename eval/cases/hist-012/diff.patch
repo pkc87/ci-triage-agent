@@ -1,0 +1,271 @@
+diff --git a/apps/kc-web/.probe-dir/tief/a.txt b/apps/kc-web/.probe-dir/tief/a.txt
+new file mode 100644
+index 0000000..c1b0730
+--- /dev/null
++++ b/apps/kc-web/.probe-dir/tief/a.txt
+@@ -0,0 +1 @@
++x
+\ No newline at end of file
+diff --git a/apps/kc-web/.probe.tmp b/apps/kc-web/.probe.tmp
+new file mode 100644
+index 0000000..c1b0730
+--- /dev/null
++++ b/apps/kc-web/.probe.tmp
+@@ -0,0 +1 @@
++x
+\ No newline at end of file
+diff --git a/apps/kc-web/package.json b/apps/kc-web/package.json
+index 59d0115..91326ed 100644
+--- a/apps/kc-web/package.json
++++ b/apps/kc-web/package.json
+@@ -12,7 +12,9 @@
+     "test": "playwright test --project=quality",
+     "test:e2e": "playwright test",
+     "test:visual:update": "playwright test --project=visual --update-snapshots",
+-    "clean": "rm -rf dist .astro .turbo test-results playwright-report"
++    "clean": "node scripts/clean.mjs",
++    "deploy:cf": "node scripts/deploy-cf.mjs",
++    "deploy:cf:live": "node scripts/deploy-cf.mjs --live"
+   },
+   "dependencies": {
+     "@fontsource/ibm-plex-mono": "^5.0.0",
+@@ -26,6 +28,7 @@
+     "eslint": "^9.10.0",
+     "eslint-plugin-astro": "^1.2.0",
+     "sharp": "^0.34.5",
+-    "typescript": "^5.6.0"
++    "typescript": "^5.6.0",
++    "wrangler": "^4.59.0"
+   }
+ }
+diff --git a/apps/kc-web/scripts/clean.mjs b/apps/kc-web/scripts/clean.mjs
+new file mode 100644
+index 0000000..f7c1643
+--- /dev/null
++++ b/apps/kc-web/scripts/clean.mjs
+@@ -0,0 +1,45 @@
++/**
++ * Räumt die Bau-Ordner ab — in Node, nicht über die Shell, und mit Nachweis.
++ *
++ * Zwei Fehler, die hier schon drinsteckten und beide still waren:
++ *
++ * 1. Vorher stand `rm -rf dist .astro …` im package.json. Das läuft in Git Bash
++ *    und bricht in PowerShell ab, weil es dort kein `rm` gibt. Wer die
++ *    Aufräumarbeit an die Shell delegiert, delegiert sie an die Shell, die
++ *    gerade zufällig läuft.
++ * 2. `rmSync(..., { force: true })` verschluckt Fehler. Auf Windows hält ein
++ *    laufender Vorschau- oder Dev-Server die Dateien in `dist/` offen, das
++ *    Löschen scheitert mit EBUSY — und das Skript meldete trotzdem Erfolg.
++ *    Ein Deploy hätte danach alte Dateien hochgeladen und behauptet, frisch
++ *    gebaut zu haben.
++ *
++ * Deshalb: mit Wiederholungen löschen und danach NACHSEHEN. Was noch da ist,
++ * wird namentlich gemeldet, und das Skript bricht ab.
++ */
++import { rmSync, existsSync } from 'node:fs';
++
++const ORDNER = ['dist', '.astro', '.turbo', 'test-results', 'playwright-report'];
++
++const geblieben = [];
++for (const o of ORDNER) {
++  try {
++    // maxRetries hilft gegen kurzzeitige Sperren; gegen einen laufenden Server
++    // hilft es nicht — dann soll es auffallen.
++    rmSync(o, { recursive: true, force: true, maxRetries: 5, retryDelay: 200 });
++  } catch (e) {
++    geblieben.push(`${o} (${e.code ?? e.message})`);
++    continue;
++  }
++  if (existsSync(o)) geblieben.push(`${o} (noch vorhanden)`);
++}
++
++if (geblieben.length) {
++  console.error(
++    `\nAufräumen fehlgeschlagen: ${geblieben.join(', ')}\n\n` +
++      'Meist hält ein laufender Server die Dateien offen — der Dev-Server auf Port 4324\n' +
++      'oder eine Vorschau auf 4325/4326. Beenden und noch einmal starten.\n',
++  );
++  process.exit(1);
++}
++
++console.log(`aufgeräumt: ${ORDNER.join(', ')}`);
+diff --git a/apps/kc-web/scripts/deploy-cf.mjs b/apps/kc-web/scripts/deploy-cf.mjs
+new file mode 100644
+index 0000000..1312a9e
+--- /dev/null
++++ b/apps/kc-web/scripts/deploy-cf.mjs
+@@ -0,0 +1,146 @@
++/**
++ * Deploy nach Cloudflare Pages.
++ *
++ *   corepack pnpm --filter kc-web deploy:cf         → Vorschau (Branch "preview")
++ *   corepack pnpm --filter kc-web deploy:cf:live    → Produktion (Branch "main")
++ *
++ * Läuft auf jeder Konsole: alles, was nicht `pnpm` ist, passiert in Node. Ein
++ * `rm -rf` im package.json hat am 08.09.2026 in PowerShell schon in der ersten
++ * Zeile abgebrochen.
++ *
++ * Warum ein Skript und kein nackter wrangler-Aufruf — drei Fehlerquellen:
++ *
++ * 1. **Es wird nachgewiesen, dass dist/ sauber ist.** Astro räumt den Ordner vor
++ *    jedem Bau selbst aus. Verlässt man sich darauf, merkt man nicht, wenn es
++ *    einmal nicht klappt: ein gesperrter Ordner, ein laufender Vorschau-Server,
++ *    eine Umgebung, die Löschen stillschweigend verweigert. Wer darauf
++ *    verzichtet, lädt irgendwann ein Bild hoch, das vor drei Wochen entfernt
++ *    wurde, und sieht es nicht.
++ * 2. **Es lädt nur mit grünem Gate hoch.** Ein Deploy ohne Test ist genau das,
++ *    was diese App vermeiden soll. Mit `--skip-tests` übergehbar, dann aber
++ *    sichtbar im Protokoll.
++ * 3. **Produktion ist eine bewusste Geste.** Ohne `--live` geht es auf einen
++ *    Vorschau-Branch, der die Live-Domain nicht anfasst.
++ *
++ * Achtung beim Livegang: `noindex` steht in den Layouts auf `true`. Für die
++ * Vorschau ist das richtig — eine öffentlich erreichbare Vorschau gehört nicht
++ * in den Suchindex. Vor dem echten Cutover muss es raus, siehe BLOCKERS.md.
++ */
++import { execFileSync } from 'node:child_process';
++import { existsSync, readdirSync, rmSync } from 'node:fs';
++import { join, sep } from 'node:path';
++
++const PROJEKT = 'kc-web';
++const HOST = 'kc-web-ctt.pages.dev';
++
++const live = process.argv.includes('--live');
++const ohneTests = process.argv.includes('--skip-tests');
++const branch = live ? 'main' : 'preview';
++
++const lauf = (cmd, args) => {
++  console.log(`\n→ ${cmd} ${args.join(' ')}`);
++  execFileSync(cmd, args, { stdio: 'inherit', shell: process.platform === 'win32' });
++};
++
++/** Alle Dateien unterhalb eines Ordners, rekursiv. */
++const alleDateien = (dir, gesammelt = []) => {
++  for (const e of readdirSync(dir, { withFileTypes: true })) {
++    const p = join(dir, e.name);
++    if (e.isDirectory()) alleDateien(p, gesammelt);
++    else gesammelt.push(p);
++  }
++  return gesammelt;
++};
++
++const relativ = (wurzel, p) => p.slice(wurzel.length + 1).split(sep).join('/');
++
++console.log(`Ziel: ${PROJEKT} · Branch "${branch}"${live ? ' · PRODUKTION' : ''}`);
++
++// Aufräumen ist ein Versuch, kein Versprechen — Astro räumt ohnehin selbst aus,
++// und ob es geklappt hat, entscheidet die Prüfung nach dem Bau.
++try {
++  rmSync('dist', { recursive: true, force: true, maxRetries: 5, retryDelay: 200 });
++} catch (e) {
++  console.warn(`  (dist/ liess sich nicht vorab entfernen: ${e.code ?? e.message})`);
++}
++
++lauf('corepack', ['pnpm', 'run', 'build']);
++
++if (!existsSync('dist/index.html')) {
++  console.error('\ndist/index.html fehlt — der Bau ist nicht durchgelaufen.');
++  process.exit(1);
++}
++
++/*
++ * Der Nachweis läuft über die HERKUNFT, nicht über Zeitstempel: Astro kopiert
++ * public/ mit dem ursprünglichen Datum, diese Dateien sind also legitim älter
++ * als der Bau. Ein erster Anlauf über mtime hat genau sie fälschlich gemeldet.
++ *
++ * Was in dist/ hingehört: alles unter _astro/ (von Astro erzeugt), jede
++ * index.html einer Route, und jede Datei, die es auch in public/ gibt. Alles
++ * andere ist der Rest eines früheren Baus.
++ */
++const ausPublic = new Set(
++  existsSync('public') ? alleDateien('public').map((f) => relativ('public', f)) : [],
++);
++
++const fremde = () =>
++  alleDateien('dist')
++    .map((f) => relativ('dist', f))
++    .filter((r) => !r.startsWith('_astro/') && !r.endsWith('index.html') && !ausPublic.has(r));
++
++// Reste werden ENTFERNT, nicht beklagt. dist/ ist ein Wegwerf-Ordner; eine
++// Datei daraus zu löschen kostet nichts und ist immer richtig. Abbrechen wäre
++// hier die falsche Strenge — der Lauf soll durchgehen, nur eben ohne den Rest.
++const reste = fremde();
++for (const r of reste) {
++  console.log(`  entferne Rest aus früherem Bau: dist/${r}`);
++  try {
++    rmSync(join('dist', r.split('/').join(sep)), { force: true, maxRetries: 5, retryDelay: 200 });
++  } catch (e) {
++    console.warn(`    (ging nicht: ${e.code ?? e.message})`);
++  }
++}
++
++const hartnaeckig = fremde();
++if (hartnaeckig.length) {
++  console.error(
++    [
++      '',
++      `${hartnaeckig.length} Datei(en) liessen sich nicht aus dist/ entfernen:`,
++      hartnaeckig.map((f) => `  dist/${f}`).join('\n'),
++      '',
++      'Meist hält ein laufender Server den Ordner offen — Dev auf 4324, Vorschau',
++      'auf 4325 oder 4326. Beenden, dann erneut. Hochgeladen wird so nicht.',
++      '',
++    ].join('\n'),
++  );
++  process.exit(1);
++}
++
++console.log(
++  `\n✓ dist/ ist sauber: ${alleDateien('dist').length} Dateien` +
++    (reste.length ? `, ${reste.length} Rest(e) entfernt.` : ', keine Reste.'),
++);
++
++if (ohneTests) {
++  console.warn('\n⚠ Tests übersprungen (--skip-tests). Das ist die Ausnahme, nicht der Weg.');
++} else {
++  lauf('corepack', ['pnpm', 'run', 'test']);
++}
++
++lauf('corepack', [
++  'pnpm',
++  'exec',
++  'wrangler',
++  'pages',
++  'deploy',
++  'dist',
++  '--project-name',
++  PROJEKT,
++  '--branch',
++  branch,
++  '--commit-dirty=true',
++]);
++
++console.log(`\nFertig: https://${live ? '' : branch + '.'}${HOST}`);
+diff --git a/apps/kc-web/src/content/de.ts b/apps/kc-web/src/content/de.ts
+index cd5a716..fd4a54c 100644
+--- a/apps/kc-web/src/content/de.ts
++++ b/apps/kc-web/src/content/de.ts
+@@ -293,7 +293,7 @@ export const de: SiteContent = {
+   },
+ 
+   company: {
+-    heroTitle: 'Zwei Leute. Das ist keine Einschränkung, das ist das Angebot.',
++    heroTitle: 'Zwei Leute. Die Eskalation endet bei dem, der es gebaut hat.',
+     heroLede:
+       'Sie arbeiten mit denen, die liefern. Es gibt niemanden dazwischen, der verkauft und dann weiterreicht.',
+     originTitle: 'Woher wir kommen',
+diff --git a/apps/kc-web/src/content/en.ts b/apps/kc-web/src/content/en.ts
+index dbcf2d2..6838b71 100644
+--- a/apps/kc-web/src/content/en.ts
++++ b/apps/kc-web/src/content/en.ts
+@@ -300,7 +300,7 @@ export const en: SiteContent = {
+   },
+ 
+   company: {
+-    heroTitle: 'Two people. That is not a limitation, that is the offer.',
++    heroTitle: 'Two people. An escalation ends with whoever built it.',
+     heroLede:
+       'You work with the people who deliver. There is nobody in between who sells and then hands it on.',
+     originTitle: 'Where we come from',
+[... truncated 504 lines / 20 further files of 773 total; full diff = git diff 34b8d949e2..da6194ac80 in KornmuellerConsulting/apps ...]
+[redacted before publication: apps/kc-web/BLOCKERS.md and apps/kc-web/DECISIONS.md are excluded from this patch via git pathspec -- they name a third-party reference customer whose written approval was still pending. Nothing else was altered.]

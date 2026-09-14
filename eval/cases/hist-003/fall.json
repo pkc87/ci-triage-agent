@@ -1,0 +1,26 @@
+{
+  "id": "hist-003",
+  "quelle": "historisch",
+  "repo": "KornmuellerConsulting/apps",
+  "test_titel": "/projekte — kein Querlauf (mobil)",
+  "test_datei": "apps/kc-web/tests/quality/pages.spec.ts",
+  "test_zeile": 79,
+  "fehlermeldung": "    Error: browserType.launch: Executable doesn't exist at /home/runner/.cache/ms-playwright/chromium_headless_shell-1217/chrome-headless-shell-linux64/chrome-headless-shell\n    ╔════════════════════════════════════════════════════════════╗\n    ║ Looks like Playwright was just installed or updated.       ║\n    ║ Please run the following command to download new browsers: ║\n    ║                                                            ║\n    ║     pnpm exec playwright install                           ║\n    ║                                                            ║\n    ║ <3 Playwright Team                                         ║\n    ╚════════════════════════════════════════════════════════════╝",
+  "stack": "",
+  "dauer_ms": null,
+  "versuche": [
+    {
+      "nr": 1,
+      "status": "failed"
+    }
+  ],
+  "artefakte": {
+    "diff": "diff.patch",
+    "ci_log": "log_excerpt.txt"
+  },
+  "kontext": {
+    "branch": "claude/neue-website-bauen-98626e",
+    "commit": "e69bf5f68f25df70d9ddb1c2054dd1912c7a3aac",
+    "ci_lauf": "https://github.com/KornmuellerConsulting/apps/actions/runs/34144406466"
+  }
+}

@@ -1,0 +1,428 @@
+diff --git a/.claude/launch.json b/.claude/launch.json
+index 6f1a6a3..14e1e94 100644
+--- a/.claude/launch.json
++++ b/.claude/launch.json
+@@ -4,38 +4,89 @@
+     {
+       "name": "flylee-sites",
+       "runtimeExecutable": "corepack",
+-      "runtimeArgs": ["pnpm", "--filter", "flylee-sites", "dev", "--", "--port", "4321"],
++      "runtimeArgs": [
++        "pnpm",
++        "--filter",
++        "flylee-sites",
++        "dev",
++        "--",
++        "--port",
++        "4321"
++      ],
+       "port": 4321
+     },
+     {
+       "name": "flylee-web",
+       "runtimeExecutable": "corepack",
+-      "runtimeArgs": ["pnpm", "--filter", "flylee-web", "dev", "--", "--port", "4322"],
++      "runtimeArgs": [
++        "pnpm",
++        "--filter",
++        "flylee-web",
++        "dev",
++        "--",
++        "--port",
++        "4322"
++      ],
+       "port": 4322
+     },
+     {
+       "name": "mockups",
+       "runtimeExecutable": "python",
+-      "runtimeArgs": ["-m", "http.server", "8099", "--directory", "docs/flylee/mockups"],
++      "runtimeArgs": [
++        "-m",
++        "http.server",
++        "8099",
++        "--directory",
++        "docs/flylee/mockups"
++      ],
+       "port": 8099
+     },
+     {
+       "name": "ai-samples",
+       "runtimeExecutable": "python",
+-      "runtimeArgs": ["-m", "http.server", "8123", "--directory", "docs/flylee/ai-samples"],
++      "runtimeArgs": [
++        "-m",
++        "http.server",
++        "8123",
++        "--directory",
++        "docs/flylee/ai-samples"
++      ],
+       "port": 8123
+     },
+     {
+       "name": "flylee-ops",
+       "runtimeExecutable": "corepack",
+-      "runtimeArgs": ["pnpm", "--filter", "flylee-ops", "dev"],
++      "runtimeArgs": [
++        "pnpm",
++        "--filter",
++        "flylee-ops",
++        "dev"
++      ],
+       "port": 4323
+     },
+     {
+       "name": "snaxolotl",
+       "runtimeExecutable": "corepack",
+-      "runtimeArgs": ["pnpm", "--filter", "snaxolotl", "dev"],
++      "runtimeArgs": [
++        "pnpm",
++        "--filter",
++        "snaxolotl",
++        "dev"
++      ],
+       "port": 5173
++    },
++    {
++      "name": "kc-web",
++      "runtimeExecutable": "corepack",
++      "runtimeArgs": [
++        "pnpm",
++        "--filter",
++        "kc-web",
++        "dev",
++        "--port",
++        "4324"
++      ],
++      "port": 4324
+     }
+   ]
+ }
+diff --git a/apps/kc-web/.claude/app.json b/apps/kc-web/.claude/app.json
+new file mode 100644
+index 0000000..fc9168b
+--- /dev/null
++++ b/apps/kc-web/.claude/app.json
+@@ -0,0 +1,5 @@
++{
++  "name": "kc-web",
++  "prefix": "KC",
++  "description": "Firmenwebsite kornmueller-consulting.de — Astro 5, statisch, Cloudflare Pages"
++}
+diff --git a/apps/kc-web/.gitignore b/apps/kc-web/.gitignore
+new file mode 100644
+index 0000000..d4d6ff8
+--- /dev/null
++++ b/apps/kc-web/.gitignore
+@@ -0,0 +1,6 @@
++dist/
++.astro/
++node_modules/
++test-results/
++playwright-report/
++.turbo/
+diff --git a/apps/kc-web/CLAUDE.md b/apps/kc-web/CLAUDE.md
+new file mode 100644
+index 0000000..77019fb
+--- /dev/null
++++ b/apps/kc-web/CLAUDE.md
+@@ -0,0 +1,110 @@
++# kc-web — Firmenwebsite kornmueller-consulting.de
++
++Astro 5, statischer Output, Cloudflare Pages. Ersetzt die WordPress-/Elementor-Seite.
++Ticket-Präfix **KC**.
++
++## Die vier Regeln, aus denen alles folgt
++
++1. **Kein Scrape.** Kein Elementor-CSS, kein `dangerouslySetInnerHTML`, kein jQuery,
++   keine WordPress-Mediathek. Der Vorgänger (`origin/kc-website/init`) hat das
++   versucht: 1,13 MB fremdes HTML, 69 Stylesheets, 48,6 MB Assets — und 14 von 18
++   Bildern rendern dort unsichtbar. Diese App ist der Gegenentwurf.
++2. **Jede Aussage kommt aus `src/content/`.** Keine Zahlen, Preise oder Referenzen
++   im Fließtext einer Komponente. Was keine Quelle im Kommentar hat, kommt nicht
++   auf die Seite.
++3. **Vor-Ort-Aussagen leben ausschließlich in `content/delivery.ts`.** Ein Test
++   erzwingt das. Beim Umzug schaltet `deliveryMode` die gesamte Website um — in
++   allen drei Sprachen, weil `SiteContent` beide Modi je Sprache erzwingt.
++4. **Zahlen im Text werden abgeleitet, nicht getippt.** „dreizehn Referenzkunden"
++   kommt aus `proof.ts`, „acht Projekte" aus `cases.ts`. In der freigegebenen
++   Textvorlage standen „Sieben Projekte" über acht Projekten und „Zwölf
++   Referenzkunden" bei dreizehn Namen — genau das kann so nicht mehr passieren.
++
++## Aufbau
++
++```
++src/content/
++  schema.ts    Die Form, die jede Sprachfassung erfüllen MUSS. astro check
++               bricht ab, wenn en.ts oder es.ts ein Feld von de.ts fehlt.
++  de.ts        Ausgangsfassung. EN und ES sind daraus abgeleitet.
++  en.ts es.ts  Sprachfassungen. Glossar im Dateikopf ist verbindlich.
++  i18n.ts      Routentabelle — EINE Quelle für Navigation, Sprachumschalter,
++               hreflang, Screenshots und die Routenliste des Gates.
++  brand.ts     Marke, Stammdaten, Impressumsangaben, Terminlink, Personen.
++  proof.ts     Kundenreihe und Kundenstimmen (sprachneutrale Fakten).
++  cases.ts     Projekte und Mandate (sprachneutrale Fakten).
++  delivery.ts  Der Umzugsschalter. Genau eine Entscheidung.
++  media.ts     ERZEUGT von scripts/prepare-assets.mjs. Nicht von Hand ändern.
++
++src/components/pages/   Eine Komponente je Seite, nimmt `lang` als Prop.
++src/pages/              17 Routendateien, drei Zeilen je Datei.
++```
++
++Eine neue Seite braucht: Eintrag in `i18n.ts`, Felder im `schema.ts`, Text in
++allen drei Sprachdateien, eine Seitenkomponente, drei Routendateien. Das Gate
++nimmt sie danach automatisch mit.
++
++## Befehle
++
++```bash
++corepack pnpm --filter kc-web dev            # Dev-Server (Port 4324 via .claude/launch.json)
++corepack pnpm --filter kc-web build
++corepack pnpm --filter kc-web typecheck      # astro check — prüft auch Übersetzungsvollständigkeit
++corepack pnpm --filter kc-web lint
++corepack pnpm --filter kc-web test           # Qualitäts-Gate, 127 Tests
++node scripts/prepare-assets.mjs              # Logos, Favicons, Portraits → public/img + media.ts
++MSYS_NO_PATHCONV=1 node scripts/shoot.mjs http://127.0.0.1:4325   # Screenshots aller Routen
++```
++
++Zwei Windows-Fallen: ohne `corepack enable` liegt kein `pnpm` auf dem PATH und
++`turbo` bricht bei jedem Task ab. Und in Git Bash schreibt MSYS ein führendes `/`
++in einen Windows-Pfad um — deshalb `MSYS_NO_PATHCONV=1` vor `shoot.mjs --routes`.
++
++## Das Qualitäts-Gate (`tests/quality/pages.spec.ts`)
++
++Läuft über **alle 17 Routen** aus `content/i18n.ts`. Eine Seite, die dort nicht
++steht, gilt als nicht gebaut.
++
++| Prüfung | Warum es sie gibt |
++|---|---|
++| Kein Bild mit `naturalWidth === 0` oder 0 px Breite | Der Fehler, an dem die Portierung gestorben ist: `loading="lazy"` + `width:auto` ⇒ 0 px ⇒ `srcset` wird nie aufgelöst. Sah aus wie ein 404 und war keiner |
++| Keine Konsolenfehler | — |
++| Kein horizontaler Überlauf bei 375 / 768 / 1440 | — |
++| Transfergewicht unter 500 KB | Die alte Startseite lädt 69 Stylesheets plus jQuery |
++| Genau eine `h1` | — |
++| Keine Fremd-Hosts, kein jQuery | Cookiefrei ⇒ kein Consent-Banner nötig. Sichert zugleich die zentrale Aussage der Datenschutzerklärung ab |
++| Keine Vor-Ort-Aussage außerhalb von `delivery.ts` | Hält den Umzugs-Schalter funktionsfähig |
++| **Keine Formulierung von der Verbotsliste** | Alter Claim, BWI, Endkundennamen Dritter, Preise, die zwei Falschaussagen zu Fanatec und BSH, unbelegte Prozentzahlen. Jeder Eintrag trägt seine Begründung im Test |
++| **Glossartreue in EN und ES** | `acceptance testing` und `pruebas de aceptación` stellen die Firma wieder als Testdienstleister hin — also als das, was die neue Ausrichtung verlässt |
++| **Arbeitssprachen auf jeder ES-Seite** | Ohne den Hinweis erzeugt die spanische Fassung Anfragen, die im Haus niemand bedienen kann |
++| **Kein toter interner Verweis** | Jeder `href="/…"` wird tatsächlich abgerufen |
++| **hreflang vollständig und symmetrisch** | Auf der alten Seite stand `/es/` in keiner Sitemap und lieferte trotzdem HTTP 200 |
++| **Impressum und Datenschutz von jeder Seite erreichbar** | Pflichtangabe |
++
++Gegenprobe, dass das Gate greift: eine verbotene Formulierung in eine
++Sprachdatei schreiben — der Test muss Route, Fundstelle und Grund melden.
++Am 07.09.2026 mit „BWI", „Festpreis" und „4900 €" gemacht, alle drei gefangen.
++
++`reuseExistingServer` steht bewusst auf `false`: ein noch laufender
++Vorschau-Server liefert ein altes `dist/`, und weil ein Teil der Prüfungen den
++gebauten HTML-Text liest, meldet das Gate dann Fehler, die es nicht gibt — oder
++schlimmer, keine, die es gibt. Lieber ein lauter Portkonflikt.
++
++## Bilder
++
++- Jedes `<img>` trägt `width` und `height` als **Attribut**, mit den echten
++  Intrinsic-Maßen aus `content/media.ts` (mit `sharp` gemessen, nicht geschätzt).
++- `loading="lazy"` nur unterhalb des ersten Bildschirms. Alles im Hero: `eager`.
++- Portraits liegen als 900 × 1200 Quelle unter `assets/portraits/` im Repo, damit
++  der Build ohne OneDrive reproduzierbar bleibt. Es sind dieselben Aufnahmen wie
++  im CV — die Zielgruppe ist laut Handoff unter anderem „jemand mit dem CV in
++  der Hand".
++- Die Logo-Marke (`components/Swoosh.astro`) ist inline, nicht `<img>`: so kommt
++  die Farbe über `currentColor` aus dem Band und es entsteht kein Abruf.
++
++## Offen
++
++Siehe `BLOCKERS.md`. Kurz: spanische Fassung gegenlesen lassen, `noindex` raus,
++neun 301-Weiterleitungen, AV-Vertrag Cloudflare prüfen. Und ein Befund an der
++**alten** Seite, der jetzt gilt: der Hinweis auf die EU-Streitbeilegungsplattform
++muss dort raus, die Plattform ist seit 20.07.2025 abgeschaltet.
+diff --git a/apps/kc-web/README.md b/apps/kc-web/README.md
+new file mode 100644
+index 0000000..6663ad3
+--- /dev/null
++++ b/apps/kc-web/README.md
+@@ -0,0 +1,9 @@
++# kc-web
++
++Firmenwebsite **kornmueller-consulting.de** — Astro 5, statisch, cookiefrei.
++
++Konventionen, Befehle und das Qualitäts-Gate stehen in [CLAUDE.md](./CLAUDE.md).
++Entscheidungen in [DECISIONS.md](./DECISIONS.md).
++
++Stand: Startseite und `/ki-sprint` gebaut, 16 Qualitätstests grün.
++Die Live-Seite läuft weiterhin auf WordPress und wird davon nicht berührt.
+diff --git a/apps/kc-web/assets/portraits/justin-quelle.jpg b/apps/kc-web/assets/portraits/justin-quelle.jpg
+new file mode 100644
+index 0000000..268b231
+Binary files /dev/null and b/apps/kc-web/assets/portraits/justin-quelle.jpg differ
+diff --git a/apps/kc-web/assets/portraits/patrick-quelle.jpg b/apps/kc-web/assets/portraits/patrick-quelle.jpg
+new file mode 100644
+index 0000000..2e0dc51
+Binary files /dev/null and b/apps/kc-web/assets/portraits/patrick-quelle.jpg differ
+diff --git a/apps/kc-web/astro.config.mjs b/apps/kc-web/astro.config.mjs
+new file mode 100644
+index 0000000..991e450
+--- /dev/null
++++ b/apps/kc-web/astro.config.mjs
+@@ -0,0 +1,13 @@
++import { defineConfig } from 'astro/config';
++
++// Firmenwebsite Kornmüller Consulting — statischer Output, Cloudflare Pages
++// (kein Adapter, kein SSR). Kein Tracking, keine Cookies, keine Fremd-CDNs:
++// Schriften liegen selbst gehostet in node_modules/@fontsource und werden
++// mitgebaut. Deshalb braucht die Seite kein Consent-Banner.
++export default defineConfig({
++  output: 'static',
++  trailingSlash: 'ignore',
++  site: 'https://kornmueller-consulting.de',
++  build: { format: 'directory' },
++  devToolbar: { enabled: false },
++});
+diff --git a/apps/kc-web/eslint.config.mjs b/apps/kc-web/eslint.config.mjs
+new file mode 100644
+index 0000000..e28fbdf
+--- /dev/null
++++ b/apps/kc-web/eslint.config.mjs
+@@ -0,0 +1,6 @@
++import eslintPluginAstro from 'eslint-plugin-astro';
++
++export default [
++  ...eslintPluginAstro.configs.recommended,
++  { ignores: ['dist/**', '.astro/**', 'test-results/**', 'playwright-report/**'] },
++];
+diff --git a/apps/kc-web/package.json b/apps/kc-web/package.json
+new file mode 100644
+index 0000000..59d0115
+--- /dev/null
++++ b/apps/kc-web/package.json
+@@ -0,0 +1,31 @@
++{
++  "name": "kc-web",
++  "version": "0.0.1",
++  "private": true,
++  "type": "module",
++  "scripts": {
++    "dev": "astro dev",
++    "build": "astro build",
++    "preview": "astro preview",
++    "typecheck": "astro check",
++    "lint": "eslint . --max-warnings=0",
++    "test": "playwright test --project=quality",
++    "test:e2e": "playwright test",
++    "test:visual:update": "playwright test --project=visual --update-snapshots",
++    "clean": "rm -rf dist .astro .turbo test-results playwright-report"
++  },
++  "dependencies": {
++    "@fontsource/ibm-plex-mono": "^5.0.0",
++    "@fontsource/lato": "^5.0.0",
++    "astro": "^5.0.0"
++  },
++  "devDependencies": {
++    "@astrojs/check": "^0.9.0",
++    "@playwright/test": "^1.48.0",
++    "@typescript-eslint/parser": "^8.0.0",
++    "eslint": "^9.10.0",
++    "eslint-plugin-astro": "^1.2.0",
++    "sharp": "^0.34.5",
++    "typescript": "^5.6.0"
++  }
++}
+diff --git a/apps/kc-web/playwright.config.ts b/apps/kc-web/playwright.config.ts
+new file mode 100644
+index 0000000..f311596
+--- /dev/null
++++ b/apps/kc-web/playwright.config.ts
+@@ -0,0 +1,46 @@
++/**
++ * Zwei Projekte:
++ *   quality  — harte Zusicherungen, die jeder Commit halten muss
++ *              (Bilder sichtbar, keine Konsolenfehler, kein Querlauf, Gewicht).
++ *   visual   — Baseline-Screenshots, erst ab Phase 04 sinnvoll.
++ *
++ * Iteration:  corepack pnpm --filter kc-web test
++ * Alles:      corepack pnpm --filter kc-web test:e2e
++ * Baselines:  corepack pnpm --filter kc-web test:visual:update
++ */
++import { defineConfig } from '@playwright/test';
++
++export default defineConfig({
++  testDir: './tests',
++  fullyParallel: false,
++  forbidOnly: !!process.env.CI,
++  retries: 0,
++  reporter: process.env.CI ? 'github' : 'list',
++  use: {
++    baseURL: 'http://127.0.0.1:4325',
++    trace: 'retain-on-failure',
++  },
++  expect: {
++    toHaveScreenshot: { maxDiffPixelRatio: 0.02, animations: 'disabled' },
++  },
++  projects: [
++    { name: 'quality', testDir: './tests/quality' },
++    { name: 'visual', testDir: './tests/visual' },
++  ],
++  webServer: {
++    command:
++      'corepack pnpm exec astro build && corepack pnpm exec astro preview --host 127.0.0.1 --port 4325',
++    url: 'http://127.0.0.1:4325/',
++    /**
++     * Bewusst NICHT wiederverwenden. Ein noch laufender Vorschau-Server liefert
++     * ein altes dist/, und weil ein Teil der Prüfungen den gebauten HTML-Text
++     * liest, meldet das Gate dann Fehler, die es nicht gibt — oder schlimmer:
++     * es meldet keine, die es gibt. Am 07.09.2026 genau so passiert.
++     * Lieber ein lauter Portkonflikt als ein stilles Falschergebnis.
++     */
++    reuseExistingServer: false,
++    timeout: 120_000,
++    stdout: 'pipe',
++    stderr: 'pipe',
++  },
++});
+diff --git a/apps/kc-web/public/apple-touch-icon.png b/apps/kc-web/public/apple-touch-icon.png
+new file mode 100644
+index 0000000..1a7df31
+Binary files /dev/null and b/apps/kc-web/public/apple-touch-icon.png differ
+diff --git a/apps/kc-web/public/favicon-32x32.png b/apps/kc-web/public/favicon-32x32.png
+new file mode 100644
+index 0000000..4295009
+Binary files /dev/null and b/apps/kc-web/public/favicon-32x32.png differ
+diff --git a/apps/kc-web/public/favicon.ico b/apps/kc-web/public/favicon.ico
+new file mode 100644
+index 0000000..f529717
+Binary files /dev/null and b/apps/kc-web/public/favicon.ico differ
+diff --git a/apps/kc-web/public/img/logo-inverted.svg b/apps/kc-web/public/img/logo-inverted.svg
+new file mode 100644
+index 0000000..74f8842
+--- /dev/null
++++ b/apps/kc-web/public/img/logo-inverted.svg
+@@ -0,0 +1 @@
++<?xml version="1.0" encoding="UTF-8"?><svg id="Layer_2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 509.458 104.6929"><g id="Components"><g id="_6629f8cd-734f-4364-aaba-6ac07a26ecc0_7"><path d="M308.5042,5.6546c18.811,2.278,37.6972,2.4535,56.594,2.0517,14.9467-.3272,29.9894-.8992,44.0178-6.8951,4.657-2.0883,10.125-.0059,12.2131,4.6511,3.4694,7.7496-4.5711,15.6542-12.2132,12.2129-12.0614-5.1261-24.8635-6.3491-37.7294-6.7091-12.573-.445-25.1533-.5057-37.7295-.0413-8.3843.3168-16.7686.8416-25.1528,1.9071-1.9819.2518-3.793-1.1506-4.0449-3.1326-.3252-2.3083,1.7425-4.3659,4.0449-4.0448h0Z" style="fill:#f5822b; stroke-width:0px;"/><path d="M9.2734,44.4097h1.8242c1.5244,0,2.627-.4736,3.3076-1.4219l11.3447-15.1787c.5361-.7207,1.123-1.2207,1.7627-1.499.6387-.2783,1.4219-.418,2.3486-.418h8.0381l-14.2822,18.3936c-.9277,1.1953-1.8857,2.0508-2.875,2.5664.7217.2881,1.3701.6641,1.9473,1.1279s1.1338,1.0771,1.6699,1.8389l14.6523,20.9287h-8.2539c-.5361,0-.9941-.041-1.375-.124-.3818-.082-.7168-.1953-1.0049-.3398-.2891-.1436-.5361-.3242-.7422-.541-.2061-.2158-.4014-.4688-.5869-.7568l-11.5312-16.1367c-.3916-.5566-.8545-.9531-1.3906-1.1904-.5361-.2363-1.2881-.3555-2.2568-.3555h-2.5967v19.4443H0V25.8921h9.2734v18.5176Z" style="fill:#fff; stroke-width:0px;"/><path d="M94.2354,48.3042c0,3.2773-.5518,6.3174-1.6533,9.1201-1.1035,2.8027-2.6592,5.2236-4.668,7.2646-2.0098,2.04-4.4268,3.6426-7.25,4.8066-2.8232,1.1641-5.9561,1.7461-9.3975,1.7461s-6.5742-.582-9.3975-1.7461-5.2451-2.7666-7.2646-4.8066c-2.0195-2.041-3.5811-4.4619-4.6836-7.2646s-1.6533-5.8428-1.6533-9.1201.5508-6.3105,1.6533-9.1035c1.1025-2.792,2.6641-5.209,4.6836-7.249,2.0195-2.04,4.4414-3.6426,7.2646-4.8076,2.8232-1.1641,5.9561-1.7461,9.3975-1.7461s6.5742.582,9.3975,1.7461c2.8232,1.165,5.2402,2.7725,7.25,4.8232,2.0088,2.0508,3.5645,4.4717,4.668,7.2646,1.1016,2.792,1.6533,5.8164,1.6533,9.0723ZM84.7451,48.3042c0-2.3486-.3096-4.4561-.9277-6.3213-.6182-1.8652-1.5098-3.4521-2.6738-4.7607-1.1641-1.3086-2.5762-2.3076-4.2354-2.999-1.6592-.6895-3.5391-1.0352-5.6416-1.0352s-3.9873.3457-5.6572,1.0352c-1.6689.6914-3.0859,1.6904-4.25,2.999-1.165,1.3086-2.0557,2.8955-2.6738,4.7607-.6182,1.8652-.9277,3.9727-.9277,6.3213,0,2.3701.3096,4.4883.9277,6.3535.6182,1.8652,1.5088,3.4463,2.6738,4.7451,1.1641,1.2979,2.5811,2.292,4.25,2.9824,1.6699.6914,3.5557,1.0361,5.6572,1.0361s3.9824-.3447,5.6416-1.0361c1.6592-.6904,3.0713-1.6846,4.2354-2.9824,1.1641-1.2988,2.0557-2.8799,2.6738-4.7451.6182-1.8652.9277-3.9834.9277-6.3535Z" style="fill:#fff; stroke-width:0px;"/><path d="M146.8926,70.7475h-8.3779c-1.5664,0-2.7002-.5977-3.4004-1.793l-8.5322-13.7568c-.3506-.5352-.7373-.9268-1.1592-1.1738-.4229-.248-1.0459-.3711-1.8701-.3711h-3.1533v17.0947h-9.2734V25.8921h14.0957c3.1328,0,5.8115.3252,8.0381.9746,2.2256.6484,4.0488,1.5508,5.4717,2.7041,1.4219,1.1543,2.4619,2.5303,3.1221,4.127.6592,1.5977.9893,3.3545.9893,5.2715,0,1.4834-.2119,2.8896-.6338,4.2188-.4229,1.3301-1.0361,2.541-1.8398,3.6328-.8037,1.0928-1.793,2.0605-2.9678,2.9063-1.1738.8447-2.5146,1.5244-4.0186,2.04.5977.3301,1.1543.7266,1.6699,1.1895.5146.4639.9785,1.0156,1.3906,1.6543l10.4492,16.1367ZM125.1602,47.1294c1.5039,0,2.8027-.1895,3.8955-.5713,1.0918-.3809,1.9883-.9072,2.6895-1.5771.7002-.6689,1.2148-1.457,1.5449-2.3643.3301-.9072.4951-1.8965.4951-2.9678,0-2.1221-.7061-3.7715-2.1182-4.9463-1.4111-1.1748-3.5596-1.7617-6.4453-1.7617h-4.8223v14.1885h4.7607Z" style="fill:#fff; stroke-width:0px;"/><path d="M199.833,25.8921v44.8555h-4.792c-.7217,0-1.3291-.1182-1.8232-.3555-.4951-.2363-.9795-.6436-1.4531-1.2207l-22.3506-28.4404c.0625.7217.1084,1.4326.1396,2.1328.0303.7012.0459,1.3506.0459,1.9473v25.9365h-8.1914V25.8921h4.8838c.3916,0,.7266.0156,1.0049.0469s.5303.1035.7568.2158c.2266.1143.4434.2637.6494.4482.2061.1855.4326.4336.6807.7422l22.5049,28.5645c-.083-.7832-.1445-1.541-.1855-2.2725-.042-.7314-.0625-1.4268-.0625-2.0869v-25.6582h8.1924Z" style="fill:#fff; stroke-width:0px;"/><path d="M268.7393,25.8921v44.8555h-8.1924v-27.5439c0-.5762.0156-1.1943.0469-1.8545.0303-.6592.0869-1.3291.1699-2.0098l-12.8291,24.3291c-.7012,1.3398-1.7832,2.0098-3.2461,2.0098h-1.2979c-.7217,0-1.3604-.1709-1.917-.5107-.5566-.3398-1-.8389-1.3291-1.499l-12.8906-24.4219c.0615.7217.1123,1.418.1543,2.0869.041.6699.0615,1.2939.0615,1.8701v27.5439h-8.1914V25.8921h7.0479c.3916,0,.7422.0107,1.0508.0313.3096.0205.582.0771.8193.1699.2363.0928.4531.2373.6494.4326.1953.1963.3867.4697.5713.8193l12.5508,23.9268c.3916.7217.7578,1.4639,1.0977,2.2256.3398.7627.665,1.5459.9736,2.3496.3096-.8242.6338-1.6279.9736-2.4111.3408-.7832.7061-1.5352,1.0977-2.2568l12.458-23.834c.1855-.3496.3818-.623.5879-.8193.2051-.1953.4268-.3398.6641-.4326s.5049-.1494.8037-.1699c.2988-.0205.6543-.0313,1.0664-.0313h7.0488Z" style="fill:#fff; stroke-width:0px;"/><path d="M306.6816,63.3286c1.5039,0,2.8535-.252,4.0498-.7578,1.1943-.5049,2.2041-1.2207,3.0293-2.1484.8242-.9268,1.4531-2.0498,1.8857-3.3691.4326-1.3193.6484-2.8027.6484-4.4521v-26.709h9.2744v26.709c0,2.7207-.4385,5.2197-1.3135,7.4971-.877,2.2773-2.1289,4.2402-3.7559,5.8887-1.6289,1.6494-3.6074,2.9365-5.9355,3.8643-2.3291.9277-4.957,1.3906-7.8828,1.3906s-5.5596-.4629-7.8984-1.3906c-2.3398-.9277-4.3232-2.2148-5.9512-3.8643-1.6279-1.6484-2.8799-3.6113-3.7559-5.8887-.876-2.2773-1.3135-4.7764-1.3135-7.4971v-26.709h9.2734v26.709c0,1.6494.2168,3.1328.6494,4.4521.4326,1.3193,1.0615,2.4424,1.8857,3.3691.8242.9277,1.834,1.6436,3.0293,2.1484,1.1953.5059,2.5557.7578,4.0811.7578Z" style="fill:#fff; stroke-width:0px;"/><path d="M371.2031,63.2046v7.543h-26.6162V25.8921h9.2734v37.3125h17.3428Z" style="fill:#fff; stroke-width:0px;"/><path d="M412.917,63.2046v7.543h-26.6162V25.8921h9.2734v37.3125h17.3428Z" style="fill:#fff; stroke-width:0px;"/><path d="M437.3496,33.1567v11.5313h14.9629v7.0166h-14.9629v11.7783h19.2285v7.2646h-28.5635V25.8921h28.5635v7.2646h-19.2285Z" style="fill:#fff; stroke-width:0px;"/><path d="M509.458,70.7475h-8.3779c-1.5664,0-2.7002-.5977-3.4004-1.793l-8.5322-13.7568c-.3506-.5352-.7373-.9268-1.1592-1.1738-.4229-.248-1.0459-.3711-1.8701-.3711h-3.1533v17.0947h-9.2734V25.8921h14.0957c3.1328,0,5.8115.3252,8.0381.9746,2.2256.6484,4.0488,1.5508,5.4717,2.7041,1.4219,1.1543,2.4619,2.5303,3.1221,4.127.6592,1.5977.9893,3.3545.9893,5.2715,0,1.4834-.2119,2.8896-.6338,4.2188-.4229,1.3301-1.0361,2.541-1.8398,3.6328-.8037,1.0928-1.793,2.0605-2.9678,2.9063-1.1738.8447-2.5146,1.5244-4.0186,2.04.5977.3301,1.1543.7266,1.6699,1.1895.5146.4639.9785,1.0156,1.3906,1.6543l10.4492,16.1367ZM487.7256,47.1294c1.5039,0,2.8027-.1895,3.8955-.5713,1.0918-.3809,1.9883-.9072,2.6895-1.5771.7002-.6689,1.2148-1.457,1.5449-2.3643.3301-.9072.4951-1.8965.4951-2.9678,0-2.1221-.7061-3.7715-2.1182-4.9463-1.4111-1.1748-3.5596-1.7617-6.4453-1.7617h-4.8223v14.1885h4.7607Z" style="fill:#fff; stroke-width:0px;"/><path d="M337.1143,100.7056c.1357,0,.2549.0557.3564.166l.9805,1.0566c-.7471.8662-1.6533,1.542-2.7188,2.0254-1.0664.4844-2.3545.7266-3.8662.7266-1.3076,0-2.4961-.2275-3.5664-.6816-1.0693-.4541-1.9824-1.0908-2.7383-1.9111-.7559-.8193-1.3418-1.8018-1.7578-2.9482-.416-1.1465-.624-2.4072-.624-3.7832,0-1.375.2168-2.6357.6494-3.7822.4336-1.1465,1.042-2.1318,1.8281-2.9551.7852-.8232,1.7256-1.4629,2.8213-1.917,1.0947-.4541,2.3057-.6816,3.6299-.6816,1.2988,0,2.4453.208,3.4395.624.9932.416,1.8672.9814,2.623,1.6943l-.8145,1.1338c-.0518.085-.1172.1543-.1982.21-.0801.0557-.1885.083-.3242.083-.1533,0-.3398-.083-.5605-.249-.2207-.165-.5098-.3496-.8662-.5537s-.8027-.3887-1.3369-.5537c-.5352-.166-1.1934-.249-1.9746-.249-.9424,0-1.8047.1641-2.5859.4902-.7812.3271-1.4541.8008-2.0186,1.4209-.5645.6201-1.0039,1.375-1.3184,2.2666-.3145.8916-.4707,1.8984-.4707,3.0186,0,1.1387.1631,2.1533.4902,3.0449.3262.8916.7725,1.6445,1.3369,2.2607.5645.6152,1.2314,1.085,2,1.4072s1.5986.4844,2.4902.4844c.543,0,1.0332-.0322,1.4707-.0957s.8408-.1641,1.21-.2998.7139-.3076,1.0322-.5156c.3184-.208.6348-.4561.9482-.7451.1445-.127.2891-.1914.4336-.1914Z" style="fill:#fff; stroke-width:0px;"/><path d="M360.8809,95.3559c0,1.3672-.2158,2.6221-.6494,3.7646-.4326,1.1416-1.0439,2.125-1.834,2.9482s-1.7383,1.4629-2.8467,1.917-2.333.6816-3.6748.6816-2.5645-.2275-3.668-.6816c-1.1045-.4541-2.0508-1.0938-2.8408-1.917-.7891-.8232-1.4004-1.8066-1.834-2.9482-.4326-1.1426-.6494-2.3975-.6494-3.7646,0-1.3662.2168-2.6211.6494-3.7637.4336-1.1416,1.0449-2.127,1.834-2.9551.79-.8271,1.7363-1.4707,2.8408-1.9297,1.1035-.458,2.3262-.6875,3.668-.6875s2.5664.2295,3.6748.6875c1.1084.459,2.0566,1.1025,2.8467,1.9297.79.8281,1.4014,1.8135,1.834,2.9551.4336,1.1426.6494,2.3975.6494,3.7637ZM358.3467,95.3559c0-1.1201-.1533-2.127-.459-3.0186-.3057-.8916-.7383-1.6445-1.2988-2.2607-.5605-.6152-1.2402-1.0889-2.0381-1.4199s-1.6895-.4971-2.6748-.4971c-.9766,0-1.8643.166-2.6621.4971-.7979.3311-1.4795.8047-2.0439,1.4199-.5645.6162-1,1.3691-1.3057,2.2607-.3057.8916-.459,1.8984-.459,3.0186,0,1.1211.1533,2.126.459,3.0127.3057.8877.7412,1.6387,1.3057,2.2549.5645.6152,1.2461,1.0869,2.0439,1.4131.7979.3271,1.6855.4902,2.6621.4902.9854,0,1.877-.1631,2.6748-.4902.7979-.3262,1.4775-.7979,2.0381-1.4131.5605-.6162.9932-1.3672,1.2988-2.2549.3057-.8867.459-1.8916.459-3.0127Z" style="fill:#fff; stroke-width:0px;"/><path d="M382.2539,86.2241v18.252h-1.2354c-.1953,0-.3584-.0342-.4902-.1016-.1318-.0684-.2607-.1826-.3887-.3438l-10.5586-13.7568c.0166.2129.0293.4209.0381.624.0088.2041.0127.3955.0127.5732v13.0049h-2.165v-18.252h1.2734c.1104,0,.2041.0059.2803.0186s.1445.0342.2041.0645c.0586.0293.1182.0723.1777.127.0596.0557.123.125.1914.21l10.5586,13.7432c-.0166-.2207-.0313-.4346-.0439-.6426s-.0195-.4053-.0195-.5928v-12.9277h2.165Z" style="fill:#fff; stroke-width:0px;"/><path d="M399.3086,89.0767c-.0762.1279-.1592.2236-.248.2871-.0898.0635-.1973.0957-.3252.0957-.1445,0-.3145-.0723-.5098-.2168s-.4385-.3037-.7314-.4775-.6455-.333-1.0576-.4775c-.4121-.1445-.9111-.2168-1.4971-.2168-.5518,0-1.0381.0742-1.458.2227s-.7725.3506-1.0566.6055c-.2852.2549-.499.5537-.6436.8975-.1445.3438-.2168.7158-.2168,1.1152,0,.5088.125.9316.376,1.2666.25.3359.5811.6221.9932.8604.4121.2373.8789.4434,1.4014.6172.5225.1748,1.0566.3545,1.6045.542.5479.1865,1.083.3965,1.6055.6299.5215.2334.9893.5283,1.4004.8857.4121.3564.7432.7939.9941,1.3115.25.5176.375,1.1553.375,1.9102,0,.7988-.1357,1.5479-.4072,2.248-.2715.7012-.6689,1.3105-1.1904,1.8281-.5225.5186-1.1641.9258-1.9238,1.2227-.7598.2969-1.624.4463-2.5918.4463-1.1885,0-2.2676-.2148-3.2354-.6436s-1.7959-1.0078-2.4834-1.7383l.7129-1.1719c.0684-.0938.1504-.1719.249-.2363.0967-.0635.2051-.0947.3242-.0947.1104,0,.2354.0439.376.1338.1396.0889.2988.2012.4775.3369.1787.1357.3818.2852.6113.4463s.4902.3096.7832.4453.626.249,1,.3379c.374.0889.7939.1338,1.2607.1338.5859,0,1.1084-.0811,1.5664-.2422.459-.1611.8477-.3887,1.166-.6816s.5625-.6426.7324-1.0508c.1699-.4072.2549-.8613.2549-1.3623,0-.5518-.126-1.0049-.376-1.3564-.251-.3525-.5791-.6475-.9873-.8857-.4072-.2373-.875-.4395-1.4014-.6045-.5264-.166-1.0615-.3359-1.6045-.5098s-1.0781-.376-1.6045-.6055c-.5273-.2285-.9941-.5264-1.4014-.8916-.4072-.3643-.7363-.8213-.9873-1.3691-.25-.5479-.376-1.2246-.376-2.0312,0-.6455.126-1.2695.376-1.8721.251-.6035.6162-1.1377,1.0957-1.6055.4795-.4668,1.0693-.8408,1.7705-1.1201.7002-.2803,1.5049-.4209,2.4131-.4209,1.0195,0,1.9473.1611,2.7832.4844.8369.3223,1.5732.7891,2.21,1.4004l-.5986,1.1719Z" style="fill:#fff; stroke-width:0px;"/><path d="M413.8916,102.5142c.7559,0,1.4307-.127,2.0254-.3818s1.0977-.6113,1.5098-1.0693c.4111-.459.7256-1.0068.9424-1.6436s.3252-1.3369.3252-2.1016v-11.0938h2.458v11.0938c0,1.0527-.168,2.0293-.5029,2.9297-.3359.9004-.8154,1.6787-1.4395,2.3369-.624.6582-1.3867,1.1738-2.2861,1.5479-.9004.373-1.9111.5605-3.0322.5605-1.1201,0-2.1309-.1875-3.0312-.5605-.8994-.374-1.6641-.8896-2.292-1.5479-.6289-.6582-1.1104-1.4365-1.4463-2.3369-.335-.9004-.5029-1.877-.5029-2.9297v-11.0938h2.458v11.0811c0,.7646.1084,1.4648.3252,2.1016s.5303,1.1846.9424,1.6436c.4121.458.917.8164,1.5156,1.0762.5986.2588,1.2754.3877,2.0312.3877Z" style="fill:#fff; stroke-width:0px;"/><path d="M438.9971,102.3999v2.0762h-10.3555v-18.252h2.458v16.1758h7.8975Z" style="fill:#fff; stroke-width:0px;"/><path d="M454.7266,88.3003h-5.9102v16.1758h-2.458v-16.1758h-5.9229v-2.0762h14.291v2.0762Z" style="fill:#fff; stroke-width:0px;"/><path d="M462.9551,104.4761h-2.4707v-18.252h2.4707v18.252Z" style="fill:#fff; stroke-width:0px;"/><path d="M485.4609,86.2241v18.252h-1.2354c-.1953,0-.3584-.0342-.4902-.1016-.1318-.0684-.2607-.1826-.3887-.3438l-10.5586-13.7568c.0166.2129.0293.4209.0381.624.0088.2041.0127.3955.0127.5732v13.0049h-2.165v-18.252h1.2734c.1104,0,.2041.0059.2803.0186s.1445.0342.2041.0645c.0586.0293.1182.0723.1777.127.0596.0557.123.125.1914.21l10.5586,13.7432c-.0166-.2207-.0312-.4346-.0439-.6426s-.0195-.4053-.0195-.5928v-12.9277h2.165Z" style="fill:#fff; stroke-width:0px;"/><path d="M508.0059,95.7007v7.0049c-.918.6621-1.8965,1.1572-2.9365,1.4844-1.04.3262-2.1797.4902-3.4199.4902-1.4688,0-2.7939-.2275-3.9736-.6816-1.1807-.4541-2.1885-1.0908-3.0254-1.9111-.8359-.8193-1.4795-1.8018-1.9297-2.9482-.4502-1.1465-.6748-2.4072-.6748-3.7832,0-1.3926.2188-2.6611.6563-3.8076.4365-1.1465,1.0586-2.1299,1.8652-2.9492.8066-.8193,1.7881-1.4541,2.9424-1.9043,1.1553-.4492,2.4463-.6748,3.8721-.6748.7217,0,1.3926.0537,2.0127.1592.6201.1064,1.1934.2598,1.7197.459s1.0146.4414,1.4648.7256c.4502.2852.8701.6055,1.2607.9619l-.7002,1.1211c-.1104.1699-.2529.2783-.4268.3242-.1748.0469-.3682.0068-.5801-.1211-.2031-.1182-.4375-.2627-.7002-.4326-.2637-.1699-.584-.333-.9619-.4902-.3779-.1572-.8232-.291-1.3369-.4014-.5146-.1104-1.123-.166-1.8281-.166-1.0273,0-1.957.168-2.7891.5029-.833.3359-1.541.8154-2.127,1.4395s-1.0361,1.3799-1.3506,2.2676c-.3145.8877-.4717,1.8828-.4717,2.9863,0,1.1465.1641,2.1719.4912,3.0762.3262.9043.7939,1.6729,1.4004,2.3057.6074.6328,1.3438,1.1143,2.21,1.4453.8662.3311,1.8389.4971,2.917.4971.8486,0,1.6025-.0957,2.2607-.2861.6582-.1914,1.3008-.457,1.9297-.7969v-4.0117h-2.8398c-.1621,0-.291-.0469-.3887-.1406-.0977-.0928-.1465-.208-.1465-.3438v-1.4004h5.6045Z" style="fill:#fff; stroke-width:0px;"/><circle cx="292.3309" cy="9.2433" r="4.2298" style="fill:#f5822b; stroke-width:0px;"/></g></g></svg>
+\ No newline at end of file
+diff --git a/apps/kc-web/public/img/logo.svg b/apps/kc-web/public/img/logo.svg
+new file mode 100644
+index 0000000..0eb97d9
+--- /dev/null
++++ b/apps/kc-web/public/img/logo.svg
+@@ -0,0 +1 @@
++<?xml version="1.0" encoding="UTF-8"?><svg id="Layer_2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 509.458 104.6929"><g id="Components"><g id="_6629f8cd-734f-4364-aaba-6ac07a26ecc0_1"><path d="M308.5042,5.6546c18.811,2.278,37.6972,2.4535,56.594,2.0517,14.9467-.3272,29.9894-.8992,44.0178-6.8951,4.657-2.0883,10.125-.0059,12.2131,4.6511,3.4694,7.7496-4.5711,15.6542-12.2132,12.2129-12.0614-5.1261-24.8635-6.3491-37.7294-6.7091-12.573-.445-25.1533-.5057-37.7295-.0413-8.3843.3168-16.7686.8416-25.1528,1.9071-1.9819.2518-3.793-1.1506-4.0449-3.1326-.3252-2.3083,1.7425-4.3659,4.0449-4.0448h0Z" style="fill:#f5822b; stroke-width:0px;"/><path d="M9.2734,44.4097h1.8242c1.5244,0,2.627-.4736,3.3076-1.4219l11.3447-15.1787c.5361-.7207,1.123-1.2207,1.7627-1.499.6387-.2783,1.4219-.418,2.3486-.418h8.0381l-14.2822,18.3936c-.9277,1.1953-1.8857,2.0508-2.875,2.5664.7217.2881,1.3701.6641,1.9473,1.1279s1.1338,1.0771,1.6699,1.8389l14.6523,20.9287h-8.2539c-.5361,0-.9941-.041-1.375-.124-.3818-.082-.7168-.1953-1.0049-.3398-.2891-.1436-.5361-.3242-.7422-.541-.2061-.2158-.4014-.4688-.5869-.7568l-11.5312-16.1367c-.3916-.5566-.8545-.9531-1.3906-1.1904-.5361-.2363-1.2881-.3555-2.2568-.3555h-2.5967v19.4443H0V25.8921h9.2734v18.5176Z" style="fill:#001d34; stroke-width:0px;"/><path d="M94.2354,48.3042c0,3.2773-.5518,6.3174-1.6533,9.1201-1.1035,2.8027-2.6592,5.2236-4.668,7.2646-2.0098,2.04-4.4268,3.6426-7.25,4.8066-2.8232,1.1641-5.9561,1.7461-9.3975,1.7461s-6.5742-.582-9.3975-1.7461-5.2451-2.7666-7.2646-4.8066c-2.0195-2.041-3.5811-4.4619-4.6836-7.2646s-1.6533-5.8428-1.6533-9.1201.5508-6.3105,1.6533-9.1035c1.1025-2.792,2.6641-5.209,4.6836-7.249,2.0195-2.04,4.4414-3.6426,7.2646-4.8076,2.8232-1.1641,5.9561-1.7461,9.3975-1.7461s6.5742.582,9.3975,1.7461c2.8232,1.165,5.2402,2.7725,7.25,4.8232,2.0088,2.0508,3.5645,4.4717,4.668,7.2646,1.1016,2.792,1.6533,5.8164,1.6533,9.0723ZM84.7451,48.3042c0-2.3486-.3096-4.4561-.9277-6.3213-.6182-1.8652-1.5098-3.4521-2.6738-4.7607-1.1641-1.3086-2.5762-2.3076-4.2354-2.999-1.6592-.6895-3.5391-1.0352-5.6416-1.0352s-3.9873.3457-5.6572,1.0352c-1.6689.6914-3.0859,1.6904-4.25,2.999-1.165,1.3086-2.0557,2.8955-2.6738,4.7607-.6182,1.8652-.9277,3.9727-.9277,6.3213,0,2.3701.3096,4.4883.9277,6.3535.6182,1.8652,1.5088,3.4463,2.6738,4.7451,1.1641,1.2979,2.5811,2.292,4.25,2.9824,1.6699.6914,3.5557,1.0361,5.6572,1.0361s3.9824-.3447,5.6416-1.0361c1.6592-.6904,3.0713-1.6846,4.2354-2.9824,1.1641-1.2988,2.0557-2.8799,2.6738-4.7451.6182-1.8652.9277-3.9834.9277-6.3535Z" style="fill:#001d34; stroke-width:0px;"/><path d="M146.8926,70.7475h-8.3779c-1.5664,0-2.7002-.5977-3.4004-1.793l-8.5322-13.7568c-.3506-.5352-.7373-.9268-1.1592-1.1738-.4229-.248-1.0459-.3711-1.8701-.3711h-3.1533v17.0947h-9.2734V25.8921h14.0957c3.1328,0,5.8115.3252,8.0381.9746,2.2256.6484,4.0488,1.5508,5.4717,2.7041,1.4219,1.1543,2.4619,2.5303,3.1221,4.127.6592,1.5977.9893,3.3545.9893,5.2715,0,1.4834-.2119,2.8896-.6338,4.2188-.4229,1.3301-1.0361,2.541-1.8398,3.6328-.8037,1.0928-1.793,2.0605-2.9678,2.9063-1.1738.8447-2.5146,1.5244-4.0186,2.04.5977.3301,1.1543.7266,1.6699,1.1895.5146.4639.9785,1.0156,1.3906,1.6543l10.4492,16.1367ZM125.1602,47.1294c1.5039,0,2.8027-.1895,3.8955-.5713,1.0918-.3809,1.9883-.9072,2.6895-1.5771.7002-.6689,1.2148-1.457,1.5449-2.3643.3301-.9072.4951-1.8965.4951-2.9678,0-2.1221-.7061-3.7715-2.1182-4.9463-1.4111-1.1748-3.5596-1.7617-6.4453-1.7617h-4.8223v14.1885h4.7607Z" style="fill:#001d34; stroke-width:0px;"/><path d="M199.833,25.8921v44.8555h-4.792c-.7217,0-1.3291-.1182-1.8232-.3555-.4951-.2363-.9795-.6436-1.4531-1.2207l-22.3506-28.4404c.0625.7217.1084,1.4326.1396,2.1328.0303.7012.0459,1.3506.0459,1.9473v25.9365h-8.1914V25.8921h4.8838c.3916,0,.7266.0156,1.0049.0469s.5303.1035.7568.2158c.2266.1143.4434.2637.6494.4482.2061.1855.4326.4336.6807.7422l22.5049,28.5645c-.083-.7832-.1445-1.541-.1855-2.2725-.042-.7314-.0625-1.4268-.0625-2.0869v-25.6582h8.1924Z" style="fill:#001d34; stroke-width:0px;"/><path d="M268.7393,25.8921v44.8555h-8.1924v-27.5439c0-.5762.0156-1.1943.0469-1.8545.0303-.6592.0869-1.3291.1699-2.0098l-12.8291,24.3291c-.7012,1.3398-1.7832,2.0098-3.2461,2.0098h-1.2979c-.7217,0-1.3604-.1709-1.917-.5107-.5566-.3398-1-.8389-1.3291-1.499l-12.8906-24.4219c.0615.7217.1123,1.418.1543,2.0869.041.6699.0615,1.2939.0615,1.8701v27.5439h-8.1914V25.8921h7.0479c.3916,0,.7422.0107,1.0508.0313.3096.0205.582.0771.8193.1699.2363.0928.4531.2373.6494.4326.1953.1963.3867.4697.5713.8193l12.5508,23.9268c.3916.7217.7578,1.4639,1.0977,2.2256.3398.7627.665,1.5459.9736,2.3496.3096-.8242.6338-1.6279.9736-2.4111.3408-.7832.7061-1.5352,1.0977-2.2568l12.458-23.834c.1855-.3496.3818-.623.5879-.8193.2051-.1953.4268-.3398.6641-.4326s.5049-.1494.8037-.1699c.2988-.0205.6543-.0313,1.0664-.0313h7.0488Z" style="fill:#001d34; stroke-width:0px;"/><path d="M306.6816,63.3286c1.5039,0,2.8535-.252,4.0498-.7578,1.1943-.5049,2.2041-1.2207,3.0293-2.1484.8242-.9268,1.4531-2.0498,1.8857-3.3691.4326-1.3193.6484-2.8027.6484-4.4521v-26.709h9.2744v26.709c0,2.7207-.4385,5.2197-1.3135,7.4971-.877,2.2773-2.1289,4.2402-3.7559,5.8887-1.6289,1.6494-3.6074,2.9365-5.9355,3.8643-2.3291.9277-4.957,1.3906-7.8828,1.3906s-5.5596-.4629-7.8984-1.3906c-2.3398-.9277-4.3232-2.2148-5.9512-3.8643-1.6279-1.6484-2.8799-3.6113-3.7559-5.8887-.876-2.2773-1.3135-4.7764-1.3135-7.4971v-26.709h9.2734v26.709c0,1.6494.2168,3.1328.6494,4.4521.4326,1.3193,1.0615,2.4424,1.8857,3.3691.8242.9277,1.834,1.6436,3.0293,2.1484,1.1953.5059,2.5557.7578,4.0811.7578Z" style="fill:#001d34; stroke-width:0px;"/><path d="M371.2031,63.2046v7.543h-26.6162V25.8921h9.2734v37.3125h17.3428Z" style="fill:#001d34; stroke-width:0px;"/><path d="M412.917,63.2046v7.543h-26.6162V25.8921h9.2734v37.3125h17.3428Z" style="fill:#001d34; stroke-width:0px;"/><path d="M437.3496,33.1567v11.5313h14.9629v7.0166h-14.9629v11.7783h19.2285v7.2646h-28.5635V25.8921h28.5635v7.2646h-19.2285Z" style="fill:#001d34; stroke-width:0px;"/><path d="M509.458,70.7475h-8.3779c-1.5664,0-2.7002-.5977-3.4004-1.793l-8.5322-13.7568c-.3506-.5352-.7373-.9268-1.1592-1.1738-.4229-.248-1.0459-.3711-1.8701-.3711h-3.1533v17.0947h-9.2734V25.8921h14.0957c3.1328,0,5.8115.3252,8.0381.9746,2.2256.6484,4.0488,1.5508,5.4717,2.7041,1.4219,1.1543,2.4619,2.5303,3.1221,4.127.6592,1.5977.9893,3.3545.9893,5.2715,0,1.4834-.2119,2.8896-.6338,4.2188-.4229,1.3301-1.0361,2.541-1.8398,3.6328-.8037,1.0928-1.793,2.0605-2.9678,2.9063-1.1738.8447-2.5146,1.5244-4.0186,2.04.5977.3301,1.1543.7266,1.6699,1.1895.5146.4639.9785,1.0156,1.3906,1.6543l10.4492,16.1367ZM487.7256,47.1294c1.5039,0,2.8027-.1895,3.8955-.5713,1.0918-.3809,1.9883-.9072,2.6895-1.5771.7002-.6689,1.2148-1.457,1.5449-2.3643.3301-.9072.4951-1.8965.4951-2.9678,0-2.1221-.7061-3.7715-2.1182-4.9463-1.4111-1.1748-3.5596-1.7617-6.4453-1.7617h-4.8223v14.1885h4.7607Z" style="fill:#001d34; stroke-width:0px;"/><path d="M337.1143,100.7056c.1357,0,.2549.0557.3564.166l.9805,1.0566c-.7471.8662-1.6533,1.542-2.7188,2.0254-1.0664.4844-2.3545.7266-3.8662.7266-1.3076,0-2.4961-.2275-3.5664-.6816-1.0693-.4541-1.9824-1.0908-2.7383-1.9111-.7559-.8193-1.3418-1.8018-1.7578-2.9482-.416-1.1465-.624-2.4072-.624-3.7832,0-1.375.2168-2.6357.6494-3.7822.4336-1.1465,1.042-2.1318,1.8281-2.9551.7852-.8232,1.7256-1.4629,2.8213-1.917,1.0947-.4541,2.3057-.6816,3.6299-.6816,1.2988,0,2.4453.208,3.4395.624.9932.416,1.8672.9814,2.623,1.6943l-.8145,1.1338c-.0518.085-.1172.1543-.1982.21-.0801.0557-.1885.083-.3242.083-.1533,0-.3398-.083-.5605-.249-.2207-.165-.5098-.3496-.8662-.5537s-.8027-.3887-1.3369-.5537c-.5352-.166-1.1934-.249-1.9746-.249-.9424,0-1.8047.1641-2.5859.4902-.7812.3271-1.4541.8008-2.0186,1.4209-.5645.6201-1.0039,1.375-1.3184,2.2666-.3145.8916-.4707,1.8984-.4707,3.0186,0,1.1387.1631,2.1533.4902,3.0449.3262.8916.7725,1.6445,1.3369,2.2607.5645.6152,1.2314,1.085,2,1.4072s1.5986.4844,2.4902.4844c.543,0,1.0332-.0322,1.4707-.0957s.8408-.1641,1.21-.2998.7139-.3076,1.0322-.5156c.3184-.208.6348-.4561.9482-.7451.1445-.127.2891-.1914.4336-.1914Z" style="fill:#001d34; stroke-width:0px;"/><path d="M360.8809,95.3559c0,1.3672-.2158,2.6221-.6494,3.7646-.4326,1.1416-1.0439,2.125-1.834,2.9482s-1.7383,1.4629-2.8467,1.917-2.333.6816-3.6748.6816-2.5645-.2275-3.668-.6816c-1.1045-.4541-2.0508-1.0938-2.8408-1.917-.7891-.8232-1.4004-1.8066-1.834-2.9482-.4326-1.1426-.6494-2.3975-.6494-3.7646,0-1.3662.2168-2.6211.6494-3.7637.4336-1.1416,1.0449-2.127,1.834-2.9551.79-.8271,1.7363-1.4707,2.8408-1.9297,1.1035-.458,2.3262-.6875,3.668-.6875s2.5664.2295,3.6748.6875c1.1084.459,2.0566,1.1025,2.8467,1.9297.79.8281,1.4014,1.8135,1.834,2.9551.4336,1.1426.6494,2.3975.6494,3.7637ZM358.3467,95.3559c0-1.1201-.1533-2.127-.459-3.0186-.3057-.8916-.7383-1.6445-1.2988-2.2607-.5605-.6152-1.2402-1.0889-2.0381-1.4199s-1.6895-.4971-2.6748-.4971c-.9766,0-1.8643.166-2.6621.4971-.7979.3311-1.4795.8047-2.0439,1.4199-.5645.6162-1,1.3691-1.3057,2.2607-.3057.8916-.459,1.8984-.459,3.0186,0,1.1211.1533,2.126.459,3.0127.3057.8877.7412,1.6387,1.3057,2.2549.5645.6152,1.2461,1.0869,2.0439,1.4131.7979.3271,1.6855.4902,2.6621.4902.9854,0,1.877-.1631,2.6748-.4902.7979-.3262,1.4775-.7979,2.0381-1.4131.5605-.6162.9932-1.3672,1.2988-2.2549.3057-.8867.459-1.8916.459-3.0127Z" style="fill:#001d34; stroke-width:0px;"/><path d="M382.2539,86.2241v18.252h-1.2354c-.1953,0-.3584-.0342-.4902-.1016-.1318-.0684-.2607-.1826-.3887-.3438l-10.5586-13.7568c.0166.2129.0293.4209.0381.624.0088.2041.0127.3955.0127.5732v13.0049h-2.165v-18.252h1.2734c.1104,0,.2041.0059.2803.0186s.1445.0342.2041.0645c.0586.0293.1182.0723.1777.127.0596.0557.123.125.1914.21l10.5586,13.7432c-.0166-.2207-.0313-.4346-.0439-.6426s-.0195-.4053-.0195-.5928v-12.9277h2.165Z" style="fill:#001d34; stroke-width:0px;"/><path d="M399.3086,89.0767c-.0762.1279-.1592.2236-.248.2871-.0898.0635-.1973.0957-.3252.0957-.1445,0-.3145-.0723-.5098-.2168s-.4385-.3037-.7314-.4775-.6455-.333-1.0576-.4775c-.4121-.1445-.9111-.2168-1.4971-.2168-.5518,0-1.0381.0742-1.458.2227s-.7725.3506-1.0566.6055c-.2852.2549-.499.5537-.6436.8975-.1445.3438-.2168.7158-.2168,1.1152,0,.5088.125.9316.376,1.2666.25.3359.5811.6221.9932.8604.4121.2373.8789.4434,1.4014.6172.5225.1748,1.0566.3545,1.6045.542.5479.1865,1.083.3965,1.6055.6299.5215.2334.9893.5283,1.4004.8857.4121.3564.7432.7939.9941,1.3115.25.5176.375,1.1553.375,1.9102,0,.7988-.1357,1.5479-.4072,2.248-.2715.7012-.6689,1.3105-1.1904,1.8281-.5225.5186-1.1641.9258-1.9238,1.2227-.7598.2969-1.624.4463-2.5918.4463-1.1885,0-2.2676-.2148-3.2354-.6436s-1.7959-1.0078-2.4834-1.7383l.7129-1.1719c.0684-.0938.1504-.1719.249-.2363.0967-.0635.2051-.0947.3242-.0947.1104,0,.2354.0439.376.1338.1396.0889.2988.2012.4775.3369.1787.1357.3818.2852.6113.4463s.4902.3096.7832.4453.626.249,1,.3379c.374.0889.7939.1338,1.2607.1338.5859,0,1.1084-.0811,1.5664-.2422.459-.1611.8477-.3887,1.166-.6816s.5625-.6426.7324-1.0508c.1699-.4072.2549-.8613.2549-1.3623,0-.5518-.126-1.0049-.376-1.3564-.251-.3525-.5791-.6475-.9873-.8857-.4072-.2373-.875-.4395-1.4014-.6045-.5264-.166-1.0615-.3359-1.6045-.5098s-1.0781-.376-1.6045-.6055c-.5273-.2285-.9941-.5264-1.4014-.8916-.4072-.3643-.7363-.8213-.9873-1.3691-.25-.5479-.376-1.2246-.376-2.0312,0-.6455.126-1.2695.376-1.8721.251-.6035.6162-1.1377,1.0957-1.6055.4795-.4668,1.0693-.8408,1.7705-1.1201.7002-.2803,1.5049-.4209,2.4131-.4209,1.0195,0,1.9473.1611,2.7832.4844.8369.3223,1.5732.7891,2.21,1.4004l-.5986,1.1719Z" style="fill:#001d34; stroke-width:0px;"/><path d="M413.8916,102.5142c.7559,0,1.4307-.127,2.0254-.3818s1.0977-.6113,1.5098-1.0693c.4111-.459.7256-1.0068.9424-1.6436s.3252-1.3369.3252-2.1016v-11.0938h2.458v11.0938c0,1.0527-.168,2.0293-.5029,2.9297-.3359.9004-.8154,1.6787-1.4395,2.3369-.624.6582-1.3867,1.1738-2.2861,1.5479-.9004.373-1.9111.5605-3.0322.5605-1.1201,0-2.1309-.1875-3.0312-.5605-.8994-.374-1.6641-.8896-2.292-1.5479-.6289-.6582-1.1104-1.4365-1.4463-2.3369-.335-.9004-.5029-1.877-.5029-2.9297v-11.0938h2.458v11.0811c0,.7646.1084,1.4648.3252,2.1016s.5303,1.1846.9424,1.6436c.4121.458.917.8164,1.5156,1.0762.5986.2588,1.2754.3877,2.0312.3877Z" style="fill:#001d34; stroke-width:0px;"/><path d="M438.9971,102.3999v2.0762h-10.3555v-18.252h2.458v16.1758h7.8975Z" style="fill:#001d34; stroke-width:0px;"/><path d="M454.7266,88.3003h-5.9102v16.1758h-2.458v-16.1758h-5.9229v-2.0762h14.291v2.0762Z" style="fill:#001d34; stroke-width:0px;"/><path d="M462.9551,104.4761h-2.4707v-18.252h2.4707v18.252Z" style="fill:#001d34; stroke-width:0px;"/><path d="M485.4609,86.2241v18.252h-1.2354c-.1953,0-.3584-.0342-.4902-.1016-.1318-.0684-.2607-.1826-.3887-.3438l-10.5586-13.7568c.0166.2129.0293.4209.0381.624.0088.2041.0127.3955.0127.5732v13.0049h-2.165v-18.252h1.2734c.1104,0,.2041.0059.2803.0186s.1445.0342.2041.0645c.0586.0293.1182.0723.1777.127.0596.0557.123.125.1914.21l10.5586,13.7432c-.0166-.2207-.0312-.4346-.0439-.6426s-.0195-.4053-.0195-.5928v-12.9277h2.165Z" style="fill:#001d34; stroke-width:0px;"/><path d="M508.0059,95.7007v7.0049c-.918.6621-1.8965,1.1572-2.9365,1.4844-1.04.3262-2.1797.4902-3.4199.4902-1.4688,0-2.7939-.2275-3.9736-.6816-1.1807-.4541-2.1885-1.0908-3.0254-1.9111-.8359-.8193-1.4795-1.8018-1.9297-2.9482-.4502-1.1465-.6748-2.4072-.6748-3.7832,0-1.3926.2188-2.6611.6563-3.8076.4365-1.1465,1.0586-2.1299,1.8652-2.9492.8066-.8193,1.7881-1.4541,2.9424-1.9043,1.1553-.4492,2.4463-.6748,3.8721-.6748.7217,0,1.3926.0537,2.0127.1592.6201.1064,1.1934.2598,1.7197.459s1.0146.4414,1.4648.7256c.4502.2852.8701.6055,1.2607.9619l-.7002,1.1211c-.1104.1699-.2529.2783-.4268.3242-.1748.0469-.3682.0068-.5801-.1211-.2031-.1182-.4375-.2627-.7002-.4326-.2637-.1699-.584-.333-.9619-.4902-.3779-.1572-.8232-.291-1.3369-.4014-.5146-.1104-1.123-.166-1.8281-.166-1.0273,0-1.957.168-2.7891.5029-.833.3359-1.541.8154-2.127,1.4395s-1.0361,1.3799-1.3506,2.2676c-.3145.8877-.4717,1.8828-.4717,2.9863,0,1.1465.1641,2.1719.4912,3.0762.3262.9043.7939,1.6729,1.4004,2.3057.6074.6328,1.3438,1.1143,2.21,1.4453.8662.3311,1.8389.4971,2.917.4971.8486,0,1.6025-.0957,2.2607-.2861.6582-.1914,1.3008-.457,1.9297-.7969v-4.0117h-2.8398c-.1621,0-.291-.0469-.3887-.1406-.0977-.0928-.1465-.208-.1465-.3438v-1.4004h5.6045Z" style="fill:#001d34; stroke-width:0px;"/><circle cx="292.3309" cy="9.2433" r="4.2298" style="fill:#f5822b; stroke-width:0px;"/></g></g></svg>
+\ No newline at end of file
+diff --git a/apps/kc-web/public/img/portrait-justin-sm.webp b/apps/kc-web/public/img/portrait-justin-sm.webp
+new file mode 100644
+index 0000000..b11617c
+Binary files /dev/null and b/apps/kc-web/public/img/portrait-justin-sm.webp differ
+diff --git a/apps/kc-web/public/img/portrait-justin.webp b/apps/kc-web/public/img/portrait-justin.webp
+new file mode 100644
+index 0000000..4638a6d
+Binary files /dev/null and b/apps/kc-web/public/img/portrait-justin.webp differ
+diff --git a/apps/kc-web/public/img/portrait-patrick-sm.webp b/apps/kc-web/public/img/portrait-patrick-sm.webp
+new file mode 100644
+index 0000000..6683f7d
+Binary files /dev/null and b/apps/kc-web/public/img/portrait-patrick-sm.webp differ
+diff --git a/apps/kc-web/public/img/portrait-patrick.webp b/apps/kc-web/public/img/portrait-patrick.webp
+new file mode 100644
+index 0000000..b12dbd4
+Binary files /dev/null and b/apps/kc-web/public/img/portrait-patrick.webp differ
+[... truncated 6898 lines / 52 further files of 7324 total; full diff = git diff fed35e0d1a..ae8cec9913 in KornmuellerConsulting/apps ...]
+[redacted before publication: apps/kc-web/BLOCKERS.md and apps/kc-web/DECISIONS.md are excluded from this patch via git pathspec -- they name a third-party reference customer whose written approval was still pending. Nothing else was altered.]

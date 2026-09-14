@@ -1,0 +1,14 @@
+{
+  "id": "mut-20",
+  "klasse": "PRODUKTFEHLER",
+  "beschreibung": "The cart badge counts cart lines instead of units, so a second copy of the same product never shows up in the count.",
+  "ziel": "fixtures/shop/app.js (renderBadge)",
+  "max_faelle": 3,
+  "aenderungen": [
+    {
+      "datei": "shop/app.js",
+      "suchen": "function renderBadge() {\n  const units = unitCount();",
+      "ersetzen": "function renderBadge() {\n  const units = cartLines().length;"
+    }
+  ]
+}

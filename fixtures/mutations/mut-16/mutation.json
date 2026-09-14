@@ -1,0 +1,14 @@
+{
+  "id": "mut-16",
+  "klasse": "PRODUKTFEHLER",
+  "beschreibung": "Checkout validation skips the email rule when the field is empty, so an order can be placed without any address.",
+  "ziel": "fixtures/shop/validate.js (validateOrder)",
+  "max_faelle": 3,
+  "aenderungen": [
+    {
+      "datei": "shop/validate.js",
+      "suchen": "  if (!EMAIL_PATTERN.test(email.trim())) {\n    errors.push('Enter a valid email address');\n  }",
+      "ersetzen": "  if (email.trim() && !EMAIL_PATTERN.test(email.trim())) {\n    errors.push('Enter a valid email address');\n  }"
+    }
+  ]
+}

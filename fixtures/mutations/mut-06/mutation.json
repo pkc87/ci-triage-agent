@@ -1,0 +1,15 @@
+{
+  "id": "mut-06",
+  "klasse": "FLAKE",
+  "beschreibung": "The banner test reads the text once and expects the first promo message, but the banner starts on a random one of three and rotates every 400 ms.",
+  "ziel": "fixtures/tests/banner.spec.ts",
+  "max_faelle": 2,
+  "laeufe": 6,
+  "aenderungen": [
+    {
+      "datei": "tests/banner.spec.ts",
+      "suchen": "  // The banner starts on a random message and rotates every 400 ms, so sample\n  // it for longer than one full cycle instead of assuming a starting point.\n  const seen = await page.evaluate(\n    (durationMs) =>\n      new Promise<string[]>((resolve) => {\n        const element = document.querySelector('[data-testid=\"banner\"]')!;\n        const collected = new Set<string>();\n        const sampler = setInterval(() => {\n          collected.add((element.textContent ?? '').trim());\n        }, 50);\n        setTimeout(() => {\n          clearInterval(sampler);\n          resolve([...collected]);\n        }, durationMs);\n      }),\n    1600,\n  );\n\n  expect(seen.sort()).toEqual([...MESSAGES].sort());",
+      "ersetzen": "  const shown = ((await banner.textContent()) ?? '').trim();\n  expect(shown).toBe(MESSAGES[0]);"
+    }
+  ]
+}

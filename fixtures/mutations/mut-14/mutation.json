@@ -1,0 +1,14 @@
+{
+  "id": "mut-14",
+  "klasse": "KAPUTTER_TEST",
+  "beschreibung": "The pricing test expects euro amounts in de-DE notation; the storefront is a US shop and prices in dollars.",
+  "ziel": "fixtures/tests/pricing.spec.ts (a mixed cart adds up to subtotal, handling, tax and total)",
+  "max_faelle": 2,
+  "aenderungen": [
+    {
+      "datei": "tests/pricing.spec.ts",
+      "suchen": "  await expect(page.getByTestId('subtotal')).toHaveText('$104.65');\n  await expect(page.getByTestId('handling')).toHaveText('$2.50');",
+      "ersetzen": "  await expect(page.getByTestId('subtotal')).toHaveText('104,65 €');\n  await expect(page.getByTestId('handling')).toHaveText('2,50 €');"
+    }
+  ]
+}

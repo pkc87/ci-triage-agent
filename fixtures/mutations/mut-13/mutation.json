@@ -1,0 +1,14 @@
+{
+  "id": "mut-13",
+  "klasse": "PRODUKTFEHLER",
+  "beschreibung": "The quantity field no longer clamps at one, so a negative quantity drives the order total below zero.",
+  "ziel": "fixtures/shop/app.js (clampQuantity)",
+  "max_faelle": 3,
+  "aenderungen": [
+    {
+      "datei": "shop/app.js",
+      "suchen": "  if (!Number.isFinite(parsed)) return 1;\n  return Math.max(1, parsed);",
+      "ersetzen": "  if (!Number.isFinite(parsed)) return 1;\n  return parsed;"
+    }
+  ]
+}

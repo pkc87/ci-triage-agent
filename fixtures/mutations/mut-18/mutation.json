@@ -1,0 +1,14 @@
+{
+  "id": "mut-18",
+  "klasse": "PRODUKTFEHLER",
+  "beschreibung": "The average rating is computed over the raw payload, so reviews still held for moderation drag the public score down.",
+  "ziel": "fixtures/shop/app.js (wireReviews)",
+  "max_faelle": 3,
+  "aenderungen": [
+    {
+      "datei": "shop/app.js",
+      "suchen": "    average.textContent = `Average rating: ${averageRating(visible).toFixed(1)} out of 5`;",
+      "ersetzen": "    average.textContent = `Average rating: ${averageRating(payload.reviews).toFixed(1)} out of 5`;"
+    }
+  ]
+}

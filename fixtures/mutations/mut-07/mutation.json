@@ -1,0 +1,14 @@
+{
+  "id": "mut-07",
+  "klasse": "PRODUKTFEHLER",
+  "beschreibung": "The promo amount is subtracted twice: once while building the gross and once again in the total.",
+  "ziel": "fixtures/shop/pricing.js (summarize)",
+  "max_faelle": 3,
+  "aenderungen": [
+    {
+      "datei": "shop/pricing.js",
+      "suchen": "  const gross = round2(goods + fee + taxDue);\n  const discount = discountAmount(gross, code);\n  return {",
+      "ersetzen": "  const discount = discountAmount(round2(goods + fee + taxDue), code);\n  const gross = round2(goods + fee + taxDue - discount);\n  return {"
+    }
+  ]
+}
