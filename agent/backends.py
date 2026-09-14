@@ -18,6 +18,7 @@ import json
 import os
 import re
 import shutil
+import tempfile
 import subprocess
 from typing import Protocol
 
@@ -74,20 +75,48 @@ class CliBackend:
     """
 
     def __init__(self, modell: str = "claude-sonnet-5", timeout: int = 180):
-        if not shutil.which("claude"):
+        self._exe = self._finde_cli()
+        if not self._exe:
             raise RuntimeError("the `claude` CLI is not on PATH")
         self.name = "cli"
         self.modell = modell
         self._timeout = timeout
 
+    @staticmethod
+    def _finde_cli() -> str | None:
+        """Locate the CLI, including the Windows shim.
+
+        npm installs an extensionless `claude` shell script next to
+        `claude.cmd`. shutil.which happily returns the shell script, which
+        CreateProcess cannot execute -- WinError 2, which reads exactly like
+        "not installed". Prefer the executable variants explicitly.
+        """
+        for kandidat in ("claude.cmd", "claude.exe", "claude"):
+            pfad = shutil.which(kandidat)
+            if pfad:
+                return pfad
+        return None
+
+    # Where the CLI is started from matters: inside a repository it picks up
+    # that project's context and starts answering about the repo instead of
+    # about the evidence. A neutral directory keeps the call to what we passed.
+    _NEUTRAL = tempfile.gettempdir()
+
     def frage(self, nachricht: str, screenshot: bytes | None = None) -> str:
         if screenshot:
             raise NotImplementedError("the cli backend does not take images; use --backend api")
+        # The prompt goes in on stdin, never as an argv element. On Windows the
+        # npm shim runs through cmd.exe, whose command line caps at 8191
+        # characters -- a real diff blows past that and the prompt gets silently
+        # truncated rather than rejected.
         prozess = subprocess.run(
-            ["claude", "-p", SYSTEM + "\n\n---\n\n" + nachricht,
+            [self._exe, "-p",
              "--output-format", "json", "--model", self.modell,
-             "--strict-mcp-config", "--mcp-config", '{"mcpServers":{}}'],
+             "--strict-mcp-config", "--mcp-config", '{"mcpServers":{}}',
+             "--disallowed-tools", "Bash,Read,Edit,Write,Glob,Grep,WebFetch,WebSearch"],
+            input=SYSTEM + '\n\n---\n\n' + nachricht,
             capture_output=True, text=True, encoding="utf-8", timeout=self._timeout,
+            cwd=self._NEUTRAL,
         )
         if prozess.returncode != 0:
             raise RuntimeError(f"claude cli failed ({prozess.returncode}): {prozess.stderr[:400]}")

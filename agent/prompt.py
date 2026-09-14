@@ -92,6 +92,9 @@ Reply with ONE JSON object and nothing else:
   "beleg": "<a literal quote, copied verbatim from the evidence above, that carries your reasoning — an error line, a diff line, an attempt-log line. Include the file/line if you have it.>"
 }
 
+Write `begruendung` in English, regardless of the language of the evidence --
+CI logs and diffs in this corpus are partly German, the verdict is not.
+
 The `beleg` must be text that actually appears in the evidence. If you cannot
 quote anything that supports your class, that itself means your confidence
 belongs below 0.5.
