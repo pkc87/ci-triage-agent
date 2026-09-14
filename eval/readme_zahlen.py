@@ -101,7 +101,38 @@ def zahlen_block(e: dict) -> str:
     z.append("")
     kal = e.get("kalibrierung") or []
     if any(b["n"] for b in kal):
-        stab_pfad = HIER / "stabilitaet.json"
+        fl = e.get("flake_nach_retry_signal")
+    if fl and (fl["mit_signal"]["n"] or fl["ohne_signal"]["n"]):
+        z.append("### The `FLAKE` row, taken apart")
+        z.append("")
+        z.append("`FLAKE` recall is the worst number on this page, and pooled it is "
+                 "close to meaningless — because it is mostly a statement about the "
+                 "corpus. The agent recognises a flake almost entirely from one field: "
+                 "whether the retry log shows a pass on the same commit, unchanged. So "
+                 "whoever assembles the corpus decides the recall, just by choosing how "
+                 "many flake cases carry that field.")
+        z.append("")
+        z.append("Split by the signal, that freedom disappears:")
+        z.append("")
+        z.append("| the case's own artefacts | cases | called `FLAKE` | rate (95% CI) |")
+        z.append("|---|---|---|---|")
+        for schluessel, label in (("mit_signal", "show a pass on retry"),
+                                  ("ohne_signal", "show every attempt failing")):
+            t = fl[schluessel]
+            if not t["n"]:
+                continue
+            lo, hi = t["ci95"]
+            z.append(f"| {label} | {t['n']} | {t['erkannt']} | "
+                     f"{t['quote']:.0%} <sub>[{lo:.0%}–{hi:.0%}]</sub> |")
+        z.append("")
+        z.append("Those two rows are the actual finding, and they hold whatever the mix "
+                 "is. Flake detection in this system is a lookup of one field rather than "
+                 "an act of reasoning — and a person handed the same bundle could not do "
+                 "better on the second row, because the run's artefacts genuinely do not "
+                 "contain the answer. What would fix it is cross-run history for that "
+                 "test, which this agent does not have.")
+        z.append("")
+    stab_pfad = HIER / "stabilitaet.json"
     if stab_pfad.exists():
         st = json.loads(stab_pfad.read_text(encoding="utf-8"))
         z.append("### How much of this is the dice?")

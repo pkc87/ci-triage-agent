@@ -95,6 +95,19 @@ Rows are the true label, columns are what the agent actually did.
 | **`KAPUTTER_TEST`** | 0 | 22 | 0 | 3 |
 | **`FLAKE`** | 0 | 4 | 2 | 1 |
 
+### The `FLAKE` row, taken apart
+
+`FLAKE` recall is the worst number on this page, and pooled it is close to meaningless — because it is mostly a statement about the corpus. The agent recognises a flake almost entirely from one field: whether the retry log shows a pass on the same commit, unchanged. So whoever assembles the corpus decides the recall, just by choosing how many flake cases carry that field.
+
+Split by the signal, that freedom disappears:
+
+| the case's own artefacts | cases | called `FLAKE` | rate (95% CI) |
+|---|---|---|---|
+| show a pass on retry | 2 | 2 | 100% <sub>[34%–100%]</sub> |
+| show every attempt failing | 5 | 0 | 0% <sub>[0%–43%]</sub> |
+
+Those two rows are the actual finding, and they hold whatever the mix is. Flake detection in this system is a lookup of one field rather than an act of reasoning — and a person handed the same bundle could not do better on the second row, because the run's artefacts genuinely do not contain the answer. What would fix it is cross-run history for that test, which this agent does not have.
+
 ### How much of this is the dice?
 
 The same corpus was run through the same model twice. Across the 47 cases both runs answered, they agreed on the class **89%** of the time and on the resulting action **100%** of the time, with a mean confidence difference of **0.029**.

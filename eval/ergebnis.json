@@ -1,5 +1,5 @@
 {
-  "erzeugt_am": "2026-09-14T21:43:08Z",
+  "erzeugt_am": "2026-09-14T22:36:17Z",
   "backend": "cli",
   "modell": "claude-sonnet-5",
   "mit_screenshot": false,
@@ -544,5 +544,25 @@
         0.9291
       ]
     }
-  ]
+  ],
+  "flake_nach_retry_signal": {
+    "mit_signal": {
+      "n": 2,
+      "erkannt": 2,
+      "quote": 1.0,
+      "ci95": [
+        0.3424,
+        1.0
+      ]
+    },
+    "ohne_signal": {
+      "n": 5,
+      "erkannt": 0,
+      "quote": 0.0,
+      "ci95": [
+        0.0,
+        0.4345
+      ]
+    }
+  }
 }

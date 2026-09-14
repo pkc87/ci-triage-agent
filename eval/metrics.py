@@ -201,3 +201,32 @@ def kalibrierung(paare: Sequence[tuple[float, bool]],
             "ci95": wilson(richtig, len(drin)),
         })
     return ausgabe
+
+
+def bedingte_trefferquote(faelle: Sequence[tuple[bool, bool]]) -> dict:
+    """Hit rate split by whether a piece of evidence was present.
+
+    Exists because of a composition problem that is easy to hide. The agent
+    recognises a flake almost entirely from one field: whether the retry log
+    shows a pass on the same commit. So the FLAKE recall you publish is largely
+    a function of how many of your flake cases happen to carry that field --
+    which is a property of the corpus its author assembled, not of the agent.
+
+    Splitting the rate by the presence of the signal removes that freedom. The
+    two conditional numbers are stable no matter how the corpus is mixed, and
+    the gap between them is the actual finding.
+
+    Input pairs are (signal_present, was_correct).
+    """
+    def teil(nur: bool) -> dict:
+        drin = [ok for hat, ok in faelle if hat is nur]
+        if not drin:
+            return {"n": 0, "erkannt": 0, "quote": None, "ci95": None}
+        erkannt = sum(1 for ok in drin if ok)
+        return {
+            "n": len(drin),
+            "erkannt": erkannt,
+            "quote": round(erkannt / len(drin), 4),
+            "ci95": wilson(erkannt, len(drin)),
+        }
+    return {"mit_signal": teil(True), "ohne_signal": teil(False)}

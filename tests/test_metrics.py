@@ -147,3 +147,30 @@ def test_hoehere_schwelle_senkt_die_macro_precision_nicht_kuenstlich():
     ]
     mutiger = vorsichtiger[:2] + [("FLAKE", "KAPUTTER_TEST")]
     assert kennzahlen(vorsichtiger)["macro_precision"] >= kennzahlen(mutiger)["macro_precision"]
+
+
+def test_bedingte_trefferquote_trennt_nach_signal():
+    from eval.metrics import bedingte_trefferquote
+    # 3 cases carry the signal and are all caught; 4 lack it and none are.
+    paare = [(True, True)] * 3 + [(False, False)] * 4
+    b = bedingte_trefferquote(paare)
+    assert b["mit_signal"]["n"] == 3 and b["mit_signal"]["quote"] == 1.0
+    assert b["ohne_signal"]["n"] == 4 and b["ohne_signal"]["quote"] == 0.0
+    # the point of the split: the pooled rate depends on the mix, the parts do not
+    assert b["mit_signal"]["ci95"][0] > 0.0
+
+
+def test_bedingte_trefferquote_meldet_leere_seite_als_none():
+    from eval.metrics import bedingte_trefferquote
+    b = bedingte_trefferquote([(True, True), (True, False)])
+    assert b["ohne_signal"]["n"] == 0
+    assert b["ohne_signal"]["quote"] is None
+
+
+def test_gepoolte_quote_haengt_an_der_mischung_die_bedingte_nicht():
+    from eval.metrics import bedingte_trefferquote
+    wenig = [(True, True)] * 2 + [(False, False)] * 8     # pooled 20%
+    viel = [(True, True)] * 8 + [(False, False)] * 2      # pooled 80%
+    a, b = bedingte_trefferquote(wenig), bedingte_trefferquote(viel)
+    assert a["mit_signal"]["quote"] == b["mit_signal"]["quote"] == 1.0
+    assert a["ohne_signal"]["quote"] == b["ohne_signal"]["quote"] == 0.0

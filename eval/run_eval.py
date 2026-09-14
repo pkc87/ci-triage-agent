@@ -32,7 +32,8 @@ from agent.backends import baue_backend                        # noqa: E402
 from agent.evidence import lade_fall                           # noqa: E402
 from agent.schema import FLAKE_AUFSCHLAG, KLASSEN, entscheide  # noqa: E402
 from agent.triage import triagiere                             # noqa: E402
-from eval.metrics import (ESKALIERT, kalibrierung, kennzahlen,  # noqa: E402
+from eval.metrics import (ESKALIERT, bedingte_trefferquote,  # noqa: E402
+                          kalibrierung, kennzahlen,
                           versenkte_produktfehler)
 
 SCHWELLEN = [0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95]
@@ -145,6 +146,28 @@ def sweep(vorhersagen: list[dict]) -> list[dict]:
             "macro_basis_recall": k["macro_basis_recall"],
         })
     return zeilen
+
+
+def hat_retry_pass(fall_id: str, fall_wurzel: Path) -> bool:
+    """Did this case's own artefacts show a pass on retry, unchanged?
+
+    Read from the case rather than stored at inference time, so the breakdown
+    works for predictions scored later with --nur-auswerten too.
+    """
+    fj = fall_wurzel / fall_id / "fall.json"
+    if not fj.exists():
+        return False
+    daten = json.loads(fj.read_text(encoding="utf-8"))
+    return any(v.get("status") == "passed" for v in (daten.get("versuche") or []))
+
+
+def flake_aufschluesselung(vorhersagen: list[dict], fall_wurzel: Path) -> dict:
+    """FLAKE recall, split by whether the retry signal was in the bundle."""
+    paare = [
+        (hat_retry_pass(v["fall_id"], fall_wurzel), v["klasse"] == "FLAKE")
+        for v in vorhersagen if v["label"] == "FLAKE"
+    ]
+    return bedingte_trefferquote(paare)
 
 
 def herkunft(faelle: list[dict]) -> dict:
@@ -273,6 +296,9 @@ def main(argv: list[str] | None = None) -> int:
         # right? If this column does not rise, the threshold sorts by noise.
         "kalibrierung": kalibrierung([(v["konfidenz"], v["klasse"] == v["label"])
                                       for v in vorhersagen if v["klasse"] is not None]),
+        # FLAKE recall conditioned on the one signal that decides it, so the
+        # headline number cannot be moved by choosing the corpus mix.
+        "flake_nach_retry_signal": flake_aufschluesselung(vorhersagen, HIER / "cases"),
     }
     ausgabe_pfad.write_text(json.dumps(ergebnis, ensure_ascii=False, indent=2) + "\n",
                             encoding="utf-8")
