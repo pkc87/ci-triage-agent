@@ -33,3 +33,9 @@ corpus:
 
 fixtures-green:
 	cd fixtures && npx playwright test
+
+readme:
+	$(PY) eval/readme_zahlen.py
+
+korpus-pruefen:
+	$(PY) eval/pruefe_korpus.py
