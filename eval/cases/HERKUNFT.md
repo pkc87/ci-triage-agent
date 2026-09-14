@@ -115,6 +115,19 @@ Two cases are in there on purpose, because they are triage traps:
   completely different evidence picture (22726 px at identical size versus
   460404 px with a height difference).
 
+### Additional redaction: `.claude/launch.json`
+
+Seven of the diffs (`hist-001` … `hist-007`) originally carried
+`.claude/launch.json`, a dev-server config from the source monorepo that lists
+every app in it by name. It has nothing to do with why a Playwright assertion
+failed, and publishing it would have leaked the shape of unrelated private
+projects. It is stripped from those diffs by `eval/scrubbe_diffs.py`, which
+prints exactly what it removed. Removing it also makes the evidence slightly
+better: it was noise in the prompt.
+
+No other file was removed on these grounds. All remaining diff content is from
+`apps/kc-web/`.
+
 ## Labels and what they rest on
 
 **All 14 cases: `KAPUTTER_TEST`, all `gelabelt_von: "historie"`.**
