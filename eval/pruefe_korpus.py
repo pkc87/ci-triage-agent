@@ -99,7 +99,7 @@ def main() -> int:
     readme = HIER.parent / "README.md"
     if readme.exists():
         text = readme.read_text(encoding="utf-8")
-        for name in ("ZAHLEN", "BEISPIEL", "SWEEP"):
+        for name in ("ZAHLEN", "BEISPIEL", "SWEEP", "FEHLER"):
             start, ende = f"<!-- {name}:START -->", f"<!-- {name}:ENDE -->"
             if start not in text or ende not in text:
                 fehler.append(f"README.md: {name} markers missing")

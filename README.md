@@ -99,6 +99,43 @@ token.
 
 ---
 
+## What it gets wrong
+
+<!-- FEHLER:START -->
+<!-- FEHLER:ENDE -->
+
+Two causes sit behind those numbers, and only one of them is a reasoning error.
+
+**Intent is not visible in a diff.** Several real product bugs were filed as
+broken tests because the change under test *looked* deliberate — in one case the
+mutation carried the comment `// never charge a fraction of a cent` above a
+rounding change that was in fact the bug, and the agent quoted that comment back
+as its evidence of intent. The prompt asks it to read the diff for intent,
+because that is genuinely how you tell a stale test from a regression; the catch
+is that a careless change and a considered one are indistinguishable in a patch.
+This error is cheap: a wrong `KAPUTTER_TEST` still produces a `TICKET`, so a
+human sees it. It costs a misfiled ticket, not a shipped regression.
+
+**A flake that fails every attempt in a run is not distinguishable from a broken
+test.** This one is not a reasoning error, it is missing evidence, and the
+corpus separates the two cleanly: where the retry log showed a pass on the same
+commit, the agent called `FLAKE` and was right; where every attempt in the run
+failed, it called `KAPUTTER_TEST` every time. The split is that clean. So flake
+detection here is, in effect, a lookup of one field — and a human handed the
+same bundle could not do better, because the run's artefacts genuinely do not
+contain the answer. Fixing it needs cross-run history for that test, which this
+agent does not have and which is the obvious next thing to build.
+
+**What was deliberately not done about it.** Flake recall could be raised
+immediately by relaxing the prompt's demand for positive evidence of
+nondeterminism. That trade is refused: a false `FLAKE` is the only error in this
+system with unbounded cost, because `RERUN` is the only action that removes a
+failure without a human seeing it. Trading the one metric that is currently zero
+for a better-looking recall number, on a corpus of this size, is precisely the
+tuning this repository exists to argue against.
+
+---
+
 ## What this agent cannot do
 
 <!-- GRENZEN:START -->

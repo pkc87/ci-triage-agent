@@ -209,6 +209,36 @@ def sweep_block(e: dict) -> str:
     return '\n'.join(z)
 
 
+def fehler_block(e: dict) -> str:
+    """The mistakes, grouped, straight out of the confusion matrix."""
+    b = e["betriebspunkt"]
+    paare = []
+    for wahr in KLASSEN:
+        for vorhergesagt in KLASSEN:
+            if wahr != vorhergesagt and b["konfusion"][wahr][vorhergesagt]:
+                paare.append((b["konfusion"][wahr][vorhergesagt], wahr, vorhergesagt))
+    paare.sort(reverse=True)
+    z: list[str] = []
+    if not paare:
+        z.append("At this threshold the agent made no misclassification. With a corpus "
+                 "this size that is a statement about the corpus, not about the agent.")
+        return '\n'.join(z)
+    z.append("| truth | agent said | cases |")
+    z.append("|---|---|---|")
+    for n, wahr, vorhergesagt in paare:
+        z.append(f"| `{wahr}` | `{vorhergesagt}` | {n} |")
+    z.append("")
+    gesamt = sum(n for n, _, _ in paare)
+    nach_kt = sum(n for n, _, v in paare if v == "KAPUTTER_TEST")
+    if nach_kt == gesamt and len(paare) > 1:
+        z.append(f"**Every one of the {gesamt} mistakes lands in the same place: "
+                 "`KAPUTTER_TEST`.** It is the class the agent falls into when the "
+                 "evidence runs out, which is why its recall is the highest of the three "
+                 "and its precision the lowest — it absorbs the uncertainty of the other "
+                 "two.")
+    return '\n'.join(z)
+
+
 def beispiel_block(e: dict) -> str:
     """Lift a real verdict out of the predictions file. Never a hand-written one."""
     pfad = HIER / f"predictions_{e['backend']}.jsonl"
@@ -252,6 +282,7 @@ def main() -> int:
     text = _block(text, "ZAHLEN", zahlen_block(e))
     text = _block(text, "BEISPIEL", beispiel_block(e))
     text = _block(text, "SWEEP", sweep_block(e))
+    text = _block(text, "FEHLER", fehler_block(e))
     readme.write_text(text, encoding="utf-8")
     print("README numbers refreshed from eval/ergebnis.json")
     return 0
