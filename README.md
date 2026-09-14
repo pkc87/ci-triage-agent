@@ -104,35 +104,59 @@ token.
 <!-- FEHLER:START -->
 <!-- FEHLER:ENDE -->
 
-Two causes sit behind those numbers, and only one of them is a reasoning error.
+All of them are the same mistake.
 
-**Intent is not visible in a diff.** Several real product bugs were filed as
-broken tests because the change under test *looked* deliberate — in one case the
-mutation carried the comment `// never charge a fraction of a cent` above a
-rounding change that was in fact the bug, and the agent quoted that comment back
-as its evidence of intent. The prompt asks it to read the diff for intent,
-because that is genuinely how you tell a stale test from a regression; the catch
-is that a careless change and a considered one are indistinguishable in a patch.
-This error is cheap: a wrong `KAPUTTER_TEST` still produces a `TICKET`, so a
-human sees it. It costs a misfiled ticket, not a shipped regression.
+**The agent infers intent from the diff, and then blames the other side.** Once
+it decides a change was deliberate, the fault must lie with whatever did *not*
+change. That single move produces every error in the table:
 
-**A flake that fails every attempt in a run is not distinguishable from a broken
-test.** This one is not a reasoning error, it is missing evidence, and the
-corpus separates the two cleanly: where the retry log showed a pass on the same
-commit, the agent called `FLAKE` and was right; where every attempt in the run
-failed, it called `KAPUTTER_TEST` every time. The split is that clean. So flake
-detection here is, in effect, a lookup of one field — and a human handed the
-same bundle could not do better, because the run's artefacts genuinely do not
-contain the answer. Fixing it needs cross-run history for that test, which this
-agent does not have and which is the obvious next thing to build.
+- A real rounding bug shipped with the comment `// never charge a fraction of a
+  cent` above it. The agent quoted that comment back as its evidence, concluded
+  the change was a considered pricing decision, and filed the *test* as stale.
+  Four cases, all the same shape.
+- A test edited into a race — auto-retrying assertions swapped for a fixed
+  `waitForTimeout`. Only the test changed, so the agent called the test broken.
+  Four cases. Defensible, and still not the label.
+- A test edited to expect five products where the page renders four. Only the
+  test changed, so the agent decided a fifth product had been intentionally
+  added and the *app* had failed to render it. Same reasoning, opposite verdict.
 
-**What was deliberately not done about it.** Flake recall could be raised
-immediately by relaxing the prompt's demand for positive evidence of
-nondeterminism. That trade is refused: a false `FLAKE` is the only error in this
-system with unbounded cost, because `RERUN` is the only action that removes a
-failure without a human seeing it. Trading the one metric that is currently zero
-for a better-looking recall number, on a corpus of this size, is precisely the
-tuning this repository exists to argue against.
+The prompt asks it to read the diff for intent, because that genuinely is how
+you separate a stale test from a regression. The catch is that **a patch does
+not record intent.** A careless change and a considered one look identical, and
+a confident comment above a bug is indistinguishable from a confident comment
+above a feature. The agent is not reasoning badly here; it is reading a signal
+that does not carry the information it needs.
+
+**One of these is missing evidence rather than bad reasoning, and the corpus
+separates them cleanly.** Of the seven flakes: where the retry log showed a pass
+on the same commit, the agent called `FLAKE` and was right, twice out of twice.
+Where every attempt in the run failed, it never once called `FLAKE` — five out
+of five. A perfect split on a single field. Flake detection in this system is
+effectively a lookup of that field, and a human handed the same bundle could not
+do better, because the run's artefacts genuinely do not contain the answer.
+Fixing it needs cross-run history for that test, which this agent does not have
+and which is the obvious next thing to build.
+
+**This error is cheap, and that is by construction.** A wrong `KAPUTTER_TEST`
+and a wrong `PRODUKTFEHLER` both produce a `TICKET`, so a human still sees the
+failure. Zero product bugs were auto-rerun into silence, at every threshold in
+the sweep. The agent misfiles; it does not bury.
+
+**What was deliberately not fixed.** Flake recall could be lifted immediately by
+relaxing the prompt's demand for positive evidence of nondeterminism. That trade
+is refused. A false `FLAKE` is the only error in this system with unbounded
+cost, because `RERUN` is the only action that removes a failure without a human
+seeing it — and it is currently the one number sitting at zero. Trading that for
+a better-looking recall figure, on a corpus of 47 cases, is exactly the tuning
+this repository exists to argue against.
+
+**A note on the prediction.** A failure mode was written down before the corpus
+was scored (`docs/entscheidungen.md`, §11): product bugs misread as broken tests
+whenever the diff looks purposeful. That happened, four times. But the
+prediction was narrower than the truth — it did not anticipate the same
+mechanism firing in the opposite direction, blaming the app when the *test* was
+the thing that changed. The prediction was right and incomplete.
 
 ---
 

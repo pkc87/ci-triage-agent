@@ -199,13 +199,33 @@ def sweep_block(e: dict) -> str:
         z.append("")
     ohne = e.get("ablation_ohne_flake_aufschlag")
     if ohne:
-        z.append(f"**Ablation — drop the `FLAKE` surcharge** (same predictions, same "
-                 f"{b['schwelle']} threshold, `FLAKE` no longer needs the extra "
-                 f"{b['flake_aufschlag']}): coverage rises from {b['abdeckung']:.0%} to "
-                 f"{ohne['abdeckung']:.0%}, and buried product bugs go from "
-                 f"**{b['versenkte_produktfehler']}** to **{ohne['versenkte_produktfehler']}**. "
-                 f"That difference is the entire argument for the surcharge, and it is "
-                 f"why it is a separate knob rather than part of the threshold.")
+        gleiche_abdeckung = ohne["abdeckung"] == b["abdeckung"]
+        gleiche_versenkte = ohne["versenkte_produktfehler"] == b["versenkte_produktfehler"]
+        if gleiche_abdeckung and gleiche_versenkte:
+            z.append(f"**Ablation — drop the `FLAKE` surcharge** (same predictions, same "
+                     f"{b['schwelle']} threshold, `FLAKE` no longer held to the extra "
+                     f"+{b['flake_aufschlag']}): **no change at all** — coverage stays at "
+                     f"{b['abdeckung']:.0%} and buried bugs stay at "
+                     f"{b['versenkte_produktfehler']}.")
+            z.append("")
+            z.append("Which is worth saying plainly rather than quietly dropping: on this "
+                     "corpus the surcharge did nothing. It could not, because the agent "
+                     "never once predicted `FLAKE` wrongly — the class it over-uses is "
+                     "`KAPUTTER_TEST`, and that one has no surcharge. The guard is "
+                     "insurance that did not have to pay out here. It stays in because "
+                     "the cost it insures against (a product bug auto-rerun into silence) "
+                     "is the one unbounded cost in the system, and a corpus of 47 cases "
+                     "is not evidence that it never happens — only that it did not "
+                     "happen here.")
+        else:
+            z.append(f"**Ablation — drop the `FLAKE` surcharge** (same predictions, same "
+                     f"{b['schwelle']} threshold, `FLAKE` no longer held to the extra "
+                     f"+{b['flake_aufschlag']}): coverage {b['abdeckung']:.0%} → "
+                     f"{ohne['abdeckung']:.0%}, buried product bugs "
+                     f"**{b['versenkte_produktfehler']} → "
+                     f"{ohne['versenkte_produktfehler']}**. That difference is the "
+                     f"argument for the surcharge being a separate knob rather than part "
+                     f"of the threshold.")
     return '\n'.join(z)
 
 
