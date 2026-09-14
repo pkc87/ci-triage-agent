@@ -19,8 +19,11 @@ threshold — refuses to make it and escalates to a human instead.
 
 ## What it decides
 
-Input: a failing Playwright test — the report JSON, the trace, the screenshot,
-and the diff of the change under test.
+Input: a failing Playwright test — the report JSON, the trace (its action log,
+extracted from `trace.zip`), the failure screenshot, and the diff of the change
+under test. Whatever is missing for a given failure is named as missing in the
+prompt, so the model can lower its confidence instead of inventing a reason.
+The published run is text-only; see the limitations.
 
 Output, per failure:
 
@@ -368,6 +371,15 @@ Reproduce the whole evaluation — inference, metrics, confusion matrix, sweep:
 export ANTHROPIC_API_KEY=sk-...
 make eval
 ```
+
+A note on which backend produced the published numbers: the `cli` one, which
+drives the Claude Code CLI in headless mode and needs no API key. That is stated
+in the table, in `eval/ergebnis.json`, and here, because it is the kind of detail
+that is tempting to leave out. `make eval` above uses the `api` backend instead,
+since that is the path a reader can actually run — so expect your numbers to
+differ from the published ones by roughly the run-to-run spread reported above,
+and possibly a little more. Both backends send the same prompt to the same
+model; neither is doing anything the other cannot.
 
 Run the pipeline with no API key and no spend (keyword stub, used by CI):
 
