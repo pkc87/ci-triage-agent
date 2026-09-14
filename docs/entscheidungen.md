@@ -101,20 +101,31 @@ happened.
 
 ## 6. The corpus is half real and half constructed, and the split is published
 
-Real CI history was the first choice. What it actually yielded:
-596 individual failing tests across nine runs — which collapse into **three**
-root causes. Real CI failures cluster hard: one broken runner config produces
-120 identical failures, and rerunning it five times produces 600.
+Real CI history was the first choice. What it actually yielded: **656**
+individual failing tests across nine runs — which collapse into exactly **two**
+root causes. Real CI failures cluster hard. One misconfigured runner produced
+120 identical failures; it survived five successive commits before anyone fixed
+it, so those five runs contribute 600 failures with a *single* distinct error
+body between them.
 
-Three root causes cannot support a per-class precision claim. So the historical
-half is a documented *sample* (capped per root cause so no cluster dominates),
-and the rest of the corpus is built by deliberately breaking a fixture app.
+They were also all one class. Every red build in that history was a broken test
+or a broken runner — no product bugs, no flakes. Two root causes and one class
+cannot support a per-class precision claim, so the historical half is a
+documented *sample* (capped at seven cases per cause) and the rest of the corpus
+is built by deliberately breaking a fixture app.
 
 Constructed cases have one property real ones do not: the label is known by
 construction. We know what we broke, so `gelabelt_von: "konstruktion"` is the
-strongest ground truth in the corpus, not the weakest. The weak labels are the
-historical ones that rest on model judgement, and they are marked
-`gelabelt_von: "claude-opus-5"` precisely so a reader can discount them.
+strongest ground truth here, not the weakest. As it turned out, the historical
+labels are strong too — every one of them cites the commit that later fixed the
+failure (`gelabelt_von: "historie"`), so **no label in this corpus rests on
+model judgement.** The `claude-opus-5` value stayed in the schema as the
+expected fallback and was never needed.
+
+The residual bias is narrower, and real: the mutations were designed with heavy
+agent assistance, so the constructed half reflects a model's idea of how tests
+break. A failure mode that neither the mutation author nor the triage agent has
+thought of is missing from both sides of this evaluation.
 
 Every generated case comes from a real Playwright run against a real mutated
 app. No report was written by hand.
