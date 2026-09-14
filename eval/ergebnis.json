@@ -1,77 +1,87 @@
 {
-  "erzeugt_am": "2026-09-14T12:02:37Z",
+  "erzeugt_am": "2026-09-14T21:38:19Z",
   "backend": "cli",
   "modell": "claude-sonnet-5",
   "mit_screenshot": false,
   "herkunft": {
-    "gesamt": 45,
+    "gesamt": 47,
     "nach_quelle": {
       "historisch": 14,
-      "synthetisch": 31
+      "synthetisch": 33
     },
     "nach_label": {
-      "FLAKE": 5,
+      "FLAKE": 7,
       "KAPUTTER_TEST": 25,
       "PRODUKTFEHLER": 15
     },
     "nach_labelquelle": {
       "historie": 14,
-      "konstruktion": 31
+      "konstruktion": 33
     }
   },
   "betriebspunkt": {
-    "faelle_gesamt": 45,
-    "faelle_entschieden": 40,
+    "faelle_gesamt": 47,
+    "faelle_entschieden": 42,
     "faelle_eskaliert": 5,
-    "abdeckung": 0.8889,
-    "eskalationsquote": 0.1111,
-    "genauigkeit_entschieden": 0.85,
-    "macro_precision": 0.9259,
-    "macro_recall": 0.7286,
-    "macro_f1": 0.7755,
+    "abdeckung": 0.8936,
+    "eskalationsquote": 0.1064,
+    "genauigkeit_entschieden": 0.7857,
+    "macro_precision": 0.8777,
+    "macro_recall": 0.6674,
+    "macro_f1": 0.7078,
     "macro_basis": [
+      "PRODUKTFEHLER",
+      "KAPUTTER_TEST",
+      "FLAKE"
+    ],
+    "macro_basis_precision": [
+      "PRODUKTFEHLER",
+      "KAPUTTER_TEST",
+      "FLAKE"
+    ],
+    "macro_basis_recall": [
       "PRODUKTFEHLER",
       "KAPUTTER_TEST",
       "FLAKE"
     ],
     "je_klasse": {
       "PRODUKTFEHLER": {
-        "precision": 1.0,
+        "precision": 0.9091,
         "precision_ci95": [
-          0.7412,
-          1.0
+          0.6226,
+          0.9838
         ],
-        "recall": 0.7857,
+        "recall": 0.7143,
         "recall_ci95": [
-          0.5241,
-          0.9243
+          0.4535,
+          0.8828
         ],
-        "f1": 0.88,
+        "f1": 0.8,
         "support_gesamt": 15,
         "support_entschieden": 14,
         "eskaliert": 1,
-        "tp": 11,
-        "fp": 0,
-        "fn": 3
+        "tp": 10,
+        "fp": 1,
+        "fn": 4
       },
       "KAPUTTER_TEST": {
-        "precision": 0.7778,
+        "precision": 0.7241,
         "precision_ci95": [
-          0.5924,
-          0.8939
+          0.5428,
+          0.853
         ],
-        "recall": 1.0,
+        "recall": 0.9545,
         "recall_ci95": [
-          0.8454,
-          1.0
+          0.782,
+          0.9919
         ],
-        "f1": 0.875,
+        "f1": 0.8235,
         "support_gesamt": 25,
-        "support_entschieden": 21,
-        "eskaliert": 4,
+        "support_entschieden": 22,
+        "eskaliert": 3,
         "tp": 21,
-        "fp": 6,
-        "fn": 0
+        "fp": 8,
+        "fn": 1
       },
       "FLAKE": {
         "precision": 1.0,
@@ -79,57 +89,67 @@
           0.3424,
           1.0
         ],
-        "recall": 0.4,
+        "recall": 0.3333,
         "recall_ci95": [
-          0.1176,
-          0.7693
+          0.0968,
+          0.7
         ],
-        "f1": 0.5714,
-        "support_gesamt": 5,
-        "support_entschieden": 5,
-        "eskaliert": 0,
+        "f1": 0.5,
+        "support_gesamt": 7,
+        "support_entschieden": 6,
+        "eskaliert": 1,
         "tp": 2,
         "fp": 0,
-        "fn": 3
+        "fn": 4
       }
     },
     "konfusion": {
       "PRODUKTFEHLER": {
-        "PRODUKTFEHLER": 11,
-        "KAPUTTER_TEST": 3,
+        "PRODUKTFEHLER": 10,
+        "KAPUTTER_TEST": 4,
         "FLAKE": 0,
         "ESKALATION_MENSCH": 1
       },
       "KAPUTTER_TEST": {
-        "PRODUKTFEHLER": 0,
+        "PRODUKTFEHLER": 1,
         "KAPUTTER_TEST": 21,
         "FLAKE": 0,
-        "ESKALATION_MENSCH": 4
+        "ESKALATION_MENSCH": 3
       },
       "FLAKE": {
         "PRODUKTFEHLER": 0,
-        "KAPUTTER_TEST": 3,
+        "KAPUTTER_TEST": 4,
         "FLAKE": 2,
-        "ESKALATION_MENSCH": 0
+        "ESKALATION_MENSCH": 1
       }
     },
     "schwelle": 0.7,
     "flake_aufschlag": 0.1,
     "versenkte_produktfehler": 0,
-    "parse_fehler": 2
+    "parse_fehler": 0
   },
   "sweep": [
     {
       "schwelle": 0.5,
-      "macro_precision": 0.9286,
-      "macro_recall": 0.7286,
-      "macro_f1": 0.7771,
-      "abdeckung": 0.9111,
-      "eskalationsquote": 0.0889,
-      "genauigkeit_entschieden": 0.8537,
+      "macro_precision": 0.8477,
+      "macro_recall": 0.6363,
+      "macro_f1": 0.6666,
+      "abdeckung": 0.9574,
+      "eskalationsquote": 0.0426,
+      "genauigkeit_entschieden": 0.7556,
       "versenkte_produktfehler": 0,
-      "produktfehler_recall": 0.7857,
+      "produktfehler_recall": 0.6667,
       "macro_basis": [
+        "PRODUKTFEHLER",
+        "KAPUTTER_TEST",
+        "FLAKE"
+      ],
+      "macro_basis_precision": [
+        "PRODUKTFEHLER",
+        "KAPUTTER_TEST",
+        "FLAKE"
+      ],
+      "macro_basis_recall": [
         "PRODUKTFEHLER",
         "KAPUTTER_TEST",
         "FLAKE"
@@ -137,15 +157,25 @@
     },
     {
       "schwelle": 0.55,
-      "macro_precision": 0.9259,
-      "macro_recall": 0.7286,
-      "macro_f1": 0.7755,
-      "abdeckung": 0.8889,
-      "eskalationsquote": 0.1111,
-      "genauigkeit_entschieden": 0.85,
+      "macro_precision": 0.8444,
+      "macro_recall": 0.6356,
+      "macro_f1": 0.6643,
+      "abdeckung": 0.9362,
+      "eskalationsquote": 0.0638,
+      "genauigkeit_entschieden": 0.75,
       "versenkte_produktfehler": 0,
-      "produktfehler_recall": 0.7857,
+      "produktfehler_recall": 0.6667,
       "macro_basis": [
+        "PRODUKTFEHLER",
+        "KAPUTTER_TEST",
+        "FLAKE"
+      ],
+      "macro_basis_precision": [
+        "PRODUKTFEHLER",
+        "KAPUTTER_TEST",
+        "FLAKE"
+      ],
+      "macro_basis_recall": [
         "PRODUKTFEHLER",
         "KAPUTTER_TEST",
         "FLAKE"
@@ -153,15 +183,25 @@
     },
     {
       "schwelle": 0.6,
-      "macro_precision": 0.9259,
-      "macro_recall": 0.7286,
-      "macro_f1": 0.7755,
-      "abdeckung": 0.8889,
-      "eskalationsquote": 0.1111,
-      "genauigkeit_entschieden": 0.85,
+      "macro_precision": 0.8697,
+      "macro_recall": 0.6515,
+      "macro_f1": 0.6923,
+      "abdeckung": 0.9149,
+      "eskalationsquote": 0.0851,
+      "genauigkeit_entschieden": 0.7674,
       "versenkte_produktfehler": 0,
-      "produktfehler_recall": 0.7857,
+      "produktfehler_recall": 0.6667,
       "macro_basis": [
+        "PRODUKTFEHLER",
+        "KAPUTTER_TEST",
+        "FLAKE"
+      ],
+      "macro_basis_precision": [
+        "PRODUKTFEHLER",
+        "KAPUTTER_TEST",
+        "FLAKE"
+      ],
+      "macro_basis_recall": [
         "PRODUKTFEHLER",
         "KAPUTTER_TEST",
         "FLAKE"
@@ -169,15 +209,25 @@
     },
     {
       "schwelle": 0.65,
-      "macro_precision": 0.9259,
-      "macro_recall": 0.7286,
-      "macro_f1": 0.7755,
-      "abdeckung": 0.8889,
-      "eskalationsquote": 0.1111,
-      "genauigkeit_entschieden": 0.85,
+      "macro_precision": 0.8697,
+      "macro_recall": 0.6515,
+      "macro_f1": 0.6923,
+      "abdeckung": 0.9149,
+      "eskalationsquote": 0.0851,
+      "genauigkeit_entschieden": 0.7674,
       "versenkte_produktfehler": 0,
-      "produktfehler_recall": 0.7857,
+      "produktfehler_recall": 0.6667,
       "macro_basis": [
+        "PRODUKTFEHLER",
+        "KAPUTTER_TEST",
+        "FLAKE"
+      ],
+      "macro_basis_precision": [
+        "PRODUKTFEHLER",
+        "KAPUTTER_TEST",
+        "FLAKE"
+      ],
+      "macro_basis_recall": [
         "PRODUKTFEHLER",
         "KAPUTTER_TEST",
         "FLAKE"
@@ -185,15 +235,25 @@
     },
     {
       "schwelle": 0.7,
-      "macro_precision": 0.9259,
-      "macro_recall": 0.7286,
-      "macro_f1": 0.7755,
-      "abdeckung": 0.8889,
-      "eskalationsquote": 0.1111,
-      "genauigkeit_entschieden": 0.85,
+      "macro_precision": 0.8777,
+      "macro_recall": 0.6674,
+      "macro_f1": 0.7078,
+      "abdeckung": 0.8936,
+      "eskalationsquote": 0.1064,
+      "genauigkeit_entschieden": 0.7857,
       "versenkte_produktfehler": 0,
-      "produktfehler_recall": 0.7857,
+      "produktfehler_recall": 0.7143,
       "macro_basis": [
+        "PRODUKTFEHLER",
+        "KAPUTTER_TEST",
+        "FLAKE"
+      ],
+      "macro_basis_precision": [
+        "PRODUKTFEHLER",
+        "KAPUTTER_TEST",
+        "FLAKE"
+      ],
+      "macro_basis_recall": [
         "PRODUKTFEHLER",
         "KAPUTTER_TEST",
         "FLAKE"
@@ -201,15 +261,25 @@
     },
     {
       "schwelle": 0.75,
-      "macro_precision": 0.9259,
-      "macro_recall": 0.7286,
-      "macro_f1": 0.7755,
-      "abdeckung": 0.8889,
-      "eskalationsquote": 0.1111,
-      "genauigkeit_entschieden": 0.85,
+      "macro_precision": 0.8777,
+      "macro_recall": 0.6674,
+      "macro_f1": 0.7078,
+      "abdeckung": 0.8936,
+      "eskalationsquote": 0.1064,
+      "genauigkeit_entschieden": 0.7857,
       "versenkte_produktfehler": 0,
-      "produktfehler_recall": 0.7857,
+      "produktfehler_recall": 0.7143,
       "macro_basis": [
+        "PRODUKTFEHLER",
+        "KAPUTTER_TEST",
+        "FLAKE"
+      ],
+      "macro_basis_precision": [
+        "PRODUKTFEHLER",
+        "KAPUTTER_TEST",
+        "FLAKE"
+      ],
+      "macro_basis_recall": [
         "PRODUKTFEHLER",
         "KAPUTTER_TEST",
         "FLAKE"
@@ -217,15 +287,25 @@
     },
     {
       "schwelle": 0.8,
-      "macro_precision": 0.9359,
-      "macro_recall": 0.7444,
-      "macro_f1": 0.7914,
-      "abdeckung": 0.8444,
-      "eskalationsquote": 0.1556,
-      "genauigkeit_entschieden": 0.8684,
+      "macro_precision": 0.8745,
+      "macro_recall": 0.6667,
+      "macro_f1": 0.7054,
+      "abdeckung": 0.8723,
+      "eskalationsquote": 0.1277,
+      "genauigkeit_entschieden": 0.7805,
       "versenkte_produktfehler": 0,
-      "produktfehler_recall": 0.8333,
+      "produktfehler_recall": 0.7143,
       "macro_basis": [
+        "PRODUKTFEHLER",
+        "KAPUTTER_TEST",
+        "FLAKE"
+      ],
+      "macro_basis_precision": [
+        "PRODUKTFEHLER",
+        "KAPUTTER_TEST",
+        "FLAKE"
+      ],
+      "macro_basis_recall": [
         "PRODUKTFEHLER",
         "KAPUTTER_TEST",
         "FLAKE"
@@ -233,15 +313,24 @@
     },
     {
       "schwelle": 0.85,
-      "macro_precision": 0.9359,
-      "macro_recall": 0.6944,
-      "macro_f1": 0.7342,
-      "abdeckung": 0.8222,
-      "eskalationsquote": 0.1778,
-      "genauigkeit_entschieden": 0.8649,
+      "macro_precision": 0.8249,
+      "macro_recall": 0.5739,
+      "macro_f1": 0.8333,
+      "abdeckung": 0.8085,
+      "eskalationsquote": 0.1915,
+      "genauigkeit_entschieden": 0.7895,
       "versenkte_produktfehler": 0,
-      "produktfehler_recall": 0.8333,
+      "produktfehler_recall": 0.7692,
       "macro_basis": [
+        "PRODUKTFEHLER",
+        "KAPUTTER_TEST",
+        "FLAKE"
+      ],
+      "macro_basis_precision": [
+        "PRODUKTFEHLER",
+        "KAPUTTER_TEST"
+      ],
+      "macro_basis_recall": [
         "PRODUKTFEHLER",
         "KAPUTTER_TEST",
         "FLAKE"
@@ -249,88 +338,118 @@
     },
     {
       "schwelle": 0.9,
-      "macro_precision": 1.0,
-      "macro_recall": 1.0,
-      "macro_f1": 1.0,
-      "abdeckung": 0.5556,
-      "eskalationsquote": 0.4444,
-      "genauigkeit_entschieden": 1.0,
+      "macro_precision": 0.925,
+      "macro_recall": 0.6333,
+      "macro_f1": 0.9332,
+      "abdeckung": 0.617,
+      "eskalationsquote": 0.383,
+      "genauigkeit_entschieden": 0.8966,
       "versenkte_produktfehler": 0,
-      "produktfehler_recall": 1.0,
+      "produktfehler_recall": 0.9,
       "macro_basis": [
         "PRODUKTFEHLER",
+        "KAPUTTER_TEST",
+        "FLAKE"
+      ],
+      "macro_basis_precision": [
+        "PRODUKTFEHLER",
         "KAPUTTER_TEST"
+      ],
+      "macro_basis_recall": [
+        "PRODUKTFEHLER",
+        "KAPUTTER_TEST",
+        "FLAKE"
       ]
     },
     {
       "schwelle": 0.95,
-      "macro_precision": 1.0,
-      "macro_recall": 1.0,
-      "macro_f1": 1.0,
-      "abdeckung": 0.4444,
-      "eskalationsquote": 0.5556,
-      "genauigkeit_entschieden": 1.0,
+      "macro_precision": 0.9667,
+      "macro_recall": 0.6667,
+      "macro_f1": 0.9828,
+      "abdeckung": 0.383,
+      "eskalationsquote": 0.617,
+      "genauigkeit_entschieden": 0.9444,
       "versenkte_produktfehler": 0,
       "produktfehler_recall": 1.0,
       "macro_basis": [
         "PRODUKTFEHLER",
+        "KAPUTTER_TEST",
+        "FLAKE"
+      ],
+      "macro_basis_precision": [
+        "PRODUKTFEHLER",
         "KAPUTTER_TEST"
+      ],
+      "macro_basis_recall": [
+        "PRODUKTFEHLER",
+        "KAPUTTER_TEST",
+        "FLAKE"
       ]
     }
   ],
   "ablation_ohne_flake_aufschlag": {
-    "faelle_gesamt": 45,
-    "faelle_entschieden": 40,
+    "faelle_gesamt": 47,
+    "faelle_entschieden": 42,
     "faelle_eskaliert": 5,
-    "abdeckung": 0.8889,
-    "eskalationsquote": 0.1111,
-    "genauigkeit_entschieden": 0.85,
-    "macro_precision": 0.9259,
-    "macro_recall": 0.7286,
-    "macro_f1": 0.7755,
+    "abdeckung": 0.8936,
+    "eskalationsquote": 0.1064,
+    "genauigkeit_entschieden": 0.7857,
+    "macro_precision": 0.8777,
+    "macro_recall": 0.6674,
+    "macro_f1": 0.7078,
     "macro_basis": [
+      "PRODUKTFEHLER",
+      "KAPUTTER_TEST",
+      "FLAKE"
+    ],
+    "macro_basis_precision": [
+      "PRODUKTFEHLER",
+      "KAPUTTER_TEST",
+      "FLAKE"
+    ],
+    "macro_basis_recall": [
       "PRODUKTFEHLER",
       "KAPUTTER_TEST",
       "FLAKE"
     ],
     "je_klasse": {
       "PRODUKTFEHLER": {
-        "precision": 1.0,
+        "precision": 0.9091,
         "precision_ci95": [
-          0.7412,
-          1.0
+          0.6226,
+          0.9838
         ],
-        "recall": 0.7857,
+        "recall": 0.7143,
         "recall_ci95": [
-          0.5241,
-          0.9243
+          0.4535,
+          0.8828
         ],
-        "f1": 0.88,
+        "f1": 0.8,
         "support_gesamt": 15,
         "support_entschieden": 14,
         "eskaliert": 1,
-        "tp": 11,
-        "fp": 0,
-        "fn": 3
+        "tp": 10,
+        "fp": 1,
+        "fn": 4
       },
       "KAPUTTER_TEST": {
-        "precision": 0.7778,
+        "precision": 0.7241,
         "precision_ci95": [
-          0.5924,
-          0.8939
+          0.5428,
+          0.853
         ],
-        "recall": 1.0,
+        "recall": 0.9545,
         "recall_ci95": [
-          0.8454,
-          1.0
+          0.782,
+          0.9919
         ],
-        "f1": 0.875,
+        "f1": 0.8235,
         "support_gesamt": 25,
-        "support_entschieden": 21,
-        "eskaliert": 4,
+        "support_entschieden": 22,
+        "eskaliert": 3,
         "tp": 21,
-        "fp": 6,
-        "fn": 0
+        "fp": 8,
+        "fn": 1
       },
       "FLAKE": {
         "precision": 1.0,
@@ -338,43 +457,93 @@
           0.3424,
           1.0
         ],
-        "recall": 0.4,
+        "recall": 0.3333,
         "recall_ci95": [
-          0.1176,
-          0.7693
+          0.0968,
+          0.7
         ],
-        "f1": 0.5714,
-        "support_gesamt": 5,
-        "support_entschieden": 5,
-        "eskaliert": 0,
+        "f1": 0.5,
+        "support_gesamt": 7,
+        "support_entschieden": 6,
+        "eskaliert": 1,
         "tp": 2,
         "fp": 0,
-        "fn": 3
+        "fn": 4
       }
     },
     "konfusion": {
       "PRODUKTFEHLER": {
-        "PRODUKTFEHLER": 11,
-        "KAPUTTER_TEST": 3,
+        "PRODUKTFEHLER": 10,
+        "KAPUTTER_TEST": 4,
         "FLAKE": 0,
         "ESKALATION_MENSCH": 1
       },
       "KAPUTTER_TEST": {
-        "PRODUKTFEHLER": 0,
+        "PRODUKTFEHLER": 1,
         "KAPUTTER_TEST": 21,
         "FLAKE": 0,
-        "ESKALATION_MENSCH": 4
+        "ESKALATION_MENSCH": 3
       },
       "FLAKE": {
         "PRODUKTFEHLER": 0,
-        "KAPUTTER_TEST": 3,
+        "KAPUTTER_TEST": 4,
         "FLAKE": 2,
-        "ESKALATION_MENSCH": 0
+        "ESKALATION_MENSCH": 1
       }
     },
     "schwelle": 0.7,
     "flake_aufschlag": 0.0,
     "versenkte_produktfehler": 0,
-    "parse_fehler": 2
-  }
+    "parse_fehler": 0
+  },
+  "kalibrierung": [
+    {
+      "von": 0.0,
+      "bis": 0.6,
+      "n": 4,
+      "richtig": 3,
+      "trefferquote": 0.75,
+      "mittlere_konfidenz": 0.485,
+      "ci95": [
+        0.3006,
+        0.9544
+      ]
+    },
+    {
+      "von": 0.6,
+      "bis": 0.75,
+      "n": 1,
+      "richtig": 0,
+      "trefferquote": 0.0,
+      "mittlere_konfidenz": 0.68,
+      "ci95": [
+        0.0,
+        0.7935
+      ]
+    },
+    {
+      "von": 0.75,
+      "bis": 0.9,
+      "n": 11,
+      "richtig": 5,
+      "trefferquote": 0.4545,
+      "mittlere_konfidenz": 0.8518,
+      "ci95": [
+        0.2127,
+        0.7199
+      ]
+    },
+    {
+      "von": 0.9,
+      "bis": 1.0,
+      "n": 31,
+      "richtig": 28,
+      "trefferquote": 0.9032,
+      "mittlere_konfidenz": 0.95,
+      "ci95": [
+        0.751,
+        0.9665
+      ]
+    }
+  ]
 }

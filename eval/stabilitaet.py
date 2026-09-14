@@ -55,36 +55,57 @@ def main() -> int:
     drift_summe = 0.0
     gleiche_aktion = 0
     abweichler: list[dict] = []
+    # A run that errored out produced no verdict at all. Counting that as the
+    # model "changing its mind" would blame nondeterminism for a broken pipe --
+    # so failures are excluded from the agreement rates and reported on their
+    # own line. They are a real problem, just a different one.
+    ausgefallen: list[dict] = []
+    beantwortet = 0
 
     for fid in gemeinsam:
         va, vb = a[fid], b[fid]
         ka, kb = va["klasse"], vb["klasse"]
+        if ka is None or kb is None:
+            ausgefallen.append({
+                "fall_id": fid,
+                "lauf": "A" if ka is None else ("B" if kb is None else "beide"),
+                "fehler": (va.get("fehler") or vb.get("fehler") or "")[:200],
+            })
+            continue
+        beantwortet += 1
         if ka == kb:
             gleiche_klasse += 1
-        if ka is not None and kb is not None:
-            drift_summe += abs(va["konfidenz"] - vb["konfidenz"])
-            aa = entscheide(ka, va["konfidenz"], args.schwelle, FLAKE_AUFSCHLAG)
-            ab = entscheide(kb, vb["konfidenz"], args.schwelle, FLAKE_AUFSCHLAG)
-            if aa == ab:
-                gleiche_aktion += 1
-            else:
-                abweichler.append({"fall_id": fid, "label": va.get("label"),
-                                   "a": f"{ka} {va['konfidenz']:.2f} -> {aa}",
-                                   "b": f"{kb} {vb['konfidenz']:.2f} -> {ab}"})
+        drift_summe += abs(va["konfidenz"] - vb["konfidenz"])
+        aa = entscheide(ka, va["konfidenz"], args.schwelle, FLAKE_AUFSCHLAG)
+        ab = entscheide(kb, vb["konfidenz"], args.schwelle, FLAKE_AUFSCHLAG)
+        if aa == ab:
+            gleiche_aktion += 1
+        else:
+            abweichler.append({"fall_id": fid, "label": va.get("label"),
+                               "a": f"{ka} {va['konfidenz']:.2f} -> {aa}",
+                               "b": f"{kb} {vb['konfidenz']:.2f} -> {ab}"})
 
     n = len(gemeinsam)
+    teiler = beantwortet or 1
     bericht = {
         "faelle": n,
-        "klassen_uebereinstimmung": round(gleiche_klasse / n, 4),
-        "mittlere_konfidenz_drift": round(drift_summe / n, 4),
-        "aktions_uebereinstimmung": round(gleiche_aktion / n, 4),
+        "von_beiden_beantwortet": beantwortet,
+        "ausgefallen": ausgefallen,
+        "klassen_uebereinstimmung": round(gleiche_klasse / teiler, 4),
+        "mittlere_konfidenz_drift": round(drift_summe / teiler, 4),
+        "aktions_uebereinstimmung": round(gleiche_aktion / teiler, 4),
         "schwelle": args.schwelle,
         "abweichler": abweichler,
     }
     Path(args.ausgabe).write_text(json.dumps(bericht, ensure_ascii=False, indent=2) + "\n",
                                   encoding="utf-8")
 
-    print(f"{n} cases in both runs")
+    print(f"{n} cases in both runs; {beantwortet} answered by both")
+    if ausgefallen:
+        print(f"  {len(ausgefallen)} excluded -- one run produced no verdict "
+              f"(backend/parse failure, not a change of mind):")
+        for w in ausgefallen:
+            print(f"    {w['fall_id']:<12} failed in run {w['lauf']}: {w['fehler'][:90]}")
     print(f"  same class:          {bericht['klassen_uebereinstimmung']:.0%}")
     print(f"  same action @ {args.schwelle}:  {bericht['aktions_uebereinstimmung']:.0%}")
     print(f"  mean |confidence a - b|: {bericht['mittlere_konfidenz_drift']:.3f}")

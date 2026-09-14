@@ -78,14 +78,38 @@ def kennzahlen(paare: Sequence[tuple[str, str]],
             "tp": tp, "fp": fp, "fn": fn,
         }
 
-    # Macro-average over classes that actually got decided. A class the agent
-    # escalated entirely contributes no score -- averaging in a 0.0 for it would
-    # punish abstention, which is the behaviour we are trying to reward.
-    bewertbar = [k for k in klassen if je_klasse[k]["support_entschieden"] > 0]
-    def _macro(feld: str) -> float:
-        if not bewertbar:
+    # Macro averages, over the classes for which the quantity is actually
+    # defined -- and precision and recall are defined over different sets.
+    #
+    # Precision asks "when it said X, was it X?", so it needs the agent to have
+    # said X at least once: tp+fp > 0. A class it never predicts has undefined
+    # precision, not zero. Scoring it zero was the old behaviour here and it
+    # produced a genuinely misleading artefact: raising the threshold past the
+    # point where the agent stopped predicting FLAKE dropped macro precision
+    # from 0.87 to 0.55, which reads as the agent getting worse when what
+    # actually happened is that it got more cautious.
+    #
+    # Recall asks "of the real X, how many did it catch?", so it needs decided
+    # cases of X to exist: tp+fn > 0.
+    basis_precision = [k for k in klassen if je_klasse[k]["tp"] + je_klasse[k]["fp"] > 0]
+    basis_recall = [k for k in klassen if je_klasse[k]["tp"] + je_klasse[k]["fn"] > 0]
+
+    def _macro(feld: str, basis: list[str]) -> float:
+        if not basis:
             return 0.0
-        return round(sum(je_klasse[k][feld] for k in bewertbar) / len(bewertbar), 4)
+        return round(sum(je_klasse[k][feld] for k in basis) / len(basis), 4)
+
+    for k in klassen:
+        if k not in basis_precision:
+            je_klasse[k]["precision"] = None
+            je_klasse[k]["precision_ci95"] = None
+        if k not in basis_recall:
+            je_klasse[k]["recall"] = None
+            je_klasse[k]["recall_ci95"] = None
+        if je_klasse[k]["precision"] is None or je_klasse[k]["recall"] is None:
+            je_klasse[k]["f1"] = None
+
+    bewertbar = [k for k in klassen if je_klasse[k]["support_entschieden"] > 0]
 
     return {
         "faelle_gesamt": gesamt,
@@ -96,10 +120,15 @@ def kennzahlen(paare: Sequence[tuple[str, str]],
         "genauigkeit_entschieden": round(
             sum(1 for w, v in entschieden if w == v) / len(entschieden), 4
         ) if entschieden else 0.0,
-        "macro_precision": _macro("precision"),
-        "macro_recall": _macro("recall"),
-        "macro_f1": _macro("f1"),
+        "macro_precision": _macro("precision", basis_precision),
+        "macro_recall": _macro("recall", basis_recall),
+        "macro_f1": round(
+            sum(je_klasse[k]["f1"] for k in klassen if je_klasse[k]["f1"] is not None)
+            / len([k for k in klassen if je_klasse[k]["f1"] is not None]), 4
+        ) if any(je_klasse[k]["f1"] is not None for k in klassen) else 0.0,
         "macro_basis": bewertbar,
+        "macro_basis_precision": basis_precision,
+        "macro_basis_recall": basis_recall,
         "je_klasse": je_klasse,
         "konfusion": matrix,
     }

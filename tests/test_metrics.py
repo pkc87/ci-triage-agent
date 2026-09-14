@@ -109,3 +109,41 @@ def test_kalibrierung_meldet_leere_koerbe_als_none_statt_null():
     b = kalibrierung([(0.95, True)])
     leer = [z for z in b if z["n"] == 0]
     assert leer and all(z["trefferquote"] is None for z in leer)
+
+
+def test_nie_vorhergesagte_klasse_hat_undefinierte_precision_nicht_null():
+    # The agent decides two classes and never says FLAKE. Two real flakes get
+    # called KAPUTTER_TEST. FLAKE recall is a real 0.0 -- it missed both. FLAKE
+    # precision is undefined: it never claimed a flake, so there is nothing to
+    # be right or wrong about.
+    paare = [
+        ("PRODUKTFEHLER", "PRODUKTFEHLER"),
+        ("KAPUTTER_TEST", "KAPUTTER_TEST"),
+        ("FLAKE", "KAPUTTER_TEST"),
+        ("FLAKE", "KAPUTTER_TEST"),
+    ]
+    k = kennzahlen(paare)
+    assert k["je_klasse"]["FLAKE"]["precision"] is None
+    assert k["je_klasse"]["FLAKE"]["recall"] == 0.0
+    assert "FLAKE" not in k["macro_basis_precision"]
+    assert "FLAKE" in k["macro_basis_recall"]
+    # macro precision averages only the two classes it actually predicted:
+    # PRODUKTFEHLER is clean (1.0), KAPUTTER_TEST absorbed both flakes as false
+    # positives (1 tp / 3 predicted = 0.333). FLAKE contributes nothing.
+    assert k["je_klasse"]["PRODUKTFEHLER"]["precision"] == 1.0
+    assert k["je_klasse"]["KAPUTTER_TEST"]["precision"] == round(1 / 3, 4)
+    assert k["macro_precision"] == round((1.0 + round(1 / 3, 4)) / 2, 4)
+    # macro recall still carries the miss
+    assert k["macro_recall"] < 1.0
+
+
+def test_hoehere_schwelle_senkt_die_macro_precision_nicht_kuenstlich():
+    # Regression guard for the artefact this fix removed: a class dropping out
+    # of the predictions must not drag macro precision down as a 0.0.
+    vorsichtiger = [
+        ("PRODUKTFEHLER", "PRODUKTFEHLER"),
+        ("KAPUTTER_TEST", "KAPUTTER_TEST"),
+        ("FLAKE", ESKALIERT),
+    ]
+    mutiger = vorsichtiger[:2] + [("FLAKE", "KAPUTTER_TEST")]
+    assert kennzahlen(vorsichtiger)["macro_precision"] >= kennzahlen(mutiger)["macro_precision"]

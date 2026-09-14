@@ -54,9 +54,17 @@ def zahlen_block(e: dict) -> str:
             z.append(f"| `{k}` | – <sub>({grund})</sub> | – <sub>({grund})</sub> | – | "
                      f"{j['support_gesamt']} | 0 | {j['eskaliert']} |")
             continue
-        pci, rci = j["precision_ci95"], j["recall_ci95"]
-        z.append(f"| `{k}` | {j['precision']:.2f} <sub>[{pci[0]:.2f}-{pci[1]:.2f}]</sub> | "
-                 f"{j['recall']:.2f} <sub>[{rci[0]:.2f}-{rci[1]:.2f}]</sub> | {j['f1']:.2f} | "
+        def _zelle(wert, ci, was):
+            if wert is None:
+                # Undefined, not zero: the agent never made a claim of this kind.
+                grund = ("never predicted" if was == "precision"
+                         else "no decided cases")
+                return f"– <sub>({grund})</sub>"
+            return f"{wert:.2f} <sub>[{ci[0]:.2f}-{ci[1]:.2f}]</sub>"
+
+        f1 = "–" if j["f1"] is None else f"{j['f1']:.2f}"
+        z.append(f"| `{k}` | {_zelle(j['precision'], j['precision_ci95'], 'precision')} | "
+                 f"{_zelle(j['recall'], j['recall_ci95'], 'recall')} | {f1} | "
                  f"{j['support_gesamt']} | {j['support_entschieden']} | {j['eskaliert']} |")
     z.append(f"| **macro** | **{b['macro_precision']:.2f}** | **{b['macro_recall']:.2f}** | "
              f"**{b['macro_f1']:.2f}** | {b['faelle_gesamt']} | {b['faelle_entschieden']} | "
@@ -93,6 +101,25 @@ def zahlen_block(e: dict) -> str:
     z.append("")
     kal = e.get("kalibrierung") or []
     if any(b["n"] for b in kal):
+        stab_pfad = HIER / "stabilitaet.json"
+    if stab_pfad.exists():
+        st = json.loads(stab_pfad.read_text(encoding="utf-8"))
+        z.append("### How much of this is the dice?")
+        z.append("")
+        z.append(f"The same corpus was run through the same model twice. Across the "
+                 f"{st['von_beiden_beantwortet']} cases both runs answered, they agreed on "
+                 f"the class **{st['klassen_uebereinstimmung']:.0%}** of the time and on "
+                 f"the resulting action **{st['aktions_uebereinstimmung']:.0%}** of the "
+                 f"time, with a mean confidence difference of "
+                 f"**{st['mittlere_konfidenz_drift']:.3f}**.")
+        z.append("")
+        z.append("Sampling is not deterministic, so a single run reports one draw from a "
+                 "distribution. The point of measuring this is calibration of a different "
+                 "kind: it sets the size of difference that is worth believing. A prompt "
+                 "change that moves macro precision by less than this is noise, and this "
+                 "repository is not going to claim otherwise. `eval/stabilitaet.json` has "
+                 "the per-case detail.")
+        z.append("")
         z.append("### Does the confidence mean anything?")
         z.append("")
         z.append("Everything above rests on one assumption: that the number the model "
@@ -102,24 +129,22 @@ def zahlen_block(e: dict) -> str:
         z.append("")
         z.append("| stated confidence | cases | correct | hit rate (95% CI) |")
         z.append("|---|---|---|---|")
-        for b in kal:
-            if not b["n"]:
+        for korb in kal:                       # not `b`: that is the operating point
+            if not korb["n"]:
                 continue
-            lo, hi = b["ci95"]
-            z.append(f"| {b['von']:.2f} – {b['bis']:.2f} | {b['n']} | {b['richtig']} | "
-                     f"{b['trefferquote']:.0%} <sub>[{lo:.0%}–{hi:.0%}]</sub> |")
+            lo, hi = korb["ci95"]
+            z.append(f"| {korb['von']:.2f} – {korb['bis']:.2f} | {korb['n']} | "
+                     f"{korb['richtig']} | "
+                     f"{korb['trefferquote']:.0%} <sub>[{lo:.0%}–{hi:.0%}]</sub> |")
         z.append("")
         z.append("Read this before the headline table.")
         z.append("")
         z.append("### Where the data comes from")
     z.append("")
-    z.append(f"| source | cases | how it was labelled |")
-    z.append("|---|---|---|")
-    for quelle, n in h["nach_quelle"].items():
-        z.append(f"| {quelle} | {n} | see below |")
-    z.append("")
-    labelquellen = ", ".join(f"`{k}`: {v}" for k, v in h["nach_labelquelle"].items())
-    z.append(f"Label provenance: {labelquellen}.")
+    labelquellen = ", ".join(f"`{k}` {v}" for k, v in h["nach_labelquelle"].items())
+    klassen_verteilung = ", ".join(f"`{k}` {v}" for k, v in h["nach_label"].items())
+    z.append(f"Class balance: {klassen_verteilung}. "
+             f"Label provenance: {labelquellen}.")
     z.append("")
     z.append("- `konstruktion` — the label follows from the mutation that produced the "
              "failure. We know what we broke, so this is the strongest ground truth here, "
@@ -153,15 +178,45 @@ def zahlen_block(e: dict) -> str:
     z.append("")
     stub = WURZEL / "eval" / "ergebnis_stub.json"
     if stub.exists():
-        s = json.loads(stub.read_text(encoding="utf-8"))["betriebspunkt"]
-        z.append("### Against a floor")
+        st = json.loads(stub.read_text(encoding="utf-8"))["betriebspunkt"]
+        richtig_stub = round(st["genauigkeit_entschieden"] * st["faelle_entschieden"])
+        richtig_modell = round(b["genauigkeit_entschieden"] * b["faelle_entschieden"])
+        z.append("### Against a floor, and a worked example of why coverage is in every table")
         z.append("")
-        z.append(f"A page of regexes over the error text (`--backend stub`, no model) "
-                 f"scores macro precision **{s['macro_precision']:.2f}** / recall "
-                 f"**{s['macro_recall']:.2f}** at coverage {s['abdeckung']:.0%}, burying "
-                 f"{s['versenkte_produktfehler']} product bug(s). It is in the repo because "
-                 f"a prompt that cannot beat regexes is not earning its latency, and "
-                 f"because it lets CI exercise the whole pipeline with no key and no spend.")
+        z.append(f"The repo ships a keyword classifier with no model in it at all "
+                 f"(`--backend stub`): a page of regexes over the error text. On this "
+                 f"corpus it scores macro precision **{st['macro_precision']:.2f}** and "
+                 f"macro recall **{st['macro_recall']:.2f}**.")
+        z.append("")
+        z.append("Which looks like it beats the model. It does not, and the reason is the "
+                 "whole argument of this page:")
+        z.append("")
+        z.append("| | regex stub | the agent |")
+        z.append("|---|---|---|")
+        z.append(f"| macro precision | {st['macro_precision']:.2f} | "
+                 f"{b['macro_precision']:.2f} |")
+        z.append(f"| coverage | {st['abdeckung']:.0%} | {b['abdeckung']:.0%} |")
+        z.append(f"| classes it ever decides | {len(st['macro_basis'])}/3 | "
+                 f"{len(b['macro_basis'])}/3 |")
+        z.append(f"| `PRODUKTFEHLER` cases decided | "
+                 f"{st['je_klasse']['PRODUKTFEHLER']['support_entschieden']}/"
+                 f"{st['je_klasse']['PRODUKTFEHLER']['support_gesamt']} | "
+                 f"{b['je_klasse']['PRODUKTFEHLER']['support_entschieden']}/"
+                 f"{b['je_klasse']['PRODUKTFEHLER']['support_gesamt']} |")
+        z.append(f"| **failures correctly triaged, out of {b['faelle_gesamt']}** | "
+                 f"**{richtig_stub}** | **{richtig_modell}** |")
+        z.append("")
+        z.append(f"The stub never classifies a product bug at all — it escalates all "
+                 f"{st['je_klasse']['PRODUKTFEHLER']['support_gesamt']} of them — so its "
+                 f"perfect score is a perfect score on the easy two-thirds. Judged on the "
+                 f"only question a team actually cares about, how many of the "
+                 f"{b['faelle_gesamt']} red builds got triaged correctly, it does "
+                 f"{richtig_stub} and the agent does {richtig_modell}.")
+        z.append("")
+        z.append("This is exactly the trap described further up, and it is left standing "
+                 "in the repo rather than tuned away, because it is the clearest possible "
+                 "demonstration that a precision number without a coverage number next to "
+                 "it is not a result.")
         z.append("")
     z.append("Raw output: [`eval/ergebnis.json`](eval/ergebnis.json) · "
              "per-case verdicts: [`eval/predictions_" + e["backend"] + ".jsonl`]"
@@ -172,25 +227,25 @@ def zahlen_block(e: dict) -> str:
 def sweep_block(e: dict) -> str:
     b = e["betriebspunkt"]
     z: list[str] = []
-    z.append("| threshold | macro P | macro R | classes in macro | `PRODUKTFEHLER` recall | coverage | escalated | **buried bugs** |")
+    z.append("| threshold | macro P | macro R | classes in macro P | `PRODUKTFEHLER` recall | coverage | escalated | **buried bugs** |")
     z.append("|---|---|---|---|---|---|---|---|")
     unvollstaendig = False
     for r in e["sweep"]:
         hier = r["schwelle"] == b["schwelle"]
         markierung = " **<- shipped**" if hier else ""
-        n_basis = len(r.get("macro_basis", KLASSEN))
+        n_basis = len(r.get("macro_basis_precision", KLASSEN))
         if n_basis < len(KLASSEN):
             unvollstaendig = True
         basis = f"{n_basis}/3" + ("" if n_basis == len(KLASSEN) else " ⚠")
         z.append(f"| {r['schwelle']:.2f}{markierung} | {r['macro_precision']:.2f} | "
-                 f"{r['macro_recall']:.2f} | {basis} | {r['produktfehler_recall']:.2f} | "
+                 f"{r['macro_recall']:.2f} | {basis} | "f"{'–' if r['produktfehler_recall'] is None else format(r['produktfehler_recall'], '.2f')} | "
                  f"{r['abdeckung']:.0%} | {r['eskalationsquote']:.0%} | "
                  f"{r['versenkte_produktfehler']} |")
     z.append("")
     if unvollstaendig:
-        z.append("**Read the 'classes in macro' column before the macro column.** Once a "
-                 "class is escalated in its entirety it drops out of the macro average "
-                 "rather than being scored as zero — so a row marked ⚠ is averaging fewer "
+        z.append("**Read the 'classes in macro P' column before the macro column.** Once a "
+                 "class stops being predicted at all, its precision is undefined rather "
+                 "than zero, so it leaves the average — a row marked ⚠ is averaging fewer "
                  "classes than the rows above it, and its macro is *not* comparable to "
                  "them. The perfect scores at the high end are real, but they are perfect "
                  "scores on two classes and a shrinking share of the corpus, not a better "

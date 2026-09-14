@@ -32,6 +32,17 @@ aktion:      RERUN | TICKET | ESKALATION_MENSCH
 ```
 
 <!-- BEISPIEL:START -->
+A real verdict from the run below (case `syn-015`, ground truth `PRODUKTFEHLER`):
+
+```
+klasse:      PRODUKTFEHLER
+konfidenz:   0.97
+begruendung: The diff removes the empty-cart waiver from the handling() function so it now always returns HANDLING_FEE, and the test fails exactly on that behavior, showing $2.50 instead of the expected $0.00 for an empty cart. This is an unintentional regression in application logic rather than a deliberate spec change reflected in the test, since the docstring above the function still says the fee should be waived for an empty cart.
+beleg:       -  return lines.length === 0 ? 0 : HANDLING_FEE; +  return HANDLING_FEE;
+aktion:      TICKET
+```
+
+`beleg` is a literal quote from the evidence, required by the prompt. A verdict the model cannot cite is a verdict it does not have — it is the cheapest guard against confident nonsense in the whole system.
 <!-- BEISPIEL:ENDE -->
 
 **The escalation is the point.** Below the confidence threshold the agent does
@@ -54,6 +65,85 @@ confidence, `begruendung` = rationale, `beleg` = citation, `aktion` = action.
 ## The numbers
 
 <!-- ZAHLEN:START -->
+**47 labelled failures** — 14 pulled from real CI history, 33 produced by deliberately breaking a fixture app. Scored with `cli` backend, model `claude-sonnet-5`, at threshold **0.7**.
+
+| Class | Precision (95% CI) | Recall (95% CI) | F1 | Cases | Decided | Escalated |
+|---|---|---|---|---|---|---|
+| `PRODUKTFEHLER` | 0.91 <sub>[0.62-0.98]</sub> | 0.71 <sub>[0.45-0.88]</sub> | 0.80 | 15 | 14 | 1 |
+| `KAPUTTER_TEST` | 0.72 <sub>[0.54-0.85]</sub> | 0.95 <sub>[0.78-0.99]</sub> | 0.82 | 25 | 22 | 3 |
+| `FLAKE` | 1.00 <sub>[0.34-1.00]</sub> | 0.33 <sub>[0.10-0.70]</sub> | 0.50 | 7 | 6 | 1 |
+| **macro** | **0.88** | **0.67** | **0.71** | 47 | 42 | 5 |
+
+The intervals are Wilson score intervals, and they are wide because the corpus is small. That is the honest shape of this result: the point estimates are real measurements, and a per-class number resting on a dozen cases cannot be quoted to two decimals as though it were stable. If you only take one number from this table, take the interval.
+
+Coverage **89%** (the agent decided that share of cases and escalated the rest) · accuracy on decided cases **79%** · unparseable verdicts: 0
+
+**Product bugs silently auto-rerun: 0.** That is the number this system is tuned around; see the threshold section.
+
+Precision and recall are computed over *decided* cases only — an escalation is an abstention, not a wrong answer. Reported alone that would be trivially gameable (escalate everything, look perfect on the remainder), so coverage sits in the same table and never leaves it.
+
+### Confusion matrix
+
+Rows are the true label, columns are what the agent actually did.
+
+| truth \ agent | `PRODUKTFEHLER` | `KAPUTTER_TEST` | `FLAKE` | escalated |
+|---|---|---|---|---|
+| **`PRODUKTFEHLER`** | 10 | 4 | 0 | 1 |
+| **`KAPUTTER_TEST`** | 1 | 21 | 0 | 3 |
+| **`FLAKE`** | 0 | 4 | 2 | 1 |
+
+### How much of this is the dice?
+
+The same corpus was run through the same model twice. Across the 47 cases both runs answered, they agreed on the class **96%** of the time and on the resulting action **98%** of the time, with a mean confidence difference of **0.020**.
+
+Sampling is not deterministic, so a single run reports one draw from a distribution. The point of measuring this is calibration of a different kind: it sets the size of difference that is worth believing. A prompt change that moves macro precision by less than this is noise, and this repository is not going to claim otherwise. `eval/stabilitaet.json` has the per-case detail.
+
+### Does the confidence mean anything?
+
+Everything above rests on one assumption: that the number the model reports tracks how often it is actually right. If it does not, the threshold sorts by noise and every sweep row is theatre. So here is the assumption, checked:
+
+| stated confidence | cases | correct | hit rate (95% CI) |
+|---|---|---|---|
+| 0.00 – 0.60 | 4 | 3 | 75% <sub>[30%–95%]</sub> |
+| 0.60 – 0.75 | 1 | 0 | 0% <sub>[0%–79%]</sub> |
+| 0.75 – 0.90 | 11 | 5 | 45% <sub>[21%–72%]</sub> |
+| 0.90 – 1.00 | 31 | 28 | 90% <sub>[75%–97%]</sub> |
+
+Read this before the headline table.
+
+### Where the data comes from
+
+Class balance: `FLAKE` 7, `KAPUTTER_TEST` 25, `PRODUKTFEHLER` 15. Label provenance: `historie` 14, `konstruktion` 33.
+
+- `konstruktion` — the label follows from the mutation that produced the failure. We know what we broke, so this is the strongest ground truth here, not the weakest.
+- `historie` — the label follows from external repo evidence: the commit that later fixed it.
+- `claude-opus-5` — assigned by a model reading the artefact. **No case in this corpus carries this label.** The value exists in the schema because it was the expected fallback; it turned out not to be needed, and that is worth more than the fallback would have been.
+
+The constructed half is not a shortcut, it is a necessity, and the reason is worth stating plainly: **real CI failures cluster, hard.** The nine failed runs behind the historical cases contain **656** individual failing tests that collapse into exactly **two** root causes — one misconfigured runner produced 120 identical failures, and it survived five successive commits before anyone fixed it, for 600 failures with a single distinct error body between them. Two root causes cannot support a per-class precision claim, so the historical half is capped at seven cases per cause and the rest of the corpus is built by breaking a fixture app on purpose.
+
+They were also all one class. Every red build in that history was a broken test or a broken runner: **no product bugs and no flakes at all**. Which is its own small argument for the tool — the humans triaging those builds spent their attention on failures that never reached a user — but it means the `PRODUKTFEHLER` and `FLAKE` rows above rest entirely on constructed cases.
+
+Every synthetic case is a real Playwright run against a really-mutated app. No report in this repo was written by hand. `eval/cases/HERKUNFT.md` records which CI runs the historical cases came from and how they were sampled.
+
+### Against a floor, and a worked example of why coverage is in every table
+
+The repo ships a keyword classifier with no model in it at all (`--backend stub`): a page of regexes over the error text. On this corpus it scores macro precision **1.00** and macro recall **1.00**.
+
+Which looks like it beats the model. It does not, and the reason is the whole argument of this page:
+
+| | regex stub | the agent |
+|---|---|---|
+| macro precision | 1.00 | 0.88 |
+| coverage | 40% | 89% |
+| classes it ever decides | 2/3 | 3/3 |
+| `PRODUKTFEHLER` cases decided | 0/15 | 14/15 |
+| **failures correctly triaged, out of 47** | **19** | **33** |
+
+The stub never classifies a product bug at all — it escalates all 15 of them — so its perfect score is a perfect score on the easy two-thirds. Judged on the only question a team actually cares about, how many of the 47 red builds got triaged correctly, it does 19 and the agent does 33.
+
+This is exactly the trap described further up, and it is left standing in the repo rather than tuned away, because it is the clearest possible demonstration that a precision number without a coverage number next to it is not a result.
+
+Raw output: [`eval/ergebnis.json`](eval/ergebnis.json) · per-case verdicts: [`eval/predictions_cli.jsonl`](eval/predictions_cli.jsonl)
 <!-- ZAHLEN:ENDE -->
 
 ---
@@ -83,6 +173,24 @@ real product failures the agent auto-reran into silence. Everything else on
 this page is a tradeoff. That number is a floor.
 
 <!-- SWEEP:START -->
+| threshold | macro P | macro R | classes in macro P | `PRODUKTFEHLER` recall | coverage | escalated | **buried bugs** |
+|---|---|---|---|---|---|---|---|
+| 0.50 | 0.85 | 0.64 | 3/3 | 0.67 | 96% | 4% | 0 |
+| 0.55 | 0.84 | 0.64 | 3/3 | 0.67 | 94% | 6% | 0 |
+| 0.60 | 0.87 | 0.65 | 3/3 | 0.67 | 91% | 9% | 0 |
+| 0.65 | 0.87 | 0.65 | 3/3 | 0.67 | 91% | 9% | 0 |
+| 0.70 **<- shipped** | 0.88 | 0.67 | 3/3 | 0.71 | 89% | 11% | 0 |
+| 0.75 | 0.88 | 0.67 | 3/3 | 0.71 | 89% | 11% | 0 |
+| 0.80 | 0.87 | 0.67 | 3/3 | 0.71 | 87% | 13% | 0 |
+| 0.85 | 0.82 | 0.57 | 2/3 ⚠ | 0.77 | 81% | 19% | 0 |
+| 0.90 | 0.93 | 0.63 | 2/3 ⚠ | 0.90 | 62% | 38% | 0 |
+| 0.95 | 0.97 | 0.67 | 2/3 ⚠ | 1.00 | 38% | 62% | 0 |
+
+**Read the 'classes in macro P' column before the macro column.** Once a class stops being predicted at all, its precision is undefined rather than zero, so it leaves the average — a row marked ⚠ is averaging fewer classes than the rows above it, and its macro is *not* comparable to them. The perfect scores at the high end are real, but they are perfect scores on two classes and a shrinking share of the corpus, not a better agent. This is the exact trap the coverage column exists to expose, and it is left in the table rather than tuned away.
+
+**Ablation — drop the `FLAKE` surcharge** (same predictions, same 0.7 threshold, `FLAKE` no longer held to the extra +0.1): **no change at all** — coverage stays at 89% and buried bugs stay at 0.
+
+Which is worth saying plainly rather than quietly dropping: on this corpus the surcharge did nothing. It could not, because the agent never once predicted `FLAKE` wrongly — the class it over-uses is `KAPUTTER_TEST`, and that one has no surcharge. The guard is insurance that did not have to pay out here. It stays in because the cost it insures against (a product bug auto-rerun into silence) is the one unbounded cost in the system, and a corpus of 47 cases is not evidence that it never happens — only that it did not happen here.
 <!-- SWEEP:ENDE -->
 
 The sweep is honest arithmetic, not ten re-runs: the model is called once per
@@ -102,6 +210,12 @@ token.
 ## What it gets wrong
 
 <!-- FEHLER:START -->
+| truth | agent said | cases |
+|---|---|---|
+| `PRODUKTFEHLER` | `KAPUTTER_TEST` | 4 |
+| `FLAKE` | `KAPUTTER_TEST` | 4 |
+| `KAPUTTER_TEST` | `PRODUKTFEHLER` | 1 |
+
 <!-- FEHLER:ENDE -->
 
 All of them are the same mistake.

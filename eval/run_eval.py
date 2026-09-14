@@ -141,6 +141,8 @@ def sweep(vorhersagen: list[dict]) -> list[dict]:
             # being comparable to the rows above it -- which looks like a jump
             # in quality and is not one.
             "macro_basis": k["macro_basis"],
+            "macro_basis_precision": k["macro_basis_precision"],
+            "macro_basis_recall": k["macro_basis_recall"],
         })
     return zeilen
 
@@ -159,6 +161,11 @@ def herkunft(faelle: list[dict]) -> dict:
     }
 
 
+def _z(wert) -> str:
+    """None means undefined, not zero -- see eval/metrics.py:kennzahlen."""
+    return "  -  " if wert is None else f"{wert:.2f}"
+
+
 def als_markdown(ergebnis: dict) -> str:
     z = []
     b = ergebnis["betriebspunkt"]
@@ -171,7 +178,7 @@ def als_markdown(ergebnis: dict) -> str:
     z.append("|---|---|---|---|---|---|---|")
     for k in KLASSEN:
         j = b["je_klasse"][k]
-        z.append(f"| {k} | {j['precision']:.2f} | {j['recall']:.2f} | {j['f1']:.2f} | "
+        z.append(f"| {k} | {_z(j['precision'])} | {_z(j['recall'])} | {_z(j['f1'])} | "
                  f"{j['support_gesamt']} | {j['support_entschieden']} | {j['eskaliert']} |")
     z.append(f"| **macro** | **{b['macro_precision']:.2f}** | **{b['macro_recall']:.2f}** | "
              f"**{b['macro_f1']:.2f}** | {b['faelle_gesamt']} | {b['faelle_entschieden']} | "
@@ -196,10 +203,11 @@ def als_markdown(ergebnis: dict) -> str:
     z.append("|---|---|---|---|---|---|---|---|")
     for r in ergebnis["sweep"]:
         stern = " <-" if r["schwelle"] == b["schwelle"] else ""
-        n_basis = len(r.get("macro_basis", KLASSEN))
+        n_basis = len(r.get("macro_basis_precision", KLASSEN))
         basis = f"{n_basis}/3" + ("" if n_basis == 3 else " !")
+        pf = r["produktfehler_recall"]
         z.append(f"| {r['schwelle']:.2f}{stern} | {r['macro_precision']:.2f} | "
-                 f"{r['macro_recall']:.2f} | {basis} | {r['produktfehler_recall']:.2f} | "
+                 f"{r['macro_recall']:.2f} | {basis} | {_z(pf)} | "
                  f"{r['abdeckung']:.0%} | {r['eskalationsquote']:.0%} | "
                  f"{r['versenkte_produktfehler']} |")
     return "\n".join(z)

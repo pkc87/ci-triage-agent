@@ -1,49 +1,56 @@
 {
-  "erzeugt_am": "2026-09-14T11:17:46Z",
+  "erzeugt_am": "2026-09-14T21:38:19Z",
   "backend": "stub",
   "modell": "keyword-rules",
   "mit_screenshot": false,
   "herkunft": {
-    "gesamt": 14,
+    "gesamt": 47,
     "nach_quelle": {
-      "historisch": 14
+      "historisch": 14,
+      "synthetisch": 33
     },
     "nach_label": {
-      "KAPUTTER_TEST": 14
+      "FLAKE": 7,
+      "KAPUTTER_TEST": 25,
+      "PRODUKTFEHLER": 15
     },
     "nach_labelquelle": {
-      "historie": 14
+      "historie": 14,
+      "konstruktion": 33
     }
   },
   "betriebspunkt": {
-    "faelle_gesamt": 14,
-    "faelle_entschieden": 14,
-    "faelle_eskaliert": 0,
-    "abdeckung": 1.0,
-    "eskalationsquote": 0.0,
+    "faelle_gesamt": 47,
+    "faelle_entschieden": 19,
+    "faelle_eskaliert": 28,
+    "abdeckung": 0.4043,
+    "eskalationsquote": 0.5957,
     "genauigkeit_entschieden": 1.0,
     "macro_precision": 1.0,
     "macro_recall": 1.0,
     "macro_f1": 1.0,
     "macro_basis": [
-      "KAPUTTER_TEST"
+      "KAPUTTER_TEST",
+      "FLAKE"
+    ],
+    "macro_basis_precision": [
+      "KAPUTTER_TEST",
+      "FLAKE"
+    ],
+    "macro_basis_recall": [
+      "KAPUTTER_TEST",
+      "FLAKE"
     ],
     "je_klasse": {
       "PRODUKTFEHLER": {
-        "precision": 0.0,
-        "precision_ci95": [
-          0.0,
-          0.0
-        ],
-        "recall": 0.0,
-        "recall_ci95": [
-          0.0,
-          0.0
-        ],
-        "f1": 0.0,
-        "support_gesamt": 0,
+        "precision": null,
+        "precision_ci95": null,
+        "recall": null,
+        "recall_ci95": null,
+        "f1": null,
+        "support_gesamt": 15,
         "support_entschieden": 0,
-        "eskaliert": 0,
+        "eskaliert": 15,
         "tp": 0,
         "fp": 0,
         "fn": 0
@@ -51,38 +58,38 @@
       "KAPUTTER_TEST": {
         "precision": 1.0,
         "precision_ci95": [
-          0.7847,
+          0.8157,
           1.0
         ],
         "recall": 1.0,
         "recall_ci95": [
-          0.7847,
+          0.8157,
           1.0
         ],
         "f1": 1.0,
-        "support_gesamt": 14,
-        "support_entschieden": 14,
-        "eskaliert": 0,
-        "tp": 14,
+        "support_gesamt": 25,
+        "support_entschieden": 17,
+        "eskaliert": 8,
+        "tp": 17,
         "fp": 0,
         "fn": 0
       },
       "FLAKE": {
-        "precision": 0.0,
+        "precision": 1.0,
         "precision_ci95": [
-          0.0,
-          0.0
+          0.3424,
+          1.0
         ],
-        "recall": 0.0,
+        "recall": 1.0,
         "recall_ci95": [
-          0.0,
-          0.0
+          0.3424,
+          1.0
         ],
-        "f1": 0.0,
-        "support_gesamt": 0,
-        "support_entschieden": 0,
-        "eskaliert": 0,
-        "tp": 0,
+        "f1": 1.0,
+        "support_gesamt": 7,
+        "support_entschieden": 2,
+        "eskaliert": 5,
+        "tp": 2,
         "fp": 0,
         "fn": 0
       }
@@ -92,19 +99,19 @@
         "PRODUKTFEHLER": 0,
         "KAPUTTER_TEST": 0,
         "FLAKE": 0,
-        "ESKALATION_MENSCH": 0
+        "ESKALATION_MENSCH": 15
       },
       "KAPUTTER_TEST": {
         "PRODUKTFEHLER": 0,
-        "KAPUTTER_TEST": 14,
+        "KAPUTTER_TEST": 17,
         "FLAKE": 0,
-        "ESKALATION_MENSCH": 0
+        "ESKALATION_MENSCH": 8
       },
       "FLAKE": {
         "PRODUKTFEHLER": 0,
         "KAPUTTER_TEST": 0,
-        "FLAKE": 0,
-        "ESKALATION_MENSCH": 0
+        "FLAKE": 2,
+        "ESKALATION_MENSCH": 5
       }
     },
     "schwelle": 0.7,
@@ -115,102 +122,213 @@
   "sweep": [
     {
       "schwelle": 0.5,
-      "macro_precision": 1.0,
-      "macro_recall": 1.0,
-      "macro_f1": 1.0,
-      "abdeckung": 1.0,
-      "eskalationsquote": 0.0,
-      "genauigkeit_entschieden": 1.0,
+      "macro_precision": 0.7728,
+      "macro_recall": 0.4286,
+      "macro_f1": 0.5752,
+      "abdeckung": 0.9787,
+      "eskalationsquote": 0.0213,
+      "genauigkeit_entschieden": 0.5652,
       "versenkte_produktfehler": 0,
-      "produktfehler_recall": 0.0
+      "produktfehler_recall": 0.0,
+      "macro_basis": [
+        "PRODUKTFEHLER",
+        "KAPUTTER_TEST",
+        "FLAKE"
+      ],
+      "macro_basis_precision": [
+        "KAPUTTER_TEST",
+        "FLAKE"
+      ],
+      "macro_basis_recall": [
+        "PRODUKTFEHLER",
+        "KAPUTTER_TEST",
+        "FLAKE"
+      ]
     },
     {
       "schwelle": 0.55,
-      "macro_precision": 1.0,
-      "macro_recall": 1.0,
-      "macro_f1": 1.0,
-      "abdeckung": 1.0,
-      "eskalationsquote": 0.0,
-      "genauigkeit_entschieden": 1.0,
+      "macro_precision": 0.7728,
+      "macro_recall": 0.4286,
+      "macro_f1": 0.5752,
+      "abdeckung": 0.9787,
+      "eskalationsquote": 0.0213,
+      "genauigkeit_entschieden": 0.5652,
       "versenkte_produktfehler": 0,
-      "produktfehler_recall": 0.0
+      "produktfehler_recall": 0.0,
+      "macro_basis": [
+        "PRODUKTFEHLER",
+        "KAPUTTER_TEST",
+        "FLAKE"
+      ],
+      "macro_basis_precision": [
+        "KAPUTTER_TEST",
+        "FLAKE"
+      ],
+      "macro_basis_recall": [
+        "PRODUKTFEHLER",
+        "KAPUTTER_TEST",
+        "FLAKE"
+      ]
     },
     {
       "schwelle": 0.6,
-      "macro_precision": 1.0,
-      "macro_recall": 1.0,
-      "macro_f1": 1.0,
-      "abdeckung": 1.0,
-      "eskalationsquote": 0.0,
-      "genauigkeit_entschieden": 1.0,
+      "macro_precision": 0.7728,
+      "macro_recall": 0.4286,
+      "macro_f1": 0.5752,
+      "abdeckung": 0.9787,
+      "eskalationsquote": 0.0213,
+      "genauigkeit_entschieden": 0.5652,
       "versenkte_produktfehler": 0,
-      "produktfehler_recall": 0.0
+      "produktfehler_recall": 0.0,
+      "macro_basis": [
+        "PRODUKTFEHLER",
+        "KAPUTTER_TEST",
+        "FLAKE"
+      ],
+      "macro_basis_precision": [
+        "KAPUTTER_TEST",
+        "FLAKE"
+      ],
+      "macro_basis_recall": [
+        "PRODUKTFEHLER",
+        "KAPUTTER_TEST",
+        "FLAKE"
+      ]
     },
     {
       "schwelle": 0.65,
       "macro_precision": 1.0,
       "macro_recall": 1.0,
       "macro_f1": 1.0,
-      "abdeckung": 1.0,
-      "eskalationsquote": 0.0,
+      "abdeckung": 0.4043,
+      "eskalationsquote": 0.5957,
       "genauigkeit_entschieden": 1.0,
       "versenkte_produktfehler": 0,
-      "produktfehler_recall": 0.0
+      "produktfehler_recall": null,
+      "macro_basis": [
+        "KAPUTTER_TEST",
+        "FLAKE"
+      ],
+      "macro_basis_precision": [
+        "KAPUTTER_TEST",
+        "FLAKE"
+      ],
+      "macro_basis_recall": [
+        "KAPUTTER_TEST",
+        "FLAKE"
+      ]
     },
     {
       "schwelle": 0.7,
       "macro_precision": 1.0,
       "macro_recall": 1.0,
       "macro_f1": 1.0,
-      "abdeckung": 1.0,
-      "eskalationsquote": 0.0,
+      "abdeckung": 0.4043,
+      "eskalationsquote": 0.5957,
       "genauigkeit_entschieden": 1.0,
       "versenkte_produktfehler": 0,
-      "produktfehler_recall": 0.0
+      "produktfehler_recall": null,
+      "macro_basis": [
+        "KAPUTTER_TEST",
+        "FLAKE"
+      ],
+      "macro_basis_precision": [
+        "KAPUTTER_TEST",
+        "FLAKE"
+      ],
+      "macro_basis_recall": [
+        "KAPUTTER_TEST",
+        "FLAKE"
+      ]
     },
     {
       "schwelle": 0.75,
       "macro_precision": 1.0,
       "macro_recall": 1.0,
       "macro_f1": 1.0,
-      "abdeckung": 0.5,
-      "eskalationsquote": 0.5,
+      "abdeckung": 0.234,
+      "eskalationsquote": 0.766,
       "genauigkeit_entschieden": 1.0,
       "versenkte_produktfehler": 0,
-      "produktfehler_recall": 0.0
+      "produktfehler_recall": null,
+      "macro_basis": [
+        "KAPUTTER_TEST",
+        "FLAKE"
+      ],
+      "macro_basis_precision": [
+        "KAPUTTER_TEST",
+        "FLAKE"
+      ],
+      "macro_basis_recall": [
+        "KAPUTTER_TEST",
+        "FLAKE"
+      ]
     },
     {
       "schwelle": 0.8,
       "macro_precision": 1.0,
       "macro_recall": 1.0,
       "macro_f1": 1.0,
-      "abdeckung": 0.5,
-      "eskalationsquote": 0.5,
+      "abdeckung": 0.234,
+      "eskalationsquote": 0.766,
       "genauigkeit_entschieden": 1.0,
       "versenkte_produktfehler": 0,
-      "produktfehler_recall": 0.0
+      "produktfehler_recall": null,
+      "macro_basis": [
+        "KAPUTTER_TEST",
+        "FLAKE"
+      ],
+      "macro_basis_precision": [
+        "KAPUTTER_TEST",
+        "FLAKE"
+      ],
+      "macro_basis_recall": [
+        "KAPUTTER_TEST",
+        "FLAKE"
+      ]
     },
     {
       "schwelle": 0.85,
       "macro_precision": 1.0,
       "macro_recall": 1.0,
       "macro_f1": 1.0,
-      "abdeckung": 0.5,
-      "eskalationsquote": 0.5,
+      "abdeckung": 0.234,
+      "eskalationsquote": 0.766,
       "genauigkeit_entschieden": 1.0,
       "versenkte_produktfehler": 0,
-      "produktfehler_recall": 0.0
+      "produktfehler_recall": null,
+      "macro_basis": [
+        "KAPUTTER_TEST",
+        "FLAKE"
+      ],
+      "macro_basis_precision": [
+        "KAPUTTER_TEST",
+        "FLAKE"
+      ],
+      "macro_basis_recall": [
+        "KAPUTTER_TEST",
+        "FLAKE"
+      ]
     },
     {
       "schwelle": 0.9,
       "macro_precision": 1.0,
       "macro_recall": 1.0,
       "macro_f1": 1.0,
-      "abdeckung": 0.5,
-      "eskalationsquote": 0.5,
+      "abdeckung": 0.1915,
+      "eskalationsquote": 0.8085,
       "genauigkeit_entschieden": 1.0,
       "versenkte_produktfehler": 0,
-      "produktfehler_recall": 0.0
+      "produktfehler_recall": null,
+      "macro_basis": [
+        "KAPUTTER_TEST"
+      ],
+      "macro_basis_precision": [
+        "KAPUTTER_TEST"
+      ],
+      "macro_basis_recall": [
+        "KAPUTTER_TEST"
+      ]
     },
     {
       "schwelle": 0.95,
@@ -221,38 +339,44 @@
       "eskalationsquote": 1.0,
       "genauigkeit_entschieden": 0.0,
       "versenkte_produktfehler": 0,
-      "produktfehler_recall": 0.0
+      "produktfehler_recall": null,
+      "macro_basis": [],
+      "macro_basis_precision": [],
+      "macro_basis_recall": []
     }
   ],
   "ablation_ohne_flake_aufschlag": {
-    "faelle_gesamt": 14,
-    "faelle_entschieden": 14,
-    "faelle_eskaliert": 0,
-    "abdeckung": 1.0,
-    "eskalationsquote": 0.0,
+    "faelle_gesamt": 47,
+    "faelle_entschieden": 19,
+    "faelle_eskaliert": 28,
+    "abdeckung": 0.4043,
+    "eskalationsquote": 0.5957,
     "genauigkeit_entschieden": 1.0,
     "macro_precision": 1.0,
     "macro_recall": 1.0,
     "macro_f1": 1.0,
     "macro_basis": [
-      "KAPUTTER_TEST"
+      "KAPUTTER_TEST",
+      "FLAKE"
+    ],
+    "macro_basis_precision": [
+      "KAPUTTER_TEST",
+      "FLAKE"
+    ],
+    "macro_basis_recall": [
+      "KAPUTTER_TEST",
+      "FLAKE"
     ],
     "je_klasse": {
       "PRODUKTFEHLER": {
-        "precision": 0.0,
-        "precision_ci95": [
-          0.0,
-          0.0
-        ],
-        "recall": 0.0,
-        "recall_ci95": [
-          0.0,
-          0.0
-        ],
-        "f1": 0.0,
-        "support_gesamt": 0,
+        "precision": null,
+        "precision_ci95": null,
+        "recall": null,
+        "recall_ci95": null,
+        "f1": null,
+        "support_gesamt": 15,
         "support_entschieden": 0,
-        "eskaliert": 0,
+        "eskaliert": 15,
         "tp": 0,
         "fp": 0,
         "fn": 0
@@ -260,38 +384,38 @@
       "KAPUTTER_TEST": {
         "precision": 1.0,
         "precision_ci95": [
-          0.7847,
+          0.8157,
           1.0
         ],
         "recall": 1.0,
         "recall_ci95": [
-          0.7847,
+          0.8157,
           1.0
         ],
         "f1": 1.0,
-        "support_gesamt": 14,
-        "support_entschieden": 14,
-        "eskaliert": 0,
-        "tp": 14,
+        "support_gesamt": 25,
+        "support_entschieden": 17,
+        "eskaliert": 8,
+        "tp": 17,
         "fp": 0,
         "fn": 0
       },
       "FLAKE": {
-        "precision": 0.0,
+        "precision": 1.0,
         "precision_ci95": [
-          0.0,
-          0.0
+          0.3424,
+          1.0
         ],
-        "recall": 0.0,
+        "recall": 1.0,
         "recall_ci95": [
-          0.0,
-          0.0
+          0.3424,
+          1.0
         ],
-        "f1": 0.0,
-        "support_gesamt": 0,
-        "support_entschieden": 0,
-        "eskaliert": 0,
-        "tp": 0,
+        "f1": 1.0,
+        "support_gesamt": 7,
+        "support_entschieden": 2,
+        "eskaliert": 5,
+        "tp": 2,
         "fp": 0,
         "fn": 0
       }
@@ -301,24 +425,74 @@
         "PRODUKTFEHLER": 0,
         "KAPUTTER_TEST": 0,
         "FLAKE": 0,
-        "ESKALATION_MENSCH": 0
+        "ESKALATION_MENSCH": 15
       },
       "KAPUTTER_TEST": {
         "PRODUKTFEHLER": 0,
-        "KAPUTTER_TEST": 14,
+        "KAPUTTER_TEST": 17,
         "FLAKE": 0,
-        "ESKALATION_MENSCH": 0
+        "ESKALATION_MENSCH": 8
       },
       "FLAKE": {
         "PRODUKTFEHLER": 0,
         "KAPUTTER_TEST": 0,
-        "FLAKE": 0,
-        "ESKALATION_MENSCH": 0
+        "FLAKE": 2,
+        "ESKALATION_MENSCH": 5
       }
     },
     "schwelle": 0.7,
     "flake_aufschlag": 0.0,
     "versenkte_produktfehler": 0,
     "parse_fehler": 0
-  }
+  },
+  "kalibrierung": [
+    {
+      "von": 0.0,
+      "bis": 0.6,
+      "n": 1,
+      "richtig": 0,
+      "trefferquote": 0.0,
+      "mittlere_konfidenz": 0.3,
+      "ci95": [
+        0.0,
+        0.7935
+      ]
+    },
+    {
+      "von": 0.6,
+      "bis": 0.75,
+      "n": 35,
+      "richtig": 15,
+      "trefferquote": 0.4286,
+      "mittlere_konfidenz": 0.6429,
+      "ci95": [
+        0.2798,
+        0.5914
+      ]
+    },
+    {
+      "von": 0.75,
+      "bis": 0.9,
+      "n": 0,
+      "richtig": 0,
+      "trefferquote": null,
+      "mittlere_konfidenz": null,
+      "ci95": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "von": 0.9,
+      "bis": 1.0,
+      "n": 11,
+      "richtig": 11,
+      "trefferquote": 1.0,
+      "mittlere_konfidenz": 0.9255,
+      "ci95": [
+        0.7412,
+        1.0
+      ]
+    }
+  ]
 }
