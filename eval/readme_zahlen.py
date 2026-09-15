@@ -99,9 +99,7 @@ def zahlen_block(e: dict) -> str:
         z.append(f"| **`{k}`** | {r['PRODUKTFEHLER']} | {r['KAPUTTER_TEST']} | "
                  f"{r['FLAKE']} | {r['ESKALATION_MENSCH']} |")
     z.append("")
-    kal = e.get("kalibrierung") or []
-    if any(b["n"] for b in kal):
-        fl = e.get("flake_nach_retry_signal")
+    fl = e.get("flake_nach_retry_signal")
     if fl and (fl["mit_signal"]["n"] or fl["ohne_signal"]["n"]):
         z.append("### The `FLAKE` row, taken apart")
         z.append("")
@@ -170,6 +168,8 @@ def zahlen_block(e: dict) -> str:
                  "tuned — at this corpus size, tuning is indistinguishable from drawing "
                  "again. `eval/stabilitaet.json` has the per-case detail.")
         z.append("")
+    kal = e.get("kalibrierung") or []
+    if any(korb["n"] for korb in kal):
         z.append("### Does the confidence mean anything?")
         z.append("")
         z.append("Everything above rests on one assumption: that the number the model "
@@ -189,7 +189,7 @@ def zahlen_block(e: dict) -> str:
         z.append("")
         z.append("Read this before the headline table.")
         z.append("")
-        z.append("### Where the data comes from")
+    z.append("### Where the data comes from")
     z.append("")
     labelquellen = ", ".join(f"`{k}` {v}" for k, v in h["nach_labelquelle"].items())
     klassen_verteilung = ", ".join(f"`{k}` {v}" for k, v in h["nach_label"].items())
