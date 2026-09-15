@@ -215,13 +215,23 @@ not buried. It costs a misfiled ticket, not a shipped regression.
 Whether this survived contact with the corpus is in the README's error
 analysis. If it did not, that is recorded too.
 
-**Resolution.** Confirmed. In the shipped run it is the largest error group:
-seven of fifteen product bugs filed as `KAPUTTER_TEST`, several of them citing a
-comment in the diff as evidence of intent. All eleven of the run's errors land
-in `KAPUTTER_TEST` — it is the class the agent reaches for when it is unsure,
-arrived at by two routes (misread intent, and missing nondeterminism evidence).
-An earlier run on a slightly different evidence bundle also produced one error
-in the opposite direction — a broken test blamed on the app, by the same
-intent-reading move inverted — which suggests the mechanism is about *reading
-intent from a diff* rather than about a bias toward one class. That inversion is
-not in the shipped run and is recorded here as an observation, not a result.
+**Resolution.** Confirmed, on the published 55-case run (`eval/ergebnis.json`):
+five of the fifteen product bugs were filed as `KAPUTTER_TEST`, several of them
+citing a comment in the diff as their evidence of intent. It is not the largest
+error group — six flakes misread as broken tests is — but it is the one that was
+predicted, and it happened.
+
+Eleven of the run's twelve errors land in `KAPUTTER_TEST`: it is the class the
+agent reaches for when it is unsure, arrived at by two routes (misread intent,
+and missing nondeterminism evidence). The twelfth is a flake called a product
+bug.
+
+An earlier run on a smaller corpus also produced one error in the opposite
+direction — a broken test blamed on the app, by the same intent-reading move
+inverted — which suggests the mechanism is about *reading intent from a diff*
+rather than a bias toward one class. That inversion is not in the published run
+and is recorded here as an observation, not a result.
+
+Counts in this section were copied from `eval/ergebnis.json` at the time of
+writing. If the corpus changes, the table in the README is authoritative and
+this paragraph is not.

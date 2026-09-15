@@ -208,7 +208,7 @@ this page is a tradeoff. That number is a floor.
 
 **Ablation — drop the `FLAKE` surcharge** (same predictions, same 0.7 threshold, `FLAKE` no longer held to the extra +0.1): **no change at all** — coverage stays at 87% and buried bugs stay at 0.
 
-Which is worth saying plainly rather than quietly dropping: on this corpus the surcharge did nothing. It could not, because the agent never once predicted `FLAKE` wrongly — the class it over-uses is `KAPUTTER_TEST`, and that one has no surcharge. The guard is insurance that did not have to pay out here. It stays in because the cost it insures against (a product bug auto-rerun into silence) is the one unbounded cost in the system, and a corpus of 47 cases is not evidence that it never happens — only that it did not happen here.
+Which is worth saying plainly rather than quietly dropping: on this corpus the surcharge did nothing. It could not, because the agent never once predicted `FLAKE` wrongly — the class it over-uses is `KAPUTTER_TEST`, and that one has no surcharge. The guard is insurance that did not have to pay out here. It stays in because the cost it insures against (a product bug auto-rerun into silence) is the one unbounded cost in the system, and a corpus of 55 cases is not evidence that it never happens — only that it did not happen here.
 <!-- SWEEP:ENDE -->
 
 The sweep is honest arithmetic, not ten re-runs: the model is called once per
